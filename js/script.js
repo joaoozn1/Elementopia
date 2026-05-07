@@ -1,0 +1,220 @@
+// ==================== LOGIN ====================
+
+function registrar() {
+    let u = document.getElementById("usuario").value;
+    let s = document.getElementById("senha").value;
+    if (!u || !s) return msg("Preencha tudo");
+    if (localStorage.getItem("user_" + u)) return msg("Usuário já existe");
+    localStorage.setItem("user_" + u, s);
+    msg("Conta criada com sucesso!");
+}
+
+function login() {
+    let u = document.getElementById("usuario").value;
+    let s = document.getElementById("senha").value;
+    if (localStorage.getItem("user_" + u) === s) {
+        localStorage.setItem("logado", u);
+        document.getElementById("authArea").classList.add("hidden");
+        document.getElementById("appArea").classList.remove("hidden");
+        carregarCores();
+    } else {
+        msg("Usuário ou senha incorretos");
+    }
+}
+
+function logout() {
+    localStorage.removeItem("logado");
+    location.reload();
+}
+
+function msg(t) {
+    document.getElementById("msgEl").innerText = t;
+}
+
+window.onload = () => {
+    let u = localStorage.getItem("logado");
+    if (u) {
+        document.getElementById("authArea").classList.add("hidden");
+        document.getElementById("appArea").classList.remove("hidden");
+        carregarCores();
+    }
+};
+
+// ==================== CORES ====================
+
+let corAtual = null;
+
+function selecionarCor(c) {
+    corAtual = c;
+}
+
+function salvarCores() {
+    let u = localStorage.getItem("logado");
+    let cores = [];
+    document.querySelectorAll(".elemento").forEach((el, i) => {
+        cores[i] = el.style.background || "";
+    });
+    localStorage.setItem("cores_" + u, JSON.stringify(cores));
+}
+
+function carregarCores() {
+    let u = localStorage.getItem("logado");
+    let cores = JSON.parse(localStorage.getItem("cores_" + u) || "[]");
+    document.querySelectorAll(".elemento").forEach((el, i) => {
+        el.style.background = cores[i] || "white";
+    });
+}
+
+function resetar() {
+    document.querySelectorAll(".elemento").forEach(el => el.style.background = "white");
+    salvarCores();
+}
+
+// ==================== ELEMENTOS ====================
+// Formato: [numero, simbolo, nome, coluna, linha]
+
+const elementos = [
+    // Período 1
+    [1, "H", "Hidrogênio", 1, 1],
+    [2, "He", "Hélio", 18, 1],
+    // Período 2
+    [3, "Li", "Lítio", 1, 2],
+    [4, "Be", "Berílio", 2, 2],
+    [5, "B", "Boro", 13, 2],
+    [6, "C", "Carbono", 14, 2],
+    [7, "N", "Nitrogênio", 15, 2],
+    [8, "O", "Oxigênio", 16, 2],
+    [9, "F", "Flúor", 17, 2],
+    [10, "Ne", "Neônio", 18, 2],
+    // Período 3
+    [11, "Na", "Sódio", 1, 3],
+    [12, "Mg", "Magnésio", 2, 3],
+    [13, "Al", "Alumínio", 13, 3],
+    [14, "Si", "Silício", 14, 3],
+    [15, "P", "Fósforo", 15, 3],
+    [16, "S", "Enxofre", 16, 3],
+    [17, "Cl", "Cloro", 17, 3],
+    [18, "Ar", "Argônio", 18, 3],
+    // Período 4
+    [19, "K", "Potássio", 1, 4],
+    [20, "Ca", "Cálcio", 2, 4],
+    [21, "Sc", "Escândio", 3, 4],
+    [22, "Ti", "Titânio", 4, 4],
+    [23, "V", "Vanádio", 5, 4],
+    [24, "Cr", "Cromo", 6, 4],
+    [25, "Mn", "Manganês", 7, 4],
+    [26, "Fe", "Ferro", 8, 4],
+    [27, "Co", "Cobalto", 9, 4],
+    [28, "Ni", "Níquel", 10, 4],
+    [29, "Cu", "Cobre", 11, 4],
+    [30, "Zn", "Zinco", 12, 4],
+    [31, "Ga", "Gálio", 13, 4],
+    [32, "Ge", "Germânio", 14, 4],
+    [33, "As", "Arsênio", 15, 4],
+    [34, "Se", "Selênio", 16, 4],
+    [35, "Br", "Bromo", 17, 4],
+    [36, "Kr", "Criptônio", 18, 4],
+    // Período 5
+    [37, "Rb", "Rubídio", 1, 5],
+    [38, "Sr", "Estrôncio", 2, 5],
+    [39, "Y", "Ítrio", 3, 5],
+    [40, "Zr", "Zircônio", 4, 5],
+    [41, "Nb", "Nióbio", 5, 5],
+    [42, "Mo", "Molibdênio", 6, 5],
+    [43, "Tc", "Tecnécio", 7, 5],
+    [44, "Ru", "Rutênio", 8, 5],
+    [45, "Rh", "Ródio", 9, 5],
+    [46, "Pd", "Paládio", 10, 5],
+    [47, "Ag", "Prata", 11, 5],
+    [48, "Cd", "Cádmio", 12, 5],
+    [49, "In", "Índio", 13, 5],
+    [50, "Sn", "Estanho", 14, 5],
+    [51, "Sb", "Antimônio", 15, 5],
+    [52, "Te", "Telúrio", 16, 5],
+    [53, "I", "Iodo", 17, 5],
+    [54, "Xe", "Xenônio", 18, 5],
+    // Período 6
+    [55, "Cs", "Césio", 1, 6],
+    [56, "Ba", "Bário", 2, 6],
+    [57, "La", "Lantânio", 3, 6],
+    [72, "Hf", "Háfnio", 4, 6],
+    [73, "Ta", "Tântalo", 5, 6],
+    [74, "W", "Tungstênio", 6, 6],
+    [75, "Re", "Rênio", 7, 6],
+    [76, "Os", "Ósmio", 8, 6],
+    [77, "Ir", "Irídio", 9, 6],
+    [78, "Pt", "Platina", 10, 6],
+    [79, "Au", "Ouro", 11, 6],
+    [80, "Hg", "Mercúrio", 12, 6],
+    [81, "Tl", "Tálio", 13, 6],
+    [82, "Pb", "Chumbo", 14, 6],
+    [83, "Bi", "Bismuto", 15, 6],
+    [84, "Po", "Polônio", 16, 6],
+    [85, "At", "Astato", 17, 6],
+    [86, "Rn", "Radônio", 18, 6],
+    // Período 7
+    [87, "Fr", "Frâncio", 1, 7],
+    [88, "Ra", "Rádio", 2, 7],
+    [89, "Ac", "Actínio", 3, 7],
+    [104, "Rf", "Rutherfórdio", 4, 7],
+    [105, "Db", "Dúbnio", 5, 7],
+    [106, "Sg", "Seabórgio", 6, 7],
+    [107, "Bh", "Bóhrio", 7, 7],
+    [108, "Hs", "Hássio", 8, 7],
+    [109, "Mt", "Meitnério", 9, 7],
+    [110, "Ds", "Darmstádio", 10, 7],
+    [111, "Rg", "Roentgênio", 11, 7],
+    [112, "Cn", "Copernício", 12, 7],
+    [113, "Nh", "Nihônio", 13, 7],
+    [114, "Fl", "Fleróvio", 14, 7],
+    [115, "Mc", "Moscóvio", 15, 7],
+    [116, "Lv", "Livermório", 16, 7],
+    [117, "Ts", "Tenessino", 17, 7],
+    [118, "Og", "Oganessônio", 18, 7],
+    // Lantanídeos (linha 9, colunas 4-17)
+    [58, "Ce", "Cério", 4, 9],
+    [59, "Pr", "Praseodímio", 5, 9],
+    [60, "Nd", "Neodímio", 6, 9],
+    [61, "Pm", "Promécio", 7, 9],
+    [62, "Sm", "Samário", 8, 9],
+    [63, "Eu", "Európio", 9, 9],
+    [64, "Gd", "Gadolínio", 10, 9],
+    [65, "Tb", "Térbio", 11, 9],
+    [66, "Dy", "Disprósio", 12, 9],
+    [67, "Ho", "Hólmio", 13, 9],
+    [68, "Er", "Érbio", 14, 9],
+    [69, "Tm", "Túlio", 15, 9],
+    [70, "Yb", "Itérbio", 16, 9],
+    [71, "Lu", "Lutécio", 17, 9],
+    // Actinídeos (linha 10, colunas 4-17)
+    [90, "Th", "Tório", 4, 10],
+    [91, "Pa", "Protactínio", 5, 10],
+    [92, "U", "Urânio", 6, 10],
+    [93, "Np", "Netúnio", 7, 10],
+    [94, "Pu", "Plutônio", 8, 10],
+    [95, "Am", "Amerício", 9, 10],
+    [96, "Cm", "Cúrio", 10, 10],
+    [97, "Bk", "Berquélio", 11, 10],
+    [98, "Cf", "Califórnio", 12, 10],
+    [99, "Es", "Einstênio", 13, 10],
+    [100, "Fm", "Férmio", 14, 10],
+    [101, "Md", "Mendelévio", 15, 10],
+    [102, "No", "Nobélio", 16, 10],
+    [103, "Lr", "Laurêncio", 17, 10],
+];
+
+const tabela = document.getElementById("tabela");
+
+elementos.forEach((e) => {
+    let d = document.createElement("div");
+    d.className = "elemento";
+    d.style.gridColumn = e[3];
+    d.style.gridRow = e[4];
+    d.innerHTML = `
+    <div class="numero">${e[0]}</div>
+    <div class="simbolo">${e[1]}</div>
+    <div class="nome">${e[2]}</div>
+  `;
+    d.onclick = () => { if (corAtual) { d.style.background = corAtual; salvarCores(); } };
+    tabela.appendChild(d);
+});
