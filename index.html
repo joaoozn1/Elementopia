@@ -3,45 +3,169 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Tabela Periódica</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabela Periódica Interativa</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne+Mono&display=swap"
+        rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
 
-    <div class="card" id="authArea">
-        <h2>Login</h2>
-        <input type="text" id="usuario" placeholder="Usuário">
-        <input type="password" id="senha" placeholder="Senha">
-        <button onclick="login()">Entrar</button>
-        <button onclick="registrar()">Registrar</button>
-        <p id="msgEl"></p>
+    <div class="auth-screen" id="auth-screen">
+
+        <div class="auth-box">
+
+            <div class="auth-badge">
+                ⚗ Plataforma de Química
+            </div>
+            <p class="auth-subtitle">
+                Personalize sua tabela periódica e exporte em PDF
+            </p>
+
+            <h2 id="auth-title">Entrar</h2>
+
+            <input type="text" id="username" placeholder="Usuário">
+
+            <input type="password" id="password" placeholder="Senha">
+
+            <button onclick="handleAuth()" id="auth-btn">
+                Entrar
+            </button>
+
+            <p class="auth-switch">
+                <span id="switch-text">
+                    Não tem conta?
+                </span>
+
+                <button onclick="toggleMode()" id="switch-btn">
+                    Cadastrar
+                </button>
+            </p>
+
+            <p class="auth-message" id="auth-message"></p>
+
+        </div>
+
     </div>
 
-    <div id="appArea" class="hidden">
+    <header>
+        <h1>⚗ Tabela Periódica Interativa</h1>
+        <p>118 elementos · Customizável · Exportável em PDF</p>
         <button class="logout-btn" onclick="logout()">Sair</button>
+    </header>
 
-        <div class="container">
-            <div class="tabela" id="tabela"></div>
+    <div class="page-wrap">
 
-            <div class="cores">
-                <div class="cor" style="background:red;" onclick="selecionarCor('red')"></div>
-                <div class="cor" style="background:blue;" onclick="selecionarCor('blue')"></div>
-                <div class="cor" style="background:green;" onclick="selecionarCor('green')"></div>
-                <div class="cor" style="background:yellow;" onclick="selecionarCor('yellow')"></div>
-                <div class="cor" style="background:orange;" onclick="selecionarCor('orange')"></div>
-                <div class="cor" style="background:purple;" onclick="selecionarCor('purple')"></div>
-                <div class="cor" style="background:pink;" onclick="selecionarCor('pink')"></div>
-                <div class="cor" style="background:brown;" onclick="selecionarCor('brown')"></div>
-                <div class="cor" style="background:cyan;" onclick="selecionarCor('cyan')"></div>
-                <div class="cor" style="background:lime;" onclick="selecionarCor('lime')"></div>
-                <div class="cor" style="background:gray;" onclick="selecionarCor('gray')"></div>
-                <div class="cor" style="background:black;" onclick="selecionarCor('black')"></div>
+        <div class="top-bar">
 
-                <button onclick="resetar()">Resetar</button>
+            <div class="card-section">
+                <div class="card-label">Elemento em destaque</div>
+                <div class="element-card-wrap">
+
+                    <div class="card-arrows">
+                        <span><span class="arr">←</span> Nº Atômico</span>
+                        <span style="margin-top:28px"><span class="arr">←</span> Símbolo</span>
+                        <span style="margin-top:16px"><span class="arr">←</span> Nome</span>
+                    </div>
+
+                    <div class="element-card metal" id="highlight-card">
+                        <span class="at-num" id="hc-num">1</span>
+                        <span class="at-mass" id="hc-mass">1.008</span>
+                        <span class="symbol" id="hc-sym">H</span>
+                        <span class="el-name" id="hc-name">Hidrogênio</span>
+                    </div>
+
+                    <div class="card-arrows-right">
+                        <span>Massa Atômica <span class="arr">→</span></span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="controls">
+
+                <div class="ctrl-group">
+                    <label>Cor dos Ametais</label>
+                    <input type="color" id="color-ametal" value="#2e7d32"
+                        oninput="updateColor('ametal-bg', this.value)">
+                </div>
+
+                <div class="ctrl-group">
+                    <label>Cor dos Metais</label>
+                    <input type="color" id="color-metal" value="#c62828" oninput="updateColor('metal-bg', this.value)">
+                </div>
+
+                <div class="ctrl-group">
+                    <label>Fonte dos Ametais</label>
+                    <input type="color" id="color-ametal-text" value="#ffffff"
+                        oninput="updateColor('ametal-text', this.value)">
+                </div>
+
+                <div class="ctrl-group">
+                    <label>Fonte dos Metais</label>
+                    <input type="color" id="color-metal-text" value="#ffffff"
+                        oninput="updateColor('metal-text', this.value)">
+                </div>
+
+                <div class="ctrl-group">
+                    <label>Massa Atômica</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="mass-format" value="decimal" checked
+                                onchange="updateMassFormat(this.value)"> Decimal
+                        </label>
+                        <label>
+                            <input type="radio" name="mass-format" value="rounded"
+                                onchange="updateMassFormat(this.value)"> Arredondado
+                        </label>
+                    </div>
+                </div>
+
+                <div class="ctrl-group">
+                    <label>Casas Decimais</label>
+                    <select id="mass-precision" onchange="updateMassPrecision(this.value)">
+                        <option value="1" selected>1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </div>
+
+                <div class="ctrl-group" style="justify-content:flex-end">
+                    <label>&nbsp;</label>
+                    <button class="btn-pdf" onclick="exportPDF()">⬇ Baixar PDF</button>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="legenda">
+            <span
+                style="font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Legenda:</span>
+            <div class="leg-item">
+                <div class="leg-dot leg-metal" id="leg-metal"></div>
+                <span>Metais</span>
+            </div>
+            <div class="leg-item">
+                <div class="leg-dot leg-ametal" id="leg-ametal"></div>
+                <span>Ametais</span>
             </div>
         </div>
+
+        <div class="table-scroll" id="table-export">
+            <div class="periodic-table" id="periodic-table"></div>
+        </div>
+
     </div>
+
+    <div class="toast" id="toast"></div>
 
     <script src="js/script.js"></script>
 
