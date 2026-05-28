@@ -151,7 +151,7 @@ header p {
     position: absolute;
     top: 6px;
     left: 8px;
-    font-size: 0.7rem;
+    font-size: 0.78rem;
     font-family: var(--font-mono);
     opacity: 0.9;
     color: inherit;
@@ -161,7 +161,7 @@ header p {
     position: absolute;
     top: 6px;
     right: 8px;
-    font-size: 0.6rem;
+    font-size: 0.68rem;
     font-family: var(--font-mono);
     opacity: 0.8;
     color: inherit;
@@ -395,7 +395,7 @@ header p {
     position: absolute;
     top: 3px;
     left: 4px;
-    font-size: 0.52rem;
+    font-size: 0.6rem;
     font-family: var(--font-mono);
     opacity: 0.85;
     line-height: 1;
@@ -405,7 +405,7 @@ header p {
     position: absolute;
     top: 3px;
     right: 3px;
-    font-size: 0.48rem;
+    font-size: 0.56rem;
     font-family: var(--font-mono);
     opacity: 0.75;
     line-height: 1;
