@@ -1,7 +1,3 @@
-// Elementopia — lógica da prévia interativa na landing page
-// Usa os mesmos dados/motor do app (elements-data.js + table-builder.js), mas sem
-// login e sem exportação em PDF — isso fica reservado para a plataforma completa (tabela.html).
-
 const demoState = {
     massFormat: 'decimal',
     massPrecision: 1

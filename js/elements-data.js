@@ -1,7 +1,3 @@
-// Elementopia — dados dos 118 elementos químicos
-// Formato de cada item: [numeroAtomico, simbolo, nome, massaAtomica, categoria, linhaGrade, colunaGrade]
-// categoria: "metal" ou "ametal"
-// linhaGrade/colunaGrade: posição no layout da tabela (9 = série dos lantanídeos, 10 = série dos actinídeos)
 const ELEMENTS = [
     [1, "H", "Hidrogênio", 1.008, "ametal", 1, 1],
     [2, "He", "Hélio", 4.003, "ametal", 1, 18],

@@ -1,19 +1,9 @@
-// Elementopia — motor de montagem da tabela periódica
-// Compartilhado entre js/script.js (app completo) e js/landing.js (demo da landing page)
-// Mantém a lógica de grade em um único lugar para evitar duplicação e divergência entre as duas telas.
 
 function formatMass(mass, format, precision) {
     if (format === 'rounded') return Math.round(mass).toString();
     return mass.toFixed(precision);
 }
 
-// Monta a tabela periódica dentro do container indicado.
-// options:
-//   containerId  (string, obrigatório) - id do elemento onde a grade será renderizada
-//   elements     (array, obrigatório)  - lista de elementos no formato de elements-data.js
-//   massFormat   ('decimal' | 'rounded')
-//   massPrecision (1 a 3)
-//   onHover      (function(dataset)) - chamada quando o mouse passa sobre uma célula
 function buildPeriodicTable(options) {
     const {
         containerId,
@@ -132,8 +122,6 @@ function makeElementCell(el, { massFormat, massPrecision, onHover }) {
     return div;
 }
 
-// Atualiza apenas o texto de massa já renderizado, sem reconstruir a grade inteira
-// (usado quando o usuário troca o formato/precisão da massa atômica).
 function refreshTableMass(containerId, massFormat, massPrecision) {
     const table = document.getElementById(containerId);
     if (!table) return;

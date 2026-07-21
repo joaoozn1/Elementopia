@@ -1,9 +1,7 @@
-// Estado de exibição da massa atômica (compartilhado com table-builder.js)
+
 let massFormat = 'decimal';
 let massPrecision = 1;
 
-// Monta a tabela periódica do app usando os dados e o motor compartilhados
-// (js/elements-data.js e js/table-builder.js)
 function renderTable() {
     buildPeriodicTable({
         containerId: 'periodic-table',
