@@ -1,6 +1,5 @@
 # Licença — Todos os Direitos Reservados
 
-**Projeto:** Elementopia
 **Titulares dos direitos:** Os criadores do projeto Elementopia e o Instituto Federal do Paraná (IFPR) — Campus Capanema.
 
 Copyright © 2026. Todos os direitos reservados.
