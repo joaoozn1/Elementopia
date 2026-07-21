@@ -64,7 +64,7 @@ const elements = [
     [63, "Eu", "Európio", 151.964, "metal", 9, 7],
     [64, "Gd", "Gadolínio", 157.25, "metal", 9, 8],
     [65, "Tb", "Térbio", 158.925, "metal", 9, 9],
-    [66, "Dy", "Dispróbio", 162.5, "metal", 9, 10],
+    [66, "Dy", "Disprósio", 162.5, "metal", 9, 10],
     [67, "Ho", "Hólmio", 164.930, "metal", 9, 11],
     [68, "Er", "Érbio", 167.259, "metal", 9, 12],
     [69, "Tm", "Túlio", 168.934, "metal", 9, 13],

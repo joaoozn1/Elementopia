@@ -324,7 +324,7 @@ header p {
 .periodic-table {
     display: grid;
     grid-template-columns: 28px repeat(18, var(--cell-size));
-    grid-template-rows: 20px repeat(9, var(--cell-size)) 16px repeat(2, var(--cell-size));
+    grid-template-rows: 20px repeat(7, var(--cell-size)) 16px repeat(2, var(--cell-size));
     gap: 3px;
     width: max-content;
     padding: 4px;
