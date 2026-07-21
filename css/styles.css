@@ -681,6 +681,21 @@ header p {
     min-height: 20px;
 }
 
+.home-link {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color 0.2s;
+}
+
+.home-link:hover {
+    color: var(--text);
+}
+
 .logout-btn {
     position: absolute;
     right: 20px;

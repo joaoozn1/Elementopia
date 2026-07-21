@@ -4,68 +4,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tabela Periódica Interativa</title>
-
-    <link rel="icon" type="image/png" href="assets/icon-aba.png">
+    <title>Elementopia — a tabela periódica do seu jeito</title>
+    <meta name="description"
+        content="Monte, pinte e exporte sua própria tabela periódica interativa. 118 elementos, cores customizáveis e exportação em PDF.">
 
     <link
         href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne+Mono&display=swap"
         rel="stylesheet">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="icon" type="image/png" href="assets/icon-aba.png">
 
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/brand.css">
+    <link rel="stylesheet" href="css/landing.css">
 </head>
 
 <body>
 
-    <div class="auth-screen" id="auth-screen">
+    <nav class="l-nav">
+        <img src="assets/elementopia-logo-branca.png" alt="Elementopia" class="l-logo">
+        <a href="tabela.html" class="l-btn l-btn-ghost l-nav-cta">Entrar</a>
+    </nav>
 
-        <div class="auth-box">
-
-            <div class="auth-badge">
-                ⚗ Plataforma de Química
-            </div>
-            <p class="auth-subtitle">
-                Personalize sua tabela periódica e exporte em PDF
-            </p>
-
-            <h2 id="auth-title">Entrar</h2>
-
-            <input type="text" id="username" placeholder="Usuário">
-
-            <input type="password" id="password" placeholder="Senha">
-
-            <button onclick="handleAuth()" id="auth-btn">
-                Entrar
-            </button>
-
-            <p class="auth-switch">
-                <span id="switch-text">
-                    Não tem conta?
-                </span>
-
-                <button onclick="toggleMode()" id="switch-btn">
-                    Cadastrar
-                </button>
-            </p>
-
-            <p class="auth-message" id="auth-message"></p>
-
+    <header class="l-hero">
+        <div class="l-hero-card">
+            <span class="l-hero-num">01</span>
+            <span class="l-hero-symbol">Eo</span>
+            <span class="l-hero-name">Elementopia</span>
+            <span class="l-hero-mass">beta 1.1</span>
         </div>
 
-    </div>
-
-    <header>
-        <h1>⚗ Tabela Periódica Interativa</h1>
-        <p>118 elementos · Customizável · Exportável em PDF</p>
-        <button class="logout-btn" onclick="logout()">Sair</button>
+        <div class="l-hero-copy">
+            <p class="l-eyebrow">⚗ Plataforma de Química</p>
+            <h1>Sua tabela periódica, do jeito que você quiser.</h1>
+            <p class="l-sub">
+                Escolha as cores dos metais e ametais, ajuste a massa atômica e exporte tudo em PDF —
+                uma tabela interativa com os 118 elementos, feita para estudar do seu jeito.
+            </p>
+            <div class="l-hero-actions">
+                <a href="#demo" class="l-btn l-btn-primary">Testar agora ↓</a>
+                <a href="tabela.html" class="l-btn l-btn-ghost">Entrar na plataforma</a>
+            </div>
+        </div>
     </header>
 
-    <div class="page-wrap">
+    <section class="l-features">
+        <p class="l-eyebrow center">Como funciona</p>
+        <h2>Três jeitos de fazer a tabela ser sua</h2>
 
-        <div class="top-bar">
+        <div class="l-feature-grid">
+            <div class="l-feature-card">
+                <span class="l-feature-num">02</span>
+                <span class="l-feature-symbol">Cr</span>
+                <h3>Cores sob medida</h3>
+                <p>Escolha o fundo e a fonte de metais e ametais separadamente, e veja a tabela inteira mudar na
+                    hora.</p>
+            </div>
+            <div class="l-feature-card">
+                <span class="l-feature-num">03</span>
+                <span class="l-feature-symbol">Ma</span>
+                <h3>Massa do seu jeito</h3>
+                <p>Exiba a massa atômica decimal ou arredondada, com a precisão que fizer sentido pra você.</p>
+            </div>
+            <div class="l-feature-card">
+                <span class="l-feature-num">04</span>
+                <span class="l-feature-symbol">Pd</span>
+                <h3>Exportação em PDF</h3>
+                <p>Baixe sua tabela customizada pronta para imprimir, estudar offline ou compartilhar.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="l-demo" id="demo">
+        <p class="l-eyebrow center">Experimente agora</p>
+        <h2>Mexa nas cores e veja a tabela reagir</h2>
+        <p class="l-demo-sub">
+            Esta é uma prévia, sem necessidade de conta. Para exportar em PDF e salvar sua tabela,
+            entre na plataforma completa.
+        </p>
+
+        <div class="l-demo-panel top-bar">
 
             <div class="card-section">
                 <div class="card-label">Elemento em destaque</div>
@@ -77,11 +95,11 @@
                         <span style="margin-top:16px"><span class="arr">←</span> Nome</span>
                     </div>
 
-                    <div class="element-card metal" id="highlight-card">
-                        <span class="at-num" id="hc-num">1</span>
-                        <span class="at-mass" id="hc-mass">1.008</span>
-                        <span class="symbol" id="hc-sym">H</span>
-                        <span class="el-name" id="hc-name">Hidrogênio</span>
+                    <div class="element-card ametal" id="demo-highlight-card">
+                        <span class="at-num" id="demo-hc-num">1</span>
+                        <span class="at-mass" id="demo-hc-mass">1.008</span>
+                        <span class="symbol" id="demo-hc-sym">H</span>
+                        <span class="el-name" id="demo-hc-name">Hidrogênio</span>
                     </div>
 
                     <div class="card-arrows-right">
@@ -95,53 +113,49 @@
 
                 <div class="ctrl-group">
                     <label>Cor dos Ametais</label>
-                    <input type="color" id="color-ametal" value="#2e7d32"
-                        oninput="updateColor('ametal-bg', this.value)">
+                    <input type="color" id="demo-color-ametal" value="#2e7d32"
+                        oninput="updateDemoColor('ametal-bg', this.value)">
                 </div>
 
                 <div class="ctrl-group">
                     <label>Cor dos Metais</label>
-                    <input type="color" id="color-metal" value="#c62828" oninput="updateColor('metal-bg', this.value)">
+                    <input type="color" id="demo-color-metal" value="#c62828"
+                        oninput="updateDemoColor('metal-bg', this.value)">
                 </div>
 
                 <div class="ctrl-group">
                     <label>Fonte dos Ametais</label>
-                    <input type="color" id="color-ametal-text" value="#ffffff"
-                        oninput="updateColor('ametal-text', this.value)">
+                    <input type="color" id="demo-color-ametal-text" value="#ffffff"
+                        oninput="updateDemoColor('ametal-text', this.value)">
                 </div>
 
                 <div class="ctrl-group">
                     <label>Fonte dos Metais</label>
-                    <input type="color" id="color-metal-text" value="#ffffff"
-                        oninput="updateColor('metal-text', this.value)">
+                    <input type="color" id="demo-color-metal-text" value="#ffffff"
+                        oninput="updateDemoColor('metal-text', this.value)">
                 </div>
 
                 <div class="ctrl-group">
                     <label>Massa Atômica</label>
                     <div class="radio-group">
                         <label>
-                            <input type="radio" name="mass-format" value="decimal" checked
-                                onchange="updateMassFormat(this.value)"> Decimal
+                            <input type="radio" name="demo-mass-format" value="decimal" checked
+                                onchange="updateDemoMassFormat(this.value)"> Decimal
                         </label>
                         <label>
-                            <input type="radio" name="mass-format" value="rounded"
-                                onchange="updateMassFormat(this.value)"> Arredondado
+                            <input type="radio" name="demo-mass-format" value="rounded"
+                                onchange="updateDemoMassFormat(this.value)"> Arredondado
                         </label>
                     </div>
                 </div>
 
                 <div class="ctrl-group">
                     <label>Casas Decimais</label>
-                    <select id="mass-precision" onchange="updateMassPrecision(this.value)">
+                    <select id="demo-mass-precision" onchange="updateDemoMassPrecision(this.value)">
                         <option value="1" selected>1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
                     </select>
-                </div>
-
-                <div class="ctrl-group" style="justify-content:flex-end">
-                    <label>&nbsp;</label>
-                    <button class="btn-pdf" onclick="exportPDF()">⬇ Baixar PDF</button>
                 </div>
 
             </div>
@@ -152,24 +166,34 @@
             <span
                 style="font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Legenda:</span>
             <div class="leg-item">
-                <div class="leg-dot leg-metal" id="leg-metal"></div>
+                <div class="leg-dot leg-metal" id="demo-leg-metal"></div>
                 <span>Metais</span>
             </div>
             <div class="leg-item">
-                <div class="leg-dot leg-ametal" id="leg-ametal"></div>
+                <div class="leg-dot leg-ametal" id="demo-leg-ametal"></div>
                 <span>Ametais</span>
             </div>
         </div>
 
-        <div class="table-scroll" id="table-export">
-            <div class="periodic-table" id="periodic-table"></div>
+        <div class="table-scroll">
+            <div class="periodic-table" id="demo-periodic-table"></div>
         </div>
 
-    </div>
+        <div class="l-demo-cta">
+            <a href="tabela.html" class="l-btn l-btn-primary">Entrar e exportar em PDF →</a>
+        </div>
+    </section>
 
-    <div class="toast" id="toast"></div>
+    <footer class="l-footer">
+        <img src="assets/elementopia-logo-branca.png" alt="Elementopia" class="l-footer-logo">
+        <p>Elementopia · projeto do Instituto Federal</p>
+    </footer>
 
-    <script src="js/script.js"></script>
+    <div class="l-watermark">Beta 1.1.0</div>
+
+    <script src="js/elements-data.js"></script>
+    <script src="js/table-builder.js"></script>
+    <script src="js/landing.js"></script>
 
 </body>
 
