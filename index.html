@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elementopia — a tabela periódica do seu jeito</title>
     <meta name="description"
-        content="Monte, pinte e exporte sua própria tabela periódica interativa. 118 elementos, cores customizáveis e exportação em PDF.">
+        content="Monte, pinte e exporte sua própria tabela periódica interativa. 118 elementos, cores customizáveis e exportação em PDF. Um projeto em parceria com o Instituto Federal do Paraná.">
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne+Mono&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
         rel="stylesheet">
 
     <link rel="icon" type="image/png" href="assets/icon-aba.png">
@@ -19,174 +19,365 @@
     <link rel="stylesheet" href="css/landing.css">
 </head>
 
-<body>
+<body class="l-light">
 
     <nav class="l-nav">
-        <img src="assets/elementopia-logo-branca.png" alt="Elementopia" class="l-logo">
-        <a href="tabela.html" class="l-btn l-btn-ghost l-nav-cta">Entrar</a>
+        <img src="assets/elementopia-logo-colorida.png" alt="Elementopia" class="l-logo">
+
+        <div class="l-nav-links">
+            <a href="#" class="active">Home</a>
+            <a href="#recursos">Recursos</a>
+            <a href="#demo">Prévia</a>
+            <a href="#parceria">Parceria</a>
+        </div>
+
+        <div class="l-nav-actions">
+            <a href="#" class="l-link-muted">Login</a>
+            <a href="#" class="l-btn l-btn-primary l-nav-cta">Cadastrar</a>
+        </div>
     </nav>
 
     <header class="l-hero">
-        <div class="l-hero-card">
-            <span class="l-hero-num">01</span>
-            <span class="l-hero-symbol">Eo</span>
-            <span class="l-hero-name">Elementopia</span>
-            <span class="l-hero-mass">beta 1.1</span>
+        <div class="l-hero-glow" aria-hidden="true">
+            <div class="l-glow-blob l-glow-blob-a"></div>
+            <div class="l-glow-blob l-glow-blob-b"></div>
+            <div class="l-arc"></div>
         </div>
 
-        <div class="l-hero-copy">
-            <p class="l-eyebrow">⚗ Plataforma de Química</p>
-            <h1>Sua tabela periódica, do jeito que você quiser.</h1>
+        <div class="l-chips" aria-hidden="true">
+            <span class="l-chip l-chip-1"><b>11</b>Na</span>
+            <span class="l-chip l-chip-2"><b>8</b>O</span>
+            <span class="l-chip l-chip-3"><b>26</b>Fe</span>
+            <span class="l-chip l-chip-4"><b>79</b>Au</span>
+            <span class="l-chip l-chip-5"><b>1</b>H</span>
+            <span class="l-chip l-chip-6"><b>6</b>C</span>
+            <span class="l-chip l-chip-7"><b>17</b>Cl</span>
+        </div>
+
+        <div class="l-hero-content">
+            <p class="l-eyebrow">⚗ Otimize seus estudos de Química</p>
+            <h1>Sua tabela periódica, moldada do seu jeito.</h1>
             <p class="l-sub">
-                Escolha as cores dos metais e ametais, ajuste a massa atômica e exporte tudo em PDF —
-                uma tabela interativa com os 118 elementos, feita para estudar do seu jeito.
+                Uma plataforma que deixa a tabela periódica sua: escolha as cores, ajuste a massa
+                atômica e exporte tudo em PDF — pensada para estudar sem complicação.
             </p>
             <div class="l-hero-actions">
-                <a href="#demo" class="l-btn l-btn-primary">Testar agora ↓</a>
-                <a href="tabela.html" class="l-btn l-btn-ghost">Entrar na plataforma</a>
+                <a href="#" class="l-btn l-btn-primary">Começar agora <span>→</span></a>
+                <a href="#demo" class="l-btn l-btn-ghost">Ver prévia <span>→</span></a>
+            </div>
+        </div>
+
+        <div class="l-preview l-app-frame">
+            <div class="l-preview-topbar">
+                <div class="l-preview-dots"><span></span><span></span><span></span></div>
+                <div class="l-preview-brand">
+                    <img src="assets/elementopia-logo-branca.png" alt="Elementopia">
+                    <span>Elementopia</span>
+                </div>
+                <div class="l-preview-user">Olá, Ana 👩‍🔬</div>
+            </div>
+
+            <div class="l-preview-body">
+                <div class="l-preview-left">
+                    <div class="l-preview-left-head">
+                        <h4>Minha Tabela</h4>
+                        <span class="l-preview-viewall">Ver tudo →</span>
+                    </div>
+                    <div class="l-preview-tabs">
+                        <span class="active">Todos</span>
+                        <span>Metais</span>
+                        <span>Ametais</span>
+                    </div>
+                    <div class="l-preview-chart">
+                        <div class="l-preview-bars">
+                            <div class="l-bar" style="--h: 8%"><span>2</span></div>
+                            <div class="l-bar" style="--h: 30%"><span>8</span></div>
+                            <div class="l-bar" style="--h: 30%"><span>8</span></div>
+                            <div class="l-bar l-bar-active" style="--h: 68%"><span>18</span></div>
+                            <div class="l-bar" style="--h: 68%"><span>18</span></div>
+                            <div class="l-bar" style="--h: 100%"><span>32</span></div>
+                            <div class="l-bar" style="--h: 100%"><span>32</span></div>
+                        </div>
+                        <div class="l-preview-bars-labels">
+                            <span>P1</span><span>P2</span><span>P3</span><span>P4</span><span>P5</span><span>P6</span><span>P7</span>
+                        </div>
+                    </div>
+                    <p class="l-preview-caption">118 elementos catalogados, prontos para customizar</p>
+                </div>
+
+                <div class="l-preview-right">
+                    <div class="l-preview-card">
+                        <div class="l-preview-card-head">
+                            <span>Elemento em destaque</span>
+                            <span class="l-preview-viewall">Ver tudo →</span>
+                        </div>
+                        <div class="element-card metal" style="margin-top:14px">
+                            <span class="at-num">1</span>
+                            <span class="at-mass">1.008</span>
+                            <span class="symbol">H</span>
+                            <span class="el-name">Hidrogênio</span>
+                        </div>
+                    </div>
+
+                    <div class="l-preview-card l-preview-card-mini">
+                        <div class="l-preview-card-head">
+                            <span>Exportações</span>
+                            <span class="l-preview-viewall">Ver tudo →</span>
+                        </div>
+                        <strong class="l-preview-number">204 PDFs</strong>
+                        <div class="l-preview-mini-transactions">
+                            <div class="l-mini-row"><span>tabela-9ano.pdf</span><b>agora</b></div>
+                            <div class="l-mini-row"><span>revisao-enem.pdf</span><b>2h</b></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
 
-    <section class="l-features">
-        <p class="l-eyebrow center">Como funciona</p>
-        <h2>Três jeitos de fazer a tabela ser sua</h2>
+    <section class="l-partner" id="parceria">
+        <p class="l-partner-label">Um projeto em parceria com</p>
+        <div class="l-partner-row">
+            <img src="assets/if-logo-fundo-transparente.png" alt="Instituto Federal do Paraná" class="l-partner-logo">
+            <p class="l-partner-text">
+                Elementopia nasceu dentro do <strong>Instituto Federal do Paraná</strong>, com orientação de uma
+                professora de Química — pensado para uso em sala de aula e para quem estuda por conta própria.
+            </p>
+        </div>
+    </section>
+
+    <section class="l-features" id="recursos">
+        <p class="l-eyebrow center">Recursos</p>
+        <h2>Monte a sua tabela sem complicação</h2>
+        <p class="l-features-sub">
+            Tudo o que você precisa para deixar a tabela periódica com a sua cara e estudar do seu jeito.
+        </p>
 
         <div class="l-feature-grid">
             <div class="l-feature-card">
-                <span class="l-feature-num">02</span>
-                <span class="l-feature-symbol">Cr</span>
+                <div class="l-feature-head">
+                    <div class="l-feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <circle cx="8" cy="9" r="4.2" fill="var(--brand-purple)" opacity="0.9" />
+                            <circle cx="15" cy="9" r="4.2" fill="var(--brand-yellow)" opacity="0.85" />
+                            <circle cx="11.5" cy="15" r="4.2" fill="var(--brand-purple-light)" opacity="0.8" />
+                        </svg>
+                    </div>
+                    <span class="l-feature-num">01</span>
+                </div>
                 <h3>Cores sob medida</h3>
                 <p>Escolha o fundo e a fonte de metais e ametais separadamente, e veja a tabela inteira mudar na
                     hora.</p>
             </div>
+
             <div class="l-feature-card">
-                <span class="l-feature-num">03</span>
-                <span class="l-feature-symbol">Ma</span>
+                <div class="l-feature-head">
+                    <div class="l-feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand-purple)" stroke-width="1.8"
+                            stroke-linecap="round">
+                            <path d="M4 17V9" />
+                            <path d="M10 17V5" />
+                            <path d="M16 17v-4" />
+                            <path d="M20 17v-9" />
+                        </svg>
+                    </div>
+                    <span class="l-feature-num">02</span>
+                </div>
                 <h3>Massa do seu jeito</h3>
                 <p>Exiba a massa atômica decimal ou arredondada, com a precisão que fizer sentido pra você.</p>
             </div>
+
             <div class="l-feature-card">
-                <span class="l-feature-num">04</span>
-                <span class="l-feature-symbol">Pd</span>
+                <div class="l-feature-head">
+                    <div class="l-feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand-purple)" stroke-width="1.8"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M7 3.5h7l4 4V20a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1Z" />
+                            <path d="M12 12v6" />
+                            <path d="M9.2 15.2 12 18l2.8-2.8" />
+                        </svg>
+                    </div>
+                    <span class="l-feature-num">03</span>
+                </div>
                 <h3>Exportação em PDF</h3>
                 <p>Baixe sua tabela customizada pronta para imprimir, estudar offline ou compartilhar.</p>
             </div>
+
+            <div class="l-feature-card">
+                <div class="l-feature-head">
+                    <div class="l-feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <rect x="3" y="3" width="7" height="7" rx="2" fill="var(--brand-purple)" opacity="0.85" />
+                            <rect x="14" y="3" width="7" height="7" rx="2" fill="var(--brand-yellow)" opacity="0.8" />
+                            <rect x="3" y="14" width="7" height="7" rx="2" fill="var(--brand-yellow)" opacity="0.8" />
+                            <rect x="14" y="14" width="7" height="7" rx="2" fill="var(--brand-purple-light)"
+                                opacity="0.85" />
+                        </svg>
+                    </div>
+                    <span class="l-feature-num">04</span>
+                </div>
+                <h3>Elementos à vista</h3>
+                <p>Passe o mouse sobre qualquer elemento e veja número atômico, símbolo, nome e massa na hora.</p>
+            </div>
+
+            <div class="l-feature-card">
+                <div class="l-feature-head">
+                    <div class="l-feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand-purple)" stroke-width="1.8"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 12 8 6l4 3 4-6 5 9" />
+                            <circle cx="8" cy="6" r="1.4" fill="var(--brand-purple)" stroke="none" />
+                            <circle cx="12" cy="9" r="1.4" fill="var(--brand-yellow)" stroke="none" />
+                            <circle cx="16" cy="3" r="1.4" fill="var(--brand-purple)" stroke="none" />
+                        </svg>
+                    </div>
+                    <span class="l-feature-num">05</span>
+                </div>
+                <h3>Feita para a sala de aula</h3>
+                <p>Simples o bastante para estudantes e completa o bastante para professores usarem em suas aulas.</p>
+            </div>
         </div>
+
+        <a href="#demo" class="l-btn l-btn-primary l-features-cta">Testar a tabela <span>→</span></a>
     </section>
 
     <section class="l-demo" id="demo">
-        <p class="l-eyebrow center">Experimente agora</p>
-        <h2>Mexa nas cores e veja a tabela reagir</h2>
-        <p class="l-demo-sub">
-            Esta é uma prévia, sem necessidade de conta. Para exportar em PDF e salvar sua tabela,
-            entre na plataforma completa.
-        </p>
-
-        <div class="l-demo-panel top-bar">
-
-            <div class="card-section">
-                <div class="card-label">Elemento em destaque</div>
-                <div class="element-card-wrap">
-
-                    <div class="card-arrows">
-                        <span><span class="arr">←</span> Nº Atômico</span>
-                        <span style="margin-top:28px"><span class="arr">←</span> Símbolo</span>
-                        <span style="margin-top:16px"><span class="arr">←</span> Nome</span>
-                    </div>
-
-                    <div class="element-card ametal" id="demo-highlight-card">
-                        <span class="at-num" id="demo-hc-num">1</span>
-                        <span class="at-mass" id="demo-hc-mass">1.008</span>
-                        <span class="symbol" id="demo-hc-sym">H</span>
-                        <span class="el-name" id="demo-hc-name">Hidrogênio</span>
-                    </div>
-
-                    <div class="card-arrows-right">
-                        <span>Massa Atômica <span class="arr">→</span></span>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="controls">
-
-                <div class="ctrl-group">
-                    <label>Cor dos Ametais</label>
-                    <input type="color" id="demo-color-ametal" value="#2e7d32"
-                        oninput="updateDemoColor('ametal-bg', this.value)">
-                </div>
-
-                <div class="ctrl-group">
-                    <label>Cor dos Metais</label>
-                    <input type="color" id="demo-color-metal" value="#c62828"
-                        oninput="updateDemoColor('metal-bg', this.value)">
-                </div>
-
-                <div class="ctrl-group">
-                    <label>Fonte dos Ametais</label>
-                    <input type="color" id="demo-color-ametal-text" value="#ffffff"
-                        oninput="updateDemoColor('ametal-text', this.value)">
-                </div>
-
-                <div class="ctrl-group">
-                    <label>Fonte dos Metais</label>
-                    <input type="color" id="demo-color-metal-text" value="#ffffff"
-                        oninput="updateDemoColor('metal-text', this.value)">
-                </div>
-
-                <div class="ctrl-group">
-                    <label>Massa Atômica</label>
-                    <div class="radio-group">
-                        <label>
-                            <input type="radio" name="demo-mass-format" value="decimal" checked
-                                onchange="updateDemoMassFormat(this.value)"> Decimal
-                        </label>
-                        <label>
-                            <input type="radio" name="demo-mass-format" value="rounded"
-                                onchange="updateDemoMassFormat(this.value)"> Arredondado
-                        </label>
-                    </div>
-                </div>
-
-                <div class="ctrl-group">
-                    <label>Casas Decimais</label>
-                    <select id="demo-mass-precision" onchange="updateDemoMassPrecision(this.value)">
-                        <option value="1" selected>1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                    </select>
-                </div>
-
-            </div>
-
+        <div class="l-demo-intro">
+            <p class="l-eyebrow center">Experimente agora</p>
+            <h2>Mexa nas cores e veja a tabela reagir</h2>
+            <p class="l-demo-sub">
+                Esta é uma prévia, sem necessidade de conta. Para exportar em PDF e salvar sua tabela,
+                entre na plataforma completa.
+            </p>
         </div>
 
-        <div class="legenda">
-            <span
-                style="font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Legenda:</span>
-            <div class="leg-item">
-                <div class="leg-dot leg-metal" id="demo-leg-metal"></div>
-                <span>Metais</span>
-            </div>
-            <div class="leg-item">
-                <div class="leg-dot leg-ametal" id="demo-leg-ametal"></div>
-                <span>Ametais</span>
-            </div>
-        </div>
+        <div class="l-demo-frame l-app-frame">
 
-        <div class="table-scroll">
-            <div class="periodic-table" id="demo-periodic-table"></div>
+            <div class="l-demo-panel top-bar">
+
+                <div class="card-section">
+                    <div class="card-label">Elemento em destaque</div>
+                    <div class="element-card-wrap">
+
+                        <div class="card-arrows">
+                            <span><span class="arr">←</span> Nº Atômico</span>
+                            <span style="margin-top:28px"><span class="arr">←</span> Símbolo</span>
+                            <span style="margin-top:16px"><span class="arr">←</span> Nome</span>
+                        </div>
+
+                        <div class="element-card ametal" id="demo-highlight-card">
+                            <span class="at-num" id="demo-hc-num">1</span>
+                            <span class="at-mass" id="demo-hc-mass">1.008</span>
+                            <span class="symbol" id="demo-hc-sym">H</span>
+                            <span class="el-name" id="demo-hc-name">Hidrogênio</span>
+                        </div>
+
+                        <div class="card-arrows-right">
+                            <span>Massa Atômica <span class="arr">→</span></span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="controls">
+
+                    <div class="ctrl-group">
+                        <label>Cor dos Ametais</label>
+                        <input type="color" id="demo-color-ametal" value="#2e7d32"
+                            oninput="updateDemoColor('ametal-bg', this.value)">
+                    </div>
+
+                    <div class="ctrl-group">
+                        <label>Cor dos Metais</label>
+                        <input type="color" id="demo-color-metal" value="#c62828"
+                            oninput="updateDemoColor('metal-bg', this.value)">
+                    </div>
+
+                    <div class="ctrl-group">
+                        <label>Fonte dos Ametais</label>
+                        <input type="color" id="demo-color-ametal-text" value="#ffffff"
+                            oninput="updateDemoColor('ametal-text', this.value)">
+                    </div>
+
+                    <div class="ctrl-group">
+                        <label>Fonte dos Metais</label>
+                        <input type="color" id="demo-color-metal-text" value="#ffffff"
+                            oninput="updateDemoColor('metal-text', this.value)">
+                    </div>
+
+                    <div class="ctrl-group">
+                        <label>Massa Atômica</label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="demo-mass-format" value="decimal" checked
+                                    onchange="updateDemoMassFormat(this.value)"> Decimal
+                            </label>
+                            <label>
+                                <input type="radio" name="demo-mass-format" value="rounded"
+                                    onchange="updateDemoMassFormat(this.value)"> Arredondado
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="ctrl-group">
+                        <label>Casas Decimais</label>
+                        <select id="demo-mass-precision" onchange="updateDemoMassPrecision(this.value)">
+                            <option value="1" selected>1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="legenda">
+                <span
+                    style="font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Legenda:</span>
+                <div class="leg-item">
+                    <div class="leg-dot leg-metal" id="demo-leg-metal"></div>
+                    <span>Metais</span>
+                </div>
+                <div class="leg-item">
+                    <div class="leg-dot leg-ametal" id="demo-leg-ametal"></div>
+                    <span>Ametais</span>
+                </div>
+            </div>
+
+            <div class="table-scroll">
+                <div class="periodic-table" id="demo-periodic-table"></div>
+            </div>
+
         </div>
 
         <div class="l-demo-cta">
-            <a href="tabela.html" class="l-btn l-btn-primary">Entrar e exportar em PDF →</a>
+            <a href="tabela.html" class="l-btn l-btn-primary">Entrar e exportar em PDF <span>→</span></a>
         </div>
     </section>
 
     <footer class="l-footer">
-        <img src="assets/elementopia-logo-branca.png" alt="Elementopia" class="l-footer-logo">
-        <p>Elementopia · projeto do Instituto Federal</p>
+        <div class="l-footer-top">
+            <div class="l-footer-brand">
+                <img src="assets/elementopia-logo-colorida.png" alt="Elementopia" class="l-footer-logo">
+                <p>A tabela periódica interativa e customizável.</p>
+            </div>
+
+            <div class="l-footer-partner">
+                <img src="assets/if-logo-fundo-transparente.png" alt="Instituto Federal do Paraná">
+                <p>Projeto em parceria com o<br>Instituto Federal do Paraná</p>
+            </div>
+        </div>
+
+        <div class="l-footer-bottom">
+            <p>© 2026 Elementopia</p>
+            <div class="l-footer-links">
+                <a href="#recursos">Recursos</a>
+                <a href="#demo">Prévia</a>
+                <a href="#parceria">Parceria</a>
+                <a href="tabela.html">Entrar</a>
+            </div>
+        </div>
     </footer>
 
     <div class="l-watermark">Beta 1.1.0</div>
