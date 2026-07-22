@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elementopia — a tabela periódica do seu jeito</title>
+    <title>Elementopia</title>
     <meta name="description"
         content="Monte, pinte e exporte sua própria tabela periódica interativa. 118 elementos, cores customizáveis e exportação em PDF. Um projeto em parceria com o Instituto Federal do Paraná.">
 
@@ -25,7 +25,7 @@
         <img src="assets/elementopia-logo-colorida.png" alt="Elementopia" class="l-logo">
 
         <div class="l-nav-links">
-            <a href="#" class="active">Home</a>
+            <a href="#home" class="active">Home</a>
             <a href="#recursos">Recursos</a>
             <a href="#demo">Prévia</a>
             <a href="#parceria">Parceria</a>
@@ -37,33 +37,62 @@
         </div>
     </nav>
 
-    <header class="l-hero">
-        <div class="l-hero-glow" aria-hidden="true">
-            <div class="l-glow-blob l-glow-blob-a"></div>
-            <div class="l-glow-blob l-glow-blob-b"></div>
-            <div class="l-arc"></div>
-        </div>
+    <header class="l-hero" id="home">
+        <div class="l-hero-grid">
+            <div class="l-hero-content">
+                <h1>Sua tabela periódica, moldada do seu jeito.</h1>
+                <p class="l-slogan">
+                    <span class="l-slogan-a">Personalize.</span>
+                    <span class="l-slogan-dot">·</span>
+                    <span class="l-slogan-b">Descubra.</span>
+                    <span class="l-slogan-dot">·</span>
+                    <span class="l-slogan-c">Transforme.</span>
+                </p>
+                <p class="l-sub">
+                    Uma plataforma que deixa a tabela periódica sua: escolha as cores, ajuste a massa
+                    atômica e exporte tudo em PDF — pensada para estudar sem complicação.
+                </p>
+                <div class="l-hero-actions">
+                    <a href="#" class="l-btn l-btn-primary">Começar agora <span>→</span></a>
+                    <a href="#demo" class="l-btn l-btn-ghost">Ver prévia <span>→</span></a>
+                </div>
+            </div>
 
-        <div class="l-chips" aria-hidden="true">
-            <span class="l-chip l-chip-1"><b>11</b>Na</span>
-            <span class="l-chip l-chip-2"><b>8</b>O</span>
-            <span class="l-chip l-chip-3"><b>26</b>Fe</span>
-            <span class="l-chip l-chip-4"><b>79</b>Au</span>
-            <span class="l-chip l-chip-5"><b>1</b>H</span>
-            <span class="l-chip l-chip-6"><b>6</b>C</span>
-            <span class="l-chip l-chip-7"><b>17</b>Cl</span>
-        </div>
+            <div class="l-hero-art" aria-hidden="true">
+                <div class="l-art-glow"></div>
 
-        <div class="l-hero-content">
-            <p class="l-eyebrow">⚗ Otimize seus estudos de Química</p>
-            <h1>Sua tabela periódica, moldada do seu jeito.</h1>
-            <p class="l-sub">
-                Uma plataforma que deixa a tabela periódica sua: escolha as cores, ajuste a massa
-                atômica e exporte tudo em PDF — pensada para estudar sem complicação.
-            </p>
-            <div class="l-hero-actions">
-                <a href="#" class="l-btn l-btn-primary">Começar agora <span>→</span></a>
-                <a href="#demo" class="l-btn l-btn-ghost">Ver prévia <span>→</span></a>
+                <svg class="l-orbits" viewBox="0 0 400 400">
+                    <ellipse class="l-orbit" cx="200" cy="200" rx="170" ry="70" transform="rotate(-18 200 200)" />
+                    <ellipse class="l-orbit" cx="200" cy="200" rx="170" ry="70" transform="rotate(42 200 200)" />
+                    <ellipse class="l-orbit" cx="200" cy="200" rx="170" ry="70" transform="rotate(102 200 200)" />
+                </svg>
+
+                <div class="l-electron-wrap l-electron-wrap-1">
+                    <span class="l-electron"></span>
+                </div>
+                <div class="l-electron-wrap l-electron-wrap-2">
+                    <span class="l-electron l-electron-yellow"></span>
+                </div>
+                <div class="l-electron-wrap l-electron-wrap-3">
+                    <span class="l-electron"></span>
+                </div>
+
+                <div class="l-nucleus">
+                    <span>Eo</span>
+                </div>
+
+                <svg class="l-molecule" viewBox="0 0 120 90">
+                    <line x1="18" y1="66" x2="58" y2="24" stroke="var(--brand-purple-light)" stroke-width="2.5" />
+                    <line x1="58" y1="24" x2="100" y2="62" stroke="var(--brand-purple-light)" stroke-width="2.5" />
+                    <circle cx="18" cy="66" r="10" fill="var(--brand-yellow)" />
+                    <circle cx="58" cy="24" r="13" fill="var(--brand-purple)" />
+                    <circle cx="100" cy="62" r="10" fill="var(--brand-yellow)" />
+                </svg>
+
+                <span class="l-formula l-formula-1">H₂O</span>
+                <span class="l-formula l-formula-2">NaCl</span>
+                <span class="l-formula l-formula-3">e⁻</span>
+                <span class="l-formula l-formula-4">pH 7</span>
             </div>
         </div>
 
@@ -380,7 +409,7 @@
         </div>
     </footer>
 
-    <div class="l-watermark">Beta 1.2.0</div>
+    <div class="l-watermark">v1.3.0 (beta)</div>
 
     <script src="js/elements-data.js"></script>
     <script src="js/table-builder.js"></script>

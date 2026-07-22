@@ -94,3 +94,35 @@ function updateDemoMassPrecision(value) {
 }
 
 renderDemoTable();
+
+(function initNavScrollspy() {
+    const sectionIds = ['home', 'recursos', 'demo', 'parceria'];
+    const sections = sectionIds
+        .map(id => document.getElementById(id))
+        .filter(Boolean);
+
+    const links = Array.from(document.querySelectorAll('.l-nav-links a'));
+    const linkByHash = {};
+    links.forEach(link => {
+        const hash = link.getAttribute('href').replace('#', '');
+        linkByHash[hash] = link;
+    });
+
+    if (!sections.length || !links.length || !('IntersectionObserver' in window)) return;
+
+    function setActive(id) {
+        links.forEach(link => link.classList.remove('active'));
+        if (linkByHash[id]) linkByHash[id].classList.add('active');
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) setActive(entry.target.id);
+        });
+    }, {
+        rootMargin: '-45% 0px -50% 0px',
+        threshold: 0
+    });
+
+    sections.forEach(section => observer.observe(section));
+})();
