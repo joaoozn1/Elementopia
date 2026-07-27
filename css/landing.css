@@ -1,14 +1,3 @@
-/* Elementopia — landing page (tema claro)
-   Reaproveita classes de styles.css (.top-bar, .card-section, .controls,
-   .legenda, .table-scroll, .element-card, .el etc.) e os tokens de brand.css.
-
-   Estratégia de tema: a página em si é clara (identidade da marca), mas o
-   app de verdade (tabela.html) é escuro. Em vez de duplicar os componentes,
-   a classe .l-app-frame redeclara as variáveis de tema para os valores
-   escuros originais de styles.css SÓ dentro do seu escopo — então qualquer
-   componente já existente (.element-card, .el, .controls...) renderiza
-   escuro ali dentro, como uma "janela" para o app, sem duplicar CSS. */
-
 body.l-light {
     --bg: #ffffff;
     --surface: #faf7ff;
@@ -16,15 +5,23 @@ body.l-light {
     --border: #e8e0f5;
     --text: #1c1730;
     --text-muted: #5f5773;
-
     --accent: var(--brand-purple);
     --accent2: var(--brand-purple-light);
+    --glass-bg: rgba(255, 255, 255, 0.55);
+    --glass-bg-strong: rgba(255, 255, 255, 0.72);
+    --glass-border: rgba(255, 255, 255, 0.65);
+    --glass-border-purple: rgba(132, 57, 209, 0.16);
+    --glass-shadow: 0 8px 32px rgba(92, 31, 158, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+    --glow-purple: 0 0 0 1px rgba(132, 57, 209, 0.12), 0 0 28px rgba(132, 57, 209, 0.22);
+    --glow-purple-strong: 0 0 0 1px rgba(132, 57, 209, 0.18), 0 0 44px rgba(132, 57, 209, 0.38);
 }
 
 body.l-light::before {
     background:
-        radial-gradient(ellipse 70% 45% at 15% 0%, rgba(132, 57, 209, 0.08) 0%, transparent 60%),
-        radial-gradient(ellipse 55% 40% at 90% 15%, rgba(248, 207, 24, 0.14) 0%, transparent 60%);
+        radial-gradient(ellipse 60% 40% at 12% -5%, rgba(132, 57, 209, 0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 36% at 92% 10%, rgba(248, 207, 24, 0.16) 0%, transparent 60%),
+        radial-gradient(ellipse 46% 34% at 78% 62%, rgba(132, 57, 209, 0.07) 0%, transparent 62%),
+        radial-gradient(ellipse 40% 30% at 6% 78%, rgba(248, 207, 24, 0.08) 0%, transparent 62%);
 }
 
 body.l-light::-webkit-scrollbar-thumb {
@@ -35,7 +32,6 @@ body.l-light::-webkit-scrollbar-thumb:hover {
     background: var(--brand-purple);
 }
 
-/* Janela escura reutilizável (preview do hero + demo interativo) */
 .l-app-frame {
     --bg: #0a0a12;
     --surface: #15121e;
@@ -46,14 +42,47 @@ body.l-light::-webkit-scrollbar-thumb:hover {
     --accent: #6c63ff;
     --accent2: #ff6584;
 
+    position: relative;
+    isolation: isolate;
     background: var(--bg);
     border-radius: 22px;
     border: 1px solid rgba(255, 255, 255, 0.06);
-    box-shadow: 0 40px 80px -20px rgba(30, 12, 60, 0.35), 0 0 0 1px rgba(132, 57, 209, 0.06);
+    box-shadow: 0 40px 80px -20px rgba(30, 12, 60, 0.4), 0 0 60px -12px rgba(132, 57, 209, 0.25);
     color: var(--text);
 }
 
-/* ---------- geral ---------- */
+@property --l-angle {
+    syntax: '<angle>';
+    inherits: false;
+    initial-value: 0deg;
+}
+
+.l-app-frame::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: conic-gradient(from var(--l-angle),
+            rgba(132, 57, 209, 0) 0%,
+            rgba(132, 57, 209, 0.55) 18%,
+            rgba(248, 207, 24, 0.45) 32%,
+            rgba(132, 57, 209, 0) 50%,
+            rgba(132, 57, 209, 0) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: l-border-spin 7s linear infinite;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes l-border-spin {
+    to {
+        --l-angle: 360deg;
+    }
+}
 
 .l-eyebrow {
     display: inline-flex;
@@ -64,8 +93,11 @@ body.l-light::-webkit-scrollbar-thumb:hover {
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--brand-purple-deep);
-    background: var(--brand-yellow-pale);
-    border: 1px solid var(--brand-yellow-soft);
+    background: rgba(248, 207, 24, 0.16);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(248, 207, 24, 0.4);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
     padding: 6px 14px;
     border-radius: 999px;
 }
@@ -76,6 +108,7 @@ body.l-light::-webkit-scrollbar-thumb:hover {
 }
 
 .l-btn {
+    position: relative;
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -87,11 +120,14 @@ body.l-light::-webkit-scrollbar-thumb:hover {
     font-size: 0.92rem;
     text-decoration: none;
     letter-spacing: 0.01em;
-    transition: transform 0.15s, box-shadow 0.2s, background 0.2s, border-color 0.2s;
+    transition: transform 0.15s, box-shadow 0.25s, background 0.25s, border-color 0.25s;
     white-space: nowrap;
+    overflow: hidden;
 }
 
 .l-btn span {
+    position: relative;
+    z-index: 1;
     transition: transform 0.15s;
 }
 
@@ -105,21 +141,39 @@ body.l-light::-webkit-scrollbar-thumb:hover {
     box-shadow: 0 10px 26px rgba(132, 57, 209, 0.28);
 }
 
+.l-btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.35) 46%, transparent 62%);
+    transform: translateX(-120%);
+    transition: transform 0.6s ease;
+}
+
+.l-btn-primary:hover::before {
+    transform: translateX(120%);
+}
+
 .l-btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 14px 32px rgba(132, 57, 209, 0.38);
+    box-shadow: 0 14px 36px rgba(132, 57, 209, 0.45), 0 0 26px rgba(132, 57, 209, 0.25);
 }
 
 .l-btn-ghost {
-    background: #fff;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     color: var(--brand-ink);
-    border: 1px solid var(--border);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 0 4px 18px rgba(92, 31, 158, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 .l-btn-ghost:hover {
-    border-color: var(--brand-purple);
+    border-color: rgba(132, 57, 209, 0.4);
     color: var(--brand-purple-deep);
+    background: rgba(255, 255, 255, 0.72);
     transform: translateY(-2px);
+    box-shadow: 0 10px 26px rgba(92, 31, 158, 0.14);
 }
 
 .l-link-muted {
@@ -151,13 +205,15 @@ button:focus-visible {
     justify-content: space-between;
     gap: 24px;
     padding: 16px 32px;
-    background: rgba(255, 255, 255, 0.78);
-    backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.62);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(232, 224, 245, 0.7);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 12px 32px -18px rgba(92, 31, 158, 0.18);
 }
 
 .l-logo {
-    height: 34px;
+    height: 38px;
     display: block;
 }
 
@@ -165,7 +221,9 @@ button:focus-visible {
     display: flex;
     align-items: center;
     gap: 4px;
-    background: var(--surface2);
+    background: rgba(243, 236, 253, 0.55);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: 999px;
     padding: 4px;
 }
@@ -182,9 +240,22 @@ button:focus-visible {
 }
 
 .l-nav-links a.active {
-    background: var(--brand-purple);
+    background: linear-gradient(135deg, var(--brand-purple) 0%, var(--brand-purple-deep) 100%);
     color: #fff;
-    box-shadow: 0 4px 16px rgba(132, 57, 209, 0.35), 0 0 0 1px rgba(132, 57, 209, 0.12);
+    box-shadow: 0 4px 16px rgba(132, 57, 209, 0.4), 0 0 0 1px rgba(132, 57, 209, 0.15);
+    animation: l-nav-pulse 3.4s ease-in-out infinite;
+}
+
+@keyframes l-nav-pulse {
+
+    0%,
+    100% {
+        box-shadow: 0 4px 16px rgba(132, 57, 209, 0.4), 0 0 0 1px rgba(132, 57, 209, 0.15);
+    }
+
+    50% {
+        box-shadow: 0 4px 22px rgba(132, 57, 209, 0.55), 0 0 0 1px rgba(132, 57, 209, 0.2), 0 0 18px rgba(132, 57, 209, 0.3);
+    }
 }
 
 .l-nav-links a:not(.active):hover {
@@ -406,9 +477,11 @@ button:focus-visible {
     justify-content: center;
     padding: 7px 13px;
     border-radius: 10px;
-    background: #fff;
-    border: 1px solid var(--border);
-    box-shadow: 0 10px 22px rgba(92, 31, 158, 0.12);
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 10px 22px rgba(92, 31, 158, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.6);
     font-family: var(--font-mono);
     font-size: 0.8rem;
     font-weight: 500;
@@ -426,8 +499,8 @@ button:focus-visible {
     top: 42%;
     right: -6%;
     animation-delay: 1.6s;
-    background: var(--brand-yellow-pale);
-    border-color: var(--brand-yellow-soft);
+    background: rgba(248, 207, 24, 0.22);
+    border-color: rgba(248, 207, 24, 0.5);
 }
 
 .l-formula-3 {
@@ -440,8 +513,8 @@ button:focus-visible {
     top: 16%;
     left: -2%;
     animation-delay: 3.6s;
-    background: var(--brand-yellow-pale);
-    border-color: var(--brand-yellow-soft);
+    background: rgba(248, 207, 24, 0.22);
+    border-color: rgba(248, 207, 24, 0.5);
 }
 
 @keyframes l-float {
@@ -550,14 +623,17 @@ button:focus-visible {
 .l-preview-tabs span.active {
     background: var(--accent);
     color: #fff;
+    box-shadow: 0 0 16px rgba(108, 99, 255, 0.45);
 }
 
 .l-preview-chart {
     margin-top: 22px;
-    background: var(--surface);
-    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 14px;
     padding: 18px 18px 12px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .l-preview-bars {
@@ -587,6 +663,7 @@ button:focus-visible {
 
 .l-bar-active {
     background: linear-gradient(180deg, var(--accent2) 0%, var(--accent) 100%);
+    box-shadow: 0 0 20px rgba(108, 99, 255, 0.5);
 }
 
 .l-bar-active span {
@@ -620,10 +697,12 @@ button:focus-visible {
 }
 
 .l-preview-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 14px;
     padding: 16px 18px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .l-preview-card-head {
@@ -687,10 +766,13 @@ button:focus-visible {
     display: flex;
     align-items: center;
     gap: 28px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
+    background: linear-gradient(135deg, rgba(243, 236, 253, 0.65), rgba(254, 246, 216, 0.45));
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
     border-radius: 18px;
     padding: 24px 30px;
+    box-shadow: var(--glass-shadow);
 }
 
 .l-partner-logo {
@@ -747,17 +829,41 @@ button:focus-visible {
 
 .l-feature-card {
     position: relative;
-    background: #fff;
-    border: 1px solid var(--border);
+    isolation: isolate;
+    background: var(--glass-bg);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid var(--glass-border);
     border-radius: 18px;
     padding: 24px 22px;
-    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    box-shadow: var(--glass-shadow);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.l-feature-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(132, 57, 209, 0.55), rgba(248, 207, 24, 0.4), transparent 70%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: -1;
 }
 
 .l-feature-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--brand-purple-light);
-    box-shadow: 0 16px 32px rgba(92, 31, 158, 0.1);
+    transform: translateY(-5px);
+    background: var(--glass-bg-strong);
+    box-shadow: 0 20px 40px rgba(92, 31, 158, 0.14), var(--glow-purple);
+}
+
+.l-feature-card:hover::after {
+    opacity: 1;
 }
 
 .l-feature-card:nth-child(4),
@@ -778,7 +884,13 @@ button:focus-visible {
     width: 46px;
     height: 46px;
     border-radius: 12px;
-    background: var(--brand-purple-pale);
+    background: linear-gradient(150deg, var(--brand-purple-pale) 0%, rgba(248, 207, 24, 0.18) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    transition: box-shadow 0.25s ease;
+}
+
+.l-feature-card:hover .l-feature-icon {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 0 18px rgba(132, 57, 209, 0.25);
 }
 
 .l-feature-icon svg {
@@ -881,7 +993,8 @@ button:focus-visible {
 }
 
 .l-footer-logo {
-    height: 30px;
+    height: 64px;
+    width: 220px;
 }
 
 .l-footer-brand p {
@@ -896,8 +1009,8 @@ button:focus-visible {
 }
 
 .l-footer-partner img {
-    height: 44px;
-    width: 44px;
+    height: 80px;
+    width: 80px;
     object-fit: contain;
 }
 
@@ -1013,7 +1126,9 @@ button:focus-visible {
 
     .l-electron-wrap,
     .l-molecule,
-    .l-formula {
+    .l-formula,
+    .l-nav-links a.active,
+    .l-app-frame::before {
         animation: none;
     }
 
@@ -1022,4 +1137,47 @@ button:focus-visible {
     .l-btn-ghost:hover {
         transform: none;
     }
+
+    .l-reveal,
+    .l-reveal.l-reveal-hidden {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
+/* ---------- scroll reveal ----------
+   Visível por padrão (opacity não é definida na regra base). Só a classe
+   .l-reveal-hidden — adicionada exclusivamente pelo próprio js/landing-motion.js,
+   sem depender de nenhum CDN externo — deixa o elemento temporariamente invisível
+   antes de revelar. Se o JS não rodar por qualquer motivo, o conteúdo nunca
+   fica preso invisível: ele simplesmente aparece normal, sem animação. */
+
+.l-reveal {
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.l-reveal.l-reveal-hidden {
+    opacity: 0;
+    transform: translateY(22px);
+}
+
+.l-reveal-d1 {
+    transition-delay: 0.08s;
+}
+
+.l-reveal-d2 {
+    transition-delay: 0.16s;
+}
+
+.l-reveal-d3 {
+    transition-delay: 0.24s;
+}
+
+.l-reveal-d4 {
+    transition-delay: 0.32s;
+}
+
+.l-reveal-d5 {
+    transition-delay: 0.4s;
 }

@@ -26,9 +26,9 @@
 
         <div class="l-nav-links">
             <a href="#home" class="active">Home</a>
+            <a href="#parceria">Origem</a>
             <a href="#recursos">Recursos</a>
             <a href="#demo">Prévia</a>
-            <a href="#parceria">Parceria</a>
         </div>
 
         <div class="l-nav-actions">
@@ -39,7 +39,7 @@
 
     <header class="l-hero" id="home">
         <div class="l-hero-grid">
-            <div class="l-hero-content">
+            <div class="l-hero-content l-reveal">
                 <h1>Sua tabela periódica, moldada do seu jeito.</h1>
                 <p class="l-slogan">
                     <span class="l-slogan-a">Personalize.</span>
@@ -58,7 +58,7 @@
                 </div>
             </div>
 
-            <div class="l-hero-art" aria-hidden="true">
+            <div class="l-hero-art l-reveal l-reveal-d2" aria-hidden="true">
                 <div class="l-art-glow"></div>
 
                 <svg class="l-orbits" viewBox="0 0 400 400">
@@ -96,7 +96,7 @@
             </div>
         </div>
 
-        <div class="l-preview l-app-frame">
+        <div class="l-preview l-app-frame l-reveal l-reveal-d3">
             <div class="l-preview-topbar">
                 <div class="l-preview-dots"><span></span><span></span><span></span></div>
                 <div class="l-preview-brand">
@@ -166,7 +166,7 @@
 
     <section class="l-partner" id="parceria">
         <p class="l-partner-label">Um projeto em parceria com</p>
-        <div class="l-partner-row">
+        <div class="l-partner-row l-reveal">
             <img src="assets/if-logo-fundo-transparente.png" alt="Instituto Federal do Paraná" class="l-partner-logo">
             <p class="l-partner-text">
                 Elementopia nasceu dentro do <strong>Instituto Federal do Paraná</strong>, com orientação de uma
@@ -183,7 +183,7 @@
         </p>
 
         <div class="l-feature-grid">
-            <div class="l-feature-card">
+            <div class="l-feature-card l-reveal">
                 <div class="l-feature-head">
                     <div class="l-feature-icon">
                         <svg viewBox="0 0 24 24" fill="none">
@@ -199,7 +199,7 @@
                     hora.</p>
             </div>
 
-            <div class="l-feature-card">
+            <div class="l-feature-card l-reveal l-reveal-d1">
                 <div class="l-feature-head">
                     <div class="l-feature-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand-purple)" stroke-width="1.8"
@@ -216,7 +216,7 @@
                 <p>Exiba a massa atômica decimal ou arredondada, com a precisão que fizer sentido pra você.</p>
             </div>
 
-            <div class="l-feature-card">
+            <div class="l-feature-card l-reveal l-reveal-d2">
                 <div class="l-feature-head">
                     <div class="l-feature-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand-purple)" stroke-width="1.8"
@@ -232,7 +232,7 @@
                 <p>Baixe sua tabela customizada pronta para imprimir, estudar offline ou compartilhar.</p>
             </div>
 
-            <div class="l-feature-card">
+            <div class="l-feature-card l-reveal l-reveal-d3">
                 <div class="l-feature-head">
                     <div class="l-feature-icon">
                         <svg viewBox="0 0 24 24" fill="none">
@@ -249,7 +249,7 @@
                 <p>Passe o mouse sobre qualquer elemento e veja número atômico, símbolo, nome e massa na hora.</p>
             </div>
 
-            <div class="l-feature-card">
+            <div class="l-feature-card l-reveal l-reveal-d4">
                 <div class="l-feature-head">
                     <div class="l-feature-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand-purple)" stroke-width="1.8"
@@ -280,7 +280,7 @@
             </p>
         </div>
 
-        <div class="l-demo-frame l-app-frame">
+        <div class="l-demo-frame l-app-frame l-reveal">
 
             <div class="l-demo-panel top-bar">
 
@@ -386,34 +386,35 @@
     </section>
 
     <footer class="l-footer">
-        <div class="l-footer-top">
+        <div class="l-footer-top l-reveal">
             <div class="l-footer-brand">
                 <img src="assets/elementopia-logo-colorida.png" alt="Elementopia" class="l-footer-logo">
-                <p>A tabela periódica interativa e customizável.</p>
+
             </div>
 
             <div class="l-footer-partner">
                 <img src="assets/if-logo-fundo-transparente.png" alt="Instituto Federal do Paraná">
-                <p>Projeto em parceria com o<br>Instituto Federal do Paraná</p>
+
             </div>
         </div>
 
         <div class="l-footer-bottom">
             <p>© 2026 Elementopia</p>
             <div class="l-footer-links">
+                <a href="#parceria">Origem</a>
                 <a href="#recursos">Recursos</a>
                 <a href="#demo">Prévia</a>
-                <a href="#parceria">Parceria</a>
                 <a href="tabela.html">Entrar</a>
             </div>
         </div>
     </footer>
 
-    <div class="l-watermark">v1.3.2 (beta)</div>
+    <div class="l-watermark">v1.4.0 (Beta)</div>
 
     <script src="js/elements-data.js"></script>
     <script src="js/table-builder.js"></script>
     <script src="js/landing.js"></script>
+    <script src="js/landing-motion.js"></script>
 
 </body>
 
