@@ -1,3 +1,14 @@
+/* Elementopia — landing page (tema claro)
+   Reaproveita classes de styles.css (.top-bar, .card-section, .controls,
+   .legenda, .table-scroll, .element-card, .el etc.) e os tokens de brand.css.
+
+   Estratégia de tema: a página em si é clara (identidade da marca), mas o
+   app de verdade (tabela.html) é escuro. Em vez de duplicar os componentes,
+   a classe .l-app-frame redeclara as variáveis de tema para os valores
+   escuros originais de styles.css SÓ dentro do seu escopo — então qualquer
+   componente já existente (.element-card, .el, .controls...) renderiza
+   escuro ali dentro, como uma "janela" para o app, sem duplicar CSS. */
+
 body.l-light {
     --bg: #ffffff;
     --surface: #faf7ff;
@@ -5,8 +16,11 @@ body.l-light {
     --border: #e8e0f5;
     --text: #1c1730;
     --text-muted: #5f5773;
+
     --accent: var(--brand-purple);
     --accent2: var(--brand-purple-light);
+
+    /* tokens de glassmorphism / neon */
     --glass-bg: rgba(255, 255, 255, 0.55);
     --glass-bg-strong: rgba(255, 255, 255, 0.72);
     --glass-border: rgba(255, 255, 255, 0.65);
@@ -32,6 +46,7 @@ body.l-light::-webkit-scrollbar-thumb:hover {
     background: var(--brand-purple);
 }
 
+/* Janela escura reutilizável (preview do hero + demo interativo) */
 .l-app-frame {
     --bg: #0a0a12;
     --surface: #15121e;
@@ -51,38 +66,26 @@ body.l-light::-webkit-scrollbar-thumb:hover {
     color: var(--text);
 }
 
-@property --l-angle {
-    syntax: '<angle>';
-    inherits: false;
-    initial-value: 0deg;
-}
-
 .l-app-frame::before {
     content: '';
     position: absolute;
     inset: -1px;
     border-radius: inherit;
     padding: 1px;
-    background: conic-gradient(from var(--l-angle),
+    background: conic-gradient(from 200deg,
             rgba(132, 57, 209, 0) 0%,
             rgba(132, 57, 209, 0.55) 18%,
             rgba(248, 207, 24, 0.45) 32%,
             rgba(132, 57, 209, 0) 50%,
             rgba(132, 57, 209, 0) 100%);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
-    animation: l-border-spin 7s linear infinite;
     pointer-events: none;
     z-index: -1;
 }
 
-@keyframes l-border-spin {
-    to {
-        --l-angle: 360deg;
-    }
-}
+/* ---------- geral ---------- */
 
 .l-eyebrow {
     display: inline-flex;
@@ -213,7 +216,7 @@ button:focus-visible {
 }
 
 .l-logo {
-    height: 38px;
+    height: 34px;
     display: block;
 }
 
@@ -240,21 +243,32 @@ button:focus-visible {
 }
 
 .l-nav-links a.active {
+    position: relative;
     background: linear-gradient(135deg, var(--brand-purple) 0%, var(--brand-purple-deep) 100%);
     color: #fff;
     box-shadow: 0 4px 16px rgba(132, 57, 209, 0.4), 0 0 0 1px rgba(132, 57, 209, 0.15);
+}
+
+.l-nav-links a.active::after {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    border-radius: inherit;
+    box-shadow: 0 0 20px rgba(132, 57, 209, 0.4);
+    opacity: 0;
     animation: l-nav-pulse 3.4s ease-in-out infinite;
+    pointer-events: none;
 }
 
 @keyframes l-nav-pulse {
 
     0%,
     100% {
-        box-shadow: 0 4px 16px rgba(132, 57, 209, 0.4), 0 0 0 1px rgba(132, 57, 209, 0.15);
+        opacity: 0;
     }
 
     50% {
-        box-shadow: 0 4px 22px rgba(132, 57, 209, 0.55), 0 0 0 1px rgba(132, 57, 209, 0.2), 0 0 18px rgba(132, 57, 209, 0.3);
+        opacity: 1;
     }
 }
 
@@ -993,8 +1007,7 @@ button:focus-visible {
 }
 
 .l-footer-logo {
-    height: 64px;
-    width: 220px;
+    height: 30px;
 }
 
 .l-footer-brand p {
@@ -1009,8 +1022,8 @@ button:focus-visible {
 }
 
 .l-footer-partner img {
-    height: 80px;
-    width: 80px;
+    height: 44px;
+    width: 44px;
     object-fit: contain;
 }
 
@@ -1127,8 +1140,7 @@ button:focus-visible {
     .l-electron-wrap,
     .l-molecule,
     .l-formula,
-    .l-nav-links a.active,
-    .l-app-frame::before {
+    .l-nav-links a.active::after {
         animation: none;
     }
 
@@ -1176,8 +1188,4 @@ button:focus-visible {
 
 .l-reveal-d4 {
     transition-delay: 0.32s;
-}
-
-.l-reveal-d5 {
-    transition-delay: 0.4s;
 }

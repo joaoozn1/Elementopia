@@ -1,7 +1,9 @@
-
+// Estado de exibição da massa atômica (compartilhado com table-builder.js)
 let massFormat = 'decimal';
 let massPrecision = 1;
 
+// Monta a tabela periódica do app usando os dados e o motor compartilhados
+// (js/elements-data.js e js/table-builder.js)
 function renderTable() {
     buildPeriodicTable({
         containerId: 'periodic-table',
@@ -24,41 +26,30 @@ function updateHighlight(data) {
         hcMass.textContent = formatMass(parseFloat(mass), massFormat, massPrecision);
     }
 
-    const card = document.getElementById('highlight-card');
-    card.className = `element-card ${cat}`;
-
-    const root = document.documentElement;
-    const isAmetal = cat === 'ametal';
-    const bg = getComputedStyle(root).getPropertyValue(isAmetal ? '--ametal' : '--metal').trim();
-    const txt = getComputedStyle(root).getPropertyValue(isAmetal ? '--ametal-text' : '--metal-text').trim();
-    card.style.background = bg;
-    card.style.color = txt;
+    // .element-card.metal / .element-card.ametal já resolvem a cor via CSS (var(--metal)/var(--ametal)),
+    // então só trocar a classe é suficiente — nada de getComputedStyle ou estilo inline aqui.
+    document.getElementById('highlight-card').className = `element-card ${cat}`;
 }
 
+// As células (.el.metal/.el.ametal) e a legenda (.leg-metal/.leg-ametal) já
+// resolvem sua cor via var(--metal)/var(--ametal) no CSS — então mudar a
+// variável no :root já atualiza todos os elementos automaticamente, sem
+// precisar percorrer e reescrever o estilo de cada célula manualmente.
 function updateColor(type, value) {
     const root = document.documentElement;
 
     switch (type) {
         case 'ametal-bg':
             root.style.setProperty('--ametal', value);
-            document.getElementById('leg-ametal').style.background = value;
-            document.querySelectorAll('.el.ametal').forEach(e => e.style.background = value);
             break;
-
         case 'metal-bg':
             root.style.setProperty('--metal', value);
-            document.getElementById('leg-metal').style.background = value;
-            document.querySelectorAll('.el.metal').forEach(e => e.style.background = value);
             break;
-
         case 'ametal-text':
             root.style.setProperty('--ametal-text', value);
-            document.querySelectorAll('.el.ametal').forEach(e => e.style.color = value);
             break;
-
         case 'metal-text':
             root.style.setProperty('--metal-text', value);
-            document.querySelectorAll('.el.metal').forEach(e => e.style.color = value);
             break;
     }
 }

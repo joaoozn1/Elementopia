@@ -1,3 +1,7 @@
+// Elementopia — lógica da prévia interativa na landing page
+// Usa os mesmos dados/motor do app (elements-data.js + table-builder.js), mas sem
+// login e sem exportação em PDF — isso fica reservado para a plataforma completa (tabela.html).
+
 const demoState = {
     massFormat: 'decimal',
     massPrecision: 1
@@ -26,43 +30,30 @@ function updateDemoHighlight(data) {
         hcMass.textContent = formatMass(parseFloat(mass), demoState.massFormat, demoState.massPrecision);
     }
 
-    const card = document.getElementById('demo-highlight-card');
-    card.className = `element-card ${cat}`;
-
-    const root = document.documentElement;
-    const isAmetal = cat === 'ametal';
-    const bg = getComputedStyle(root).getPropertyValue(isAmetal ? '--ametal' : '--metal').trim();
-    const txt = getComputedStyle(root).getPropertyValue(isAmetal ? '--ametal-text' : '--metal-text').trim();
-    card.style.background = bg;
-    card.style.color = txt;
+    // .element-card.metal / .element-card.ametal já resolvem a cor via CSS,
+    // então só trocar a classe é suficiente.
+    document.getElementById('demo-highlight-card').className = `element-card ${cat}`;
 }
 
+// .el.metal/.el.ametal e .leg-metal/.leg-ametal já resolvem sua cor via
+// var(--metal)/var(--ametal) no CSS — só a variável precisa mudar.
 function updateDemoColor(type, value) {
     const root = document.documentElement;
 
     switch (type) {
         case 'ametal-bg':
             root.style.setProperty('--ametal', value);
-            const legAmetal = document.getElementById('demo-leg-ametal');
-            if (legAmetal) legAmetal.style.background = value;
-            document.querySelectorAll('#demo-periodic-table .el.ametal').forEach(e => e.style.background = value);
             break;
-
         case 'metal-bg':
             root.style.setProperty('--metal', value);
-            const legMetal = document.getElementById('demo-leg-metal');
-            if (legMetal) legMetal.style.background = value;
-            document.querySelectorAll('#demo-periodic-table .el.metal').forEach(e => e.style.background = value);
             break;
 
         case 'ametal-text':
             root.style.setProperty('--ametal-text', value);
-            document.querySelectorAll('#demo-periodic-table .el.ametal').forEach(e => e.style.color = value);
             break;
 
         case 'metal-text':
             root.style.setProperty('--metal-text', value);
-            document.querySelectorAll('#demo-periodic-table .el.metal').forEach(e => e.style.color = value);
             break;
     }
 }
@@ -95,6 +86,8 @@ function updateDemoMassPrecision(value) {
 
 renderDemoTable();
 
+// Scrollspy da navegação: destaca automaticamente o item correspondente
+// à seção visível (Home, Recursos, Prévia, Parceria) com a pílula roxa.
 (function initNavScrollspy() {
     const sectionIds = ['home', 'recursos', 'demo', 'parceria'];
     const sections = sectionIds
@@ -120,9 +113,34 @@ renderDemoTable();
             if (entry.isIntersecting) setActive(entry.target.id);
         });
     }, {
+        // Considera a seção "atual" quando ela cruza a faixa central da tela,
+        // em vez de exigir que esteja 100% visível.
         rootMargin: '-45% 0px -50% 0px',
         threshold: 0
     });
 
     sections.forEach(section => observer.observe(section));
+})();
+
+// Scroll reveal: elementos com a classe .l-reveal entram suavemente (fade + subida)
+// conforme aparecem na tela. Uma vez visível, permanece visível (não pisca ao rolar).
+(function initScrollReveal() {
+    const items = document.querySelectorAll('.l-reveal');
+    if (!items.length) return;
+
+    if (!('IntersectionObserver' in window)) {
+        items.forEach(el => el.classList.add('is-visible'));
+        return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+
+    items.forEach(el => observer.observe(el));
 })();

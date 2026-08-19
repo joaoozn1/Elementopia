@@ -1,9 +1,19 @@
+// Elementopia — motor de montagem da tabela periódica
+// Compartilhado entre js/script.js (app completo) e js/landing.js (demo da landing page)
+// Mantém a lógica de grade em um único lugar para evitar duplicação e divergência entre as duas telas.
 
 function formatMass(mass, format, precision) {
     if (format === 'rounded') return Math.round(mass).toString();
     return mass.toFixed(precision);
 }
 
+// Monta a tabela periódica dentro do container indicado.
+// options:
+//   containerId  (string, obrigatório) - id do elemento onde a grade será renderizada
+//   elements     (array, obrigatório)  - lista de elementos no formato de elements-data.js
+//   massFormat   ('decimal' | 'rounded')
+//   massPrecision (1 a 3)
+//   onHover      (function(dataset)) - chamada quando o mouse passa sobre uma célula
 function buildPeriodicTable(options) {
     const {
         containerId,
@@ -16,6 +26,19 @@ function buildPeriodicTable(options) {
     const table = document.getElementById(containerId);
     if (!table) return;
     table.innerHTML = '';
+
+    // Delegação de evento: um único listener no container cobre todas as células,
+    // em vez de um listener por célula (até 118 por tabela). Mesmo comportamento
+    // (dispara ao passar o mouse sobre qualquer elemento), bem menos memória.
+    // A guarda (data-hover-bound) evita ligar o listener duas vezes se a função
+    // for chamada de novo para o mesmo container.
+    if (onHover && !table.dataset.hoverBound) {
+        table.addEventListener('mouseover', (event) => {
+            const cell = event.target.closest('.el');
+            if (cell) onHover(cell.dataset);
+        });
+        table.dataset.hoverBound = 'true';
+    }
 
     const grid = {};
     elements.forEach(el => {
@@ -56,7 +79,7 @@ function buildPeriodicTable(options) {
         for (let c = 1; c <= 18; c++) {
             const key = `${r},${c}`;
             if (grid[key]) {
-                const cell = makeElementCell(grid[key], { massFormat, massPrecision, onHover });
+                const cell = makeElementCell(grid[key], { massFormat, massPrecision });
                 cell.style.gridRow = `${r + 1}`;
                 cell.style.gridColumn = `${c + 1}`;
                 table.appendChild(cell);
@@ -92,7 +115,7 @@ function buildPeriodicTable(options) {
         table.appendChild(plabel);
 
         seriesEls.forEach((el, i) => {
-            const cell = makeElementCell(el, { massFormat, massPrecision, onHover });
+            const cell = makeElementCell(el, { massFormat, massPrecision });
             cell.style.gridRow = `${gridRow}`;
             cell.style.gridColumn = `${i + 4}`;
             table.appendChild(cell);
@@ -100,7 +123,7 @@ function buildPeriodicTable(options) {
     });
 }
 
-function makeElementCell(el, { massFormat, massPrecision, onHover }) {
+function makeElementCell(el, { massFormat, massPrecision }) {
     const [num, sym, name, mass, cat] = el;
     const div = document.createElement('div');
     div.className = `el ${cat}`;
@@ -118,10 +141,11 @@ function makeElementCell(el, { massFormat, massPrecision, onHover }) {
     <span class="name">${name}</span>
     `;
 
-    if (onHover) div.addEventListener('mouseenter', () => onHover(div.dataset));
     return div;
 }
 
+// Atualiza apenas o texto de massa já renderizado, sem reconstruir a grade inteira
+// (usado quando o usuário troca o formato/precisão da massa atômica).
 function refreshTableMass(containerId, massFormat, massPrecision) {
     const table = document.getElementById(containerId);
     if (!table) return;

@@ -124,6 +124,14 @@ body::before {
     text-align: right;
 }
 
+.card-arrows span:nth-child(2) {
+    margin-top: 28px;
+}
+
+.card-arrows span:nth-child(3) {
+    margin-top: 16px;
+}
+
 .card-arrows span {
     display: flex;
     align-items: center;
@@ -149,6 +157,16 @@ body::before {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
     background: var(--metal);
     transition: background 0.3s;
+}
+
+.element-card.metal {
+    background: var(--metal);
+    color: var(--metal-text);
+}
+
+.element-card.ametal {
+    background: var(--ametal);
+    color: var(--ametal-text);
 }
 
 .element-card .at-num {
@@ -342,7 +360,7 @@ body::before {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 600;
+    font-weight: 500;
     font-family: var(--font-mono);
 }
 
@@ -352,7 +370,7 @@ body::before {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
+    font-weight: 500;
     font-family: var(--font-mono);
 }
 
@@ -551,13 +569,17 @@ body::before {
     width: 390px;
     padding: 38px;
     border-radius: 24px;
+
     background: rgba(19, 19, 26, .82);
+
     border: 1px solid rgba(255, 255, 255, .08);
+
     box-shadow:
         0 0 60px rgba(0, 0, 0, .6),
         0 0 40px rgba(108, 99, 255, .15);
 
     backdrop-filter: blur(20px);
+
     display: flex;
     flex-direction: column;
     gap: 18px;
@@ -593,13 +615,21 @@ body::before {
 
 .auth-box input {
     height: 54px;
+
     background: rgba(255, 255, 255, .04);
+
     border: 1px solid rgba(255, 255, 255, .08);
+
     border-radius: 14px;
+
     padding: 0 16px;
+
     color: white;
+
     font-size: .95rem;
+
     outline: none;
+
     transition: .25s;
 }
 
@@ -618,18 +648,25 @@ body::before {
 
 .auth-box button {
     height: 54px;
+
     border: none;
+
     border-radius: 14px;
+
     background:
         linear-gradient(135deg,
             var(--accent),
             #8e54ff);
 
     color: white;
+
     font-size: 1rem;
     font-weight: 700;
+
     cursor: pointer;
+
     transition: .25s;
+
     letter-spacing: .03em;
 }
 
@@ -691,12 +728,19 @@ body::before {
     position: absolute;
     right: 20px;
     top: 20px;
+
     background: rgba(255, 255, 255, .08);
+
     border: 1px solid rgba(255, 255, 255, .08);
+
     color: white;
+
     padding: 10px 16px;
+
     border-radius: 12px;
+
     cursor: pointer;
+
     transition: .2s;
 }
 
@@ -706,20 +750,30 @@ body::before {
 
 .auth-badge {
     align-self: center;
+
     background:
         linear-gradient(135deg,
             rgba(108, 99, 255, .18),
             rgba(255, 101, 132, .12));
 
     border: 1px solid rgba(255, 255, 255, .08);
+
     color: #d8d8ff;
+
     padding: 8px 16px;
+
     border-radius: 999px;
+
     font-size: .78rem;
+
     letter-spacing: .08em;
+
     text-transform: uppercase;
+
     font-weight: 700;
+
     backdrop-filter: blur(10px);
+
     box-shadow:
         0 0 20px rgba(108, 99, 255, .12);
 }

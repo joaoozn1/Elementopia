@@ -1,10 +1,17 @@
+/* Elementopia — tokens de marca
+   Fonte da verdade para as cores da identidade visual.
+   Hoje aplicado apenas na landing page (index.html); quando o rebranding
+   completo do app (tabela.html) acontecer, os componentes existentes em
+   styles.css podem passar a consumir estas mesmas variáveis. */
+
 :root {
     --brand-purple: #8439d1;
     --brand-purple-light: #a866e8;
     --brand-purple-deep: #5c1f9e;
+    --brand-purple-pale: #f3e8fd;
 
     --brand-yellow: #f8cf18;
-    --brand-yellow-soft: #fde27a;
+    --brand-yellow-deep: #a67c00;
 
-    --brand-ink: #0a0a12;
+    --brand-ink: #1e1533;
 }
