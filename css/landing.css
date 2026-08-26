@@ -1,22 +1,11 @@
 /* Elementopia — landing page (tema claro)
    Reaproveita classes de styles.css (.top-bar, .card-section, .controls,
    .legenda, .table-scroll, .element-card, .el etc.) e os tokens de brand.css.
-
-   Estratégia de tema: a página em si é clara (identidade da marca), mas o
-   app de verdade (tabela.html) é escuro. Em vez de duplicar os componentes,
-   a classe .l-app-frame redeclara as variáveis de tema para os valores
-   escuros originais de styles.css SÓ dentro do seu escopo — então qualquer
-   componente já existente (.element-card, .el, .controls...) renderiza
-   escuro ali dentro, como uma "janela" para o app, sem duplicar CSS. */
+   styles.css já é claro por padrão agora (mesmo tema usado no app real,
+   tabela.html) — aqui só ajustamos o que é específico da landing: um par de
+   acento levemente diferente para os gradientes e os tokens de glassmorphism. */
 
 body.l-light {
-    --bg: #ffffff;
-    --surface: #faf7ff;
-    --surface2: #f3ecfd;
-    --border: #e8e0f5;
-    --text: #1c1730;
-    --text-muted: #5f5773;
-
     --accent: var(--brand-purple);
     --accent2: var(--brand-purple-light);
 
@@ -24,10 +13,8 @@ body.l-light {
     --glass-bg: rgba(255, 255, 255, 0.55);
     --glass-bg-strong: rgba(255, 255, 255, 0.72);
     --glass-border: rgba(255, 255, 255, 0.65);
-    --glass-border-purple: rgba(132, 57, 209, 0.16);
     --glass-shadow: 0 8px 32px rgba(92, 31, 158, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.55);
     --glow-purple: 0 0 0 1px rgba(132, 57, 209, 0.12), 0 0 28px rgba(132, 57, 209, 0.22);
-    --glow-purple-strong: 0 0 0 1px rgba(132, 57, 209, 0.18), 0 0 44px rgba(132, 57, 209, 0.38);
 }
 
 body.l-light::before {
@@ -44,45 +31,6 @@ body.l-light::-webkit-scrollbar-thumb {
 
 body.l-light::-webkit-scrollbar-thumb:hover {
     background: var(--brand-purple);
-}
-
-/* Janela escura reutilizável (preview do hero + demo interativo) */
-.l-app-frame {
-    --bg: #0a0a12;
-    --surface: #15121e;
-    --surface2: #1c1c28;
-    --border: #2a2a3a;
-    --text: #e8e8f0;
-    --text-muted: #8888aa;
-    --accent: #6c63ff;
-    --accent2: #ff6584;
-
-    position: relative;
-    isolation: isolate;
-    background: var(--bg);
-    border-radius: 22px;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    box-shadow: 0 40px 80px -20px rgba(30, 12, 60, 0.4), 0 0 60px -12px rgba(132, 57, 209, 0.25);
-    color: var(--text);
-}
-
-.l-app-frame::before {
-    content: '';
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    padding: 1px;
-    background: conic-gradient(from 200deg,
-            rgba(132, 57, 209, 0) 0%,
-            rgba(132, 57, 209, 0.55) 18%,
-            rgba(248, 207, 24, 0.45) 32%,
-            rgba(132, 57, 209, 0) 50%,
-            rgba(132, 57, 209, 0) 100%);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-    z-index: -1;
 }
 
 /* ---------- geral ---------- */
@@ -543,220 +491,78 @@ button:focus-visible {
     }
 }
 
-/* ---------- hero preview (janela do app) ---------- */
+/* ---------- faixa animada de elementos (substitui o antigo painel escuro) ----------
+   Carrossel infinito e leve: anima só transform (compositor/GPU), sem JS, sem
+   dependência externa. A trilha tem a lista de elementos duplicada uma vez —
+   ao andar exatamente 50%, o loop fecha sem emenda visível. */
 
-.l-preview {
-    position: relative;
-    z-index: 2;
-    max-width: 980px;
-    margin: 56px auto 0;
-    padding: 0 0 4px;
-    text-align: left;
-    overflow: hidden;
+.l-marquee-wrap {
+    margin-top: 56px;
 }
 
-.l-preview-topbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 22px;
-    border-bottom: 1px solid var(--border);
-}
-
-.l-preview-dots {
-    display: flex;
-    gap: 6px;
-}
-
-.l-preview-dots span {
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: var(--border);
-}
-
-.l-preview-brand {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 0.88rem;
-    letter-spacing: -0.01em;
-    color: var(--text);
-}
-
-.l-preview-brand img {
-    height: 16px;
-}
-
-.l-preview-user {
-    font-size: 0.82rem;
-    color: var(--text-muted);
-}
-
-.l-preview-body {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: 20px;
-    padding: 22px;
-}
-
-.l-preview-left-head {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-}
-
-.l-preview-left-head h4 {
-    font-family: var(--font-display);
-    font-size: 1.05rem;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-}
-
-.l-preview-viewall {
-    font-size: 0.72rem;
-    color: var(--text-muted);
-}
-
-.l-preview-tabs {
-    display: flex;
-    gap: 8px;
-    margin-top: 14px;
-}
-
-.l-preview-tabs span {
-    font-size: 0.76rem;
-    padding: 6px 14px;
-    border-radius: 999px;
-    background: var(--surface2);
-    color: var(--text-muted);
-}
-
-.l-preview-tabs span.active {
-    background: var(--accent);
-    color: #fff;
-    box-shadow: 0 0 16px rgba(108, 99, 255, 0.45);
-}
-
-.l-preview-chart {
-    margin-top: 22px;
-    background: rgba(255, 255, 255, 0.04);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 14px;
-    padding: 18px 18px 12px;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-}
-
-.l-preview-bars {
-    display: flex;
-    align-items: flex-end;
-    gap: 10px;
-    height: 110px;
-}
-
-.l-bar {
-    flex: 1;
-    height: var(--h);
-    border-radius: 8px 8px 4px 4px;
-    background: var(--surface2);
-    position: relative;
-    display: flex;
-    justify-content: center;
-}
-
-.l-bar span {
-    position: absolute;
-    top: -20px;
-    font-size: 0.62rem;
-    color: var(--text-muted);
-    font-family: var(--font-mono);
-}
-
-.l-bar-active {
-    background: linear-gradient(180deg, var(--accent2) 0%, var(--accent) 100%);
-    box-shadow: 0 0 20px rgba(108, 99, 255, 0.5);
-}
-
-.l-bar-active span {
-    color: var(--accent2);
-}
-
-.l-preview-bars-labels {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-.l-preview-bars-labels span {
-    flex: 1;
+.l-marquee-label {
     text-align: center;
-    font-size: 0.62rem;
-    color: var(--text-muted);
     font-family: var(--font-mono);
-}
-
-.l-preview-caption {
-    margin-top: 14px;
-    font-size: 0.78rem;
+    font-size: 0.76rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     color: var(--text-muted);
+    margin-bottom: 20px;
 }
 
-.l-preview-right {
+.l-marquee {
+    position: relative;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+
+.l-marquee-track {
     display: flex;
-    flex-direction: column;
     gap: 16px;
+    width: max-content;
+    animation: l-marquee-scroll 34s linear infinite;
 }
 
-.l-preview-card {
-    background: rgba(255, 255, 255, 0.04);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+.l-marquee-tile {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 72px;
+    height: 72px;
     border-radius: 14px;
-    padding: 16px 18px;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-}
-
-.l-preview-card-head {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.76rem;
-    color: var(--text-muted);
-}
-
-.l-preview-card .element-card {
-    width: 100%;
-    height: 130px;
-}
-
-.l-preview-number {
-    display: block;
-    margin-top: 10px;
     font-family: var(--font-display);
-    font-size: 1.55rem;
     font-weight: 700;
-    letter-spacing: -0.01em;
+    font-size: 1.2rem;
+    color: #fff;
+    box-shadow: 0 10px 22px rgba(92, 31, 158, 0.16);
+    background: linear-gradient(150deg, var(--brand-purple) 0%, var(--brand-purple-deep) 100%);
 }
 
-.l-preview-mini-transactions {
-    margin-top: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+.l-marquee-tile:nth-child(3n+2) {
+    background: linear-gradient(150deg, var(--brand-purple-light) 0%, var(--brand-purple) 100%);
 }
 
-.l-mini-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.76rem;
-    color: var(--text-muted);
+.l-marquee-tile:nth-child(3n+3) {
+    background: linear-gradient(150deg, var(--brand-yellow-deep) 0%, var(--brand-purple-deep) 100%);
 }
 
-.l-mini-row b {
-    color: var(--text);
-    font-weight: 500;
+.l-marquee-tile small {
+    position: absolute;
+    top: 6px;
+    left: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    font-weight: 400;
+    opacity: 0.75;
+}
+
+@keyframes l-marquee-scroll {
+    to {
+        transform: translateX(-50%);
+    }
 }
 
 /* ---------- partnership ---------- */
@@ -975,7 +781,13 @@ button:focus-visible {
 .l-demo-frame {
     margin-top: 40px;
     text-align: left;
-    padding: 26px;
+    padding: 28px;
+    background: linear-gradient(165deg, rgba(255, 255, 255, 0.75) 0%, rgba(243, 236, 253, 0.55) 100%);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    box-shadow: var(--glass-shadow), 0 30px 60px -24px rgba(92, 31, 158, 0.18);
 }
 
 .l-demo-cta {
@@ -1007,7 +819,8 @@ button:focus-visible {
 }
 
 .l-footer-logo {
-    height: 30px;
+    height: 70px;
+    width: 240px;
 }
 
 .l-footer-brand p {
@@ -1022,8 +835,9 @@ button:focus-visible {
 }
 
 .l-footer-partner img {
-    height: 44px;
-    width: 44px;
+    height: 70px;
+    width: 70px;
+    margin-right: 5px;
     object-fit: contain;
 }
 
@@ -1140,6 +954,7 @@ button:focus-visible {
     .l-electron-wrap,
     .l-molecule,
     .l-formula,
+    .l-marquee-track,
     .l-nav-links a.active::after {
         animation: none;
     }

@@ -96,13 +96,13 @@
 
                 <div class="ctrl-group">
                     <label>Cor dos Ametais</label>
-                    <input type="color" id="color-ametal" value="#2e7d32"
+                    <input type="color" id="color-ametal" value="#a67c00"
                         oninput="updateColor('ametal-bg', this.value)">
                 </div>
 
                 <div class="ctrl-group">
                     <label>Cor dos Metais</label>
-                    <input type="color" id="color-metal" value="#c62828" oninput="updateColor('metal-bg', this.value)">
+                    <input type="color" id="color-metal" value="#5c1f9e" oninput="updateColor('metal-bg', this.value)">
                 </div>
 
                 <div class="ctrl-group">
@@ -149,21 +149,23 @@
 
         </div>
 
-        <div class="legenda">
-            <span
-                style="font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Legenda:</span>
-            <div class="leg-item">
-                <div class="leg-dot leg-metal" id="leg-metal"></div>
-                <span>Metais</span>
+        <div class="table-surface" id="table-export">
+            <div class="legenda">
+                <span
+                    style="font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Legenda:</span>
+                <div class="leg-item">
+                    <div class="leg-dot leg-metal" id="leg-metal"></div>
+                    <span>Metais</span>
+                </div>
+                <div class="leg-item">
+                    <div class="leg-dot leg-ametal" id="leg-ametal"></div>
+                    <span>Ametais</span>
+                </div>
             </div>
-            <div class="leg-item">
-                <div class="leg-dot leg-ametal" id="leg-ametal"></div>
-                <span>Ametais</span>
-            </div>
-        </div>
 
-        <div class="table-scroll" id="table-export">
-            <div class="periodic-table" id="periodic-table"></div>
+            <div class="table-scroll">
+                <div class="periodic-table" id="periodic-table"></div>
+            </div>
         </div>
 
     </div>
