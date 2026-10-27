@@ -15,110 +15,105 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
+    <link rel="stylesheet" href="css/brand.css">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
 
-    <div class="auth-screen" id="auth-screen">
-
-        <div class="auth-box">
-
-            <div class="auth-badge">
-                ⚗ Plataforma de Química
-            </div>
-            <p class="auth-subtitle">
-                Personalize sua tabela periódica e exporte em PDF
-            </p>
-
-            <h2 id="auth-title">Entrar</h2>
-
-            <input type="text" id="username" placeholder="Usuário">
-
-            <input type="password" id="password" placeholder="Senha">
-
-            <button onclick="handleAuth()" id="auth-btn">
-                Entrar
-            </button>
-
-            <p class="auth-switch">
-                <span id="switch-text">
-                    Não tem conta?
-                </span>
-
-                <button onclick="toggleMode()" id="switch-btn">
-                    Cadastrar
-                </button>
-            </p>
-
-            <p class="auth-message" id="auth-message"></p>
-
-        </div>
-
-    </div>
-
     <header class="app-header">
         <a href="index.html" class="home-link" title="Voltar para a página inicial">← Elementopia</a>
-        <h1 class="app-title">⚗ Tabela Periódica Interativa</h1>
+        <img src="assets/elementopia-logo-colorida.png" alt="Elementopia" class="app-logo">
+        <h1 class="sr-only">Elementopia — Tabela Periódica Interativa</h1>
         <p class="app-tagline">118 elementos · Customizável · Exportável em PDF</p>
-        <button class="logout-btn" onclick="logout()">Sair</button>
     </header>
 
     <div class="page-wrap">
 
-        <div class="top-bar">
+        <section class="deck" aria-labelledby="deck-title">
 
-            <div class="card-section">
-                <div class="card-label">Elemento em destaque</div>
-                <div class="element-card-wrap">
-
-                    <div class="card-arrows">
-                        <span><span class="arr">←</span> Nº Atômico</span>
-                        <span style="margin-top:28px"><span class="arr">←</span> Símbolo</span>
-                        <span style="margin-top:16px"><span class="arr">←</span> Nome</span>
-                    </div>
-
-                    <div class="element-card ametal" id="highlight-card">
-                        <span class="at-num" id="hc-num">1</span>
-                        <span class="at-mass" id="hc-mass">1.008</span>
-                        <span class="symbol" id="hc-sym">H</span>
-                        <span class="el-name" id="hc-name">Hidrogênio</span>
-                    </div>
-
-                    <div class="card-arrows-right">
-                        <span>Massa Atômica <span class="arr">→</span></span>
-                    </div>
-
+            <div class="deck-top">
+                <div class="deck-heading">
+                    <span class="pill-eyebrow">⚗ Personalização</span>
+                    <h2 id="deck-title">Monte a tabela do seu jeito</h2>
                 </div>
+
+                <button type="button" class="deck-help-toggle" id="deck-help-toggle" aria-expanded="false"
+                    aria-controls="deck-help" onclick="toggleDeckHelp()">
+                    <span class="deck-help-icon" aria-hidden="true">?</span> Como usar
+                </button>
             </div>
 
-            <div class="controls">
+            <div class="deck-help" id="deck-help" hidden>
+                <p class="deck-help-title">Passo a passo</p>
+                <ol>
+                    <li>Passe o mouse sobre qualquer elemento da tabela para ver os detalhes no cartão de destaque,
+                        ao lado.</li>
+                    <li>Escolha as cores de fundo e de texto para metais e ametais — a tabela inteira atualiza na
+                        hora.</li>
+                    <li>Defina como a massa atômica deve aparecer: com casas decimais ou arredondada.</li>
+                    <li>Quando terminar, baixe sua tabela personalizada no formato que preferir.</li>
+                </ol>
+            </div>
 
-                <div class="ctrl-group">
-                    <label>Cor dos Ametais</label>
-                    <input type="color" id="color-ametal" value="#a67c00"
-                        oninput="updateColor('ametal-bg', this.value)">
+            <div class="deck-grid">
+
+                <div class="deck-panel deck-panel-highlight">
+                    <div class="panel-label">Elemento em destaque</div>
+                    <div class="element-card-wrap">
+
+                        <div class="card-arrows">
+                            <span><span class="arr">←</span> Nº Atômico</span>
+                            <span style="margin-top:28px"><span class="arr">←</span> Símbolo</span>
+                            <span style="margin-top:16px"><span class="arr">←</span> Nome</span>
+                        </div>
+
+                        <div class="element-card ametal" id="highlight-card">
+                            <span class="at-num" id="hc-num">1</span>
+                            <span class="at-mass" id="hc-mass">1.008</span>
+                            <span class="symbol" id="hc-sym">H</span>
+                            <span class="el-name" id="hc-name">Hidrogênio</span>
+                        </div>
+
+                        <div class="card-arrows-right">
+                            <span>Massa Atômica <span class="arr">→</span></span>
+                        </div>
+
+                    </div>
                 </div>
 
-                <div class="ctrl-group">
-                    <label>Cor dos Metais</label>
-                    <input type="color" id="color-metal" value="#5c1f9e" oninput="updateColor('metal-bg', this.value)">
+                <div class="deck-panel deck-panel-colors">
+                    <div class="panel-label">Cores</div>
+                    <div class="color-grid">
+                        <label class="color-field">
+                            <input type="color" id="color-ametal" value="#a67c00"
+                                oninput="updateColor('ametal-bg', this.value)">
+                            <span class="color-field-name">Fundo · Ametais</span>
+                        </label>
+
+                        <label class="color-field">
+                            <input type="color" id="color-metal" value="#5c1f9e"
+                                oninput="updateColor('metal-bg', this.value)">
+                            <span class="color-field-name">Fundo · Metais</span>
+                        </label>
+
+                        <label class="color-field">
+                            <input type="color" id="color-ametal-text" value="#ffffff"
+                                oninput="updateColor('ametal-text', this.value)">
+                            <span class="color-field-name">Texto · Ametais</span>
+                        </label>
+
+                        <label class="color-field">
+                            <input type="color" id="color-metal-text" value="#ffffff"
+                                oninput="updateColor('metal-text', this.value)">
+                            <span class="color-field-name">Texto · Metais</span>
+                        </label>
+                    </div>
                 </div>
 
-                <div class="ctrl-group">
-                    <label>Fonte dos Ametais</label>
-                    <input type="color" id="color-ametal-text" value="#ffffff"
-                        oninput="updateColor('ametal-text', this.value)">
-                </div>
+                <div class="deck-panel deck-panel-mass">
+                    <div class="panel-label">Massa atômica</div>
 
-                <div class="ctrl-group">
-                    <label>Fonte dos Metais</label>
-                    <input type="color" id="color-metal-text" value="#ffffff"
-                        oninput="updateColor('metal-text', this.value)">
-                </div>
-
-                <div class="ctrl-group">
-                    <label>Massa Atômica</label>
                     <div class="radio-group">
                         <label>
                             <input type="radio" name="mass-format" value="decimal" checked
@@ -129,25 +124,60 @@
                                 onchange="updateMassFormat(this.value)"> Arredondado
                         </label>
                     </div>
+
+                    <label class="select-field">
+                        <span>Casas decimais</span>
+                        <select id="mass-precision" onchange="updateMassPrecision(this.value)">
+                            <option value="1" selected>1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </label>
                 </div>
 
-                <div class="ctrl-group">
-                    <label>Casas Decimais</label>
-                    <select id="mass-precision" onchange="updateMassPrecision(this.value)">
-                        <option value="1" selected>1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                    </select>
-                </div>
+                <div class="deck-panel deck-panel-export">
+                    <div class="panel-label">Exportar</div>
 
-                <div class="ctrl-group" style="justify-content:flex-end">
-                    <label>&nbsp;</label>
-                    <button class="btn-pdf" onclick="exportPDF()">⬇ Baixar PDF</button>
+                    <div class="export-format-group" role="radiogroup" aria-label="Formato de exportação">
+                        <label class="format-pill">
+                            <input type="radio" name="export-format" value="pdf" checked
+                                onchange="updateExportFormat(this.value)">
+                            <span>PDF</span>
+                        </label>
+                        <label class="format-pill">
+                            <input type="radio" name="export-format" value="png"
+                                onchange="updateExportFormat(this.value)">
+                            <span>PNG</span>
+                            <span class="format-soon">em breve</span>
+                        </label>
+                        <label class="format-pill">
+                            <input type="radio" name="export-format" value="jpeg"
+                                onchange="updateExportFormat(this.value)">
+                            <span>JPEG</span>
+                            <span class="format-soon">em breve</span>
+                        </label>
+                    </div>
+
+                    <label class="text-field">
+                        <span>Nome do arquivo</span>
+                        <input type="text" id="export-filename" placeholder="tabela-periodica">
+                    </label>
+
+                    <label class="select-field">
+                        <span>Qualidade</span>
+                        <select id="export-quality" disabled>
+                            <option value="standard" selected>Padrão</option>
+                            <option value="high">Alta</option>
+                        </select>
+                    </label>
+
+                    <button class="btn-download" id="btn-download" onclick="handleDownload()">⬇ Baixar
+                        tabela</button>
                 </div>
 
             </div>
 
-        </div>
+        </section>
 
         <div class="table-surface" id="table-export">
             <div class="legenda">
@@ -171,6 +201,28 @@
     </div>
 
     <div class="toast" id="toast"></div>
+
+    <footer class="l-footer">
+        <div class="l-footer-top">
+            <div class="l-footer-brand">
+                <img src="assets/elementopia-logo-colorida.png" alt="Elementopia" class="l-footer-logo">
+            </div>
+
+            <div class="l-footer-partner">
+                <img src="assets/if-logo-fundo-transparente.png" alt="Instituto Federal do Paraná">
+                <p>Projeto em parceria com o<br>Instituto Federal do Paraná</p>
+            </div>
+        </div>
+
+        <div class="l-footer-bottom">
+            <p>© 2026 Elementopia</p>
+            <div class="l-footer-links">
+                <a href="index.html">Início</a>
+                <a href="index.html#parceria">Origem</a>
+                <a href="index.html#recursos">Recursos</a>
+            </div>
+        </div>
+    </footer>
 
     <script src="js/elements-data.js"></script>
     <script src="js/table-builder.js"></script>

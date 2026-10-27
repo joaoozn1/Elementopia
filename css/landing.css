@@ -667,6 +667,7 @@ button:focus-visible {
     border-radius: inherit;
     padding: 1px;
     background: linear-gradient(135deg, rgba(132, 57, 209, 0.55), rgba(248, 207, 24, 0.4), transparent 70%);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;

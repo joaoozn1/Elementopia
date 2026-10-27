@@ -123,89 +123,50 @@ async function exportPDF() {
     setTimeout(() => toast.classList.remove('show'), 3000);
 }
 
-renderTable();
+// ---------- Deck de exportação (seletor de formato) ----------
+// PDF já é funcional (exportPDF, acima). PNG e JPEG ainda são apenas a
+// interface — os botões existem e podem ser selecionados, mas a exportação
+// nesses formatos ainda não foi implementada (fica para uma próxima versão).
+let exportFormat = 'pdf';
 
-let isLogin = true;
+function updateExportFormat(value) {
+    exportFormat = value;
 
-function toggleMode() {
-    isLogin = !isLogin;
-
-    document.getElementById('auth-title').textContent =
-        isLogin ? 'Entrar' : 'Cadastrar';
-
-    document.getElementById('auth-btn').textContent =
-        isLogin ? 'Entrar' : 'Cadastrar';
-
-    document.getElementById('switch-text').textContent =
-        isLogin ? 'Não tem conta?' : 'Já possui conta?';
-
-    document.getElementById('switch-btn').textContent =
-        isLogin ? 'Cadastrar' : 'Entrar';
-
-    document.getElementById('auth-message').textContent = '';
+    // O campo de qualidade só faz sentido para imagens raster (PNG/JPEG);
+    // para PDF ele fica desabilitado, já pronto para quando PNG/JPEG
+    // forem implementados.
+    const qualitySelect = document.getElementById('export-quality');
+    if (qualitySelect) qualitySelect.disabled = (value === 'pdf');
 }
 
-function handleAuth() {
-
-    const user = document.getElementById('username').value.trim();
-    const pass = document.getElementById('password').value.trim();
-
-    const msg = document.getElementById('auth-message');
-
-    if (!user || !pass) {
-        msg.textContent = 'Preencha todos os campos.';
+function handleDownload() {
+    if (exportFormat === 'pdf') {
+        exportPDF();
         return;
     }
 
-    const users = JSON.parse(localStorage.getItem('users')) || [];
+    // PNG/JPEG: ainda não programado, apenas avisa que está a caminho.
+    const toast = document.getElementById('toast');
+    const label = exportFormat === 'png' ? 'PNG' : 'JPEG';
+    toast.textContent = `🛠 Exportação em ${label} chega em breve.`;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+}
 
-    if (isLogin) {
+// ---------- Painel "Como usar" ----------
+function toggleDeckHelp() {
+    const help = document.getElementById('deck-help');
+    const btn = document.getElementById('deck-help-toggle');
+    if (!help || !btn) return;
 
-        const found = users.find(
-            u => u.user === user && u.pass === pass
-        );
-
-        if (found) {
-            localStorage.setItem('loggedUser', user);
-
-            document.getElementById('auth-screen').style.display = 'none';
-        } else {
-            msg.textContent = 'Usuário ou senha incorretos.';
-        }
-
+    const isHidden = help.hasAttribute('hidden');
+    if (isHidden) {
+        help.removeAttribute('hidden');
+        btn.setAttribute('aria-expanded', 'true');
     } else {
-
-        const exists = users.find(u => u.user === user);
-
-        if (exists) {
-            msg.textContent = 'Usuário já existe.';
-            return;
-        }
-
-        users.push({
-            user,
-            pass
-        });
-
-        localStorage.setItem('users', JSON.stringify(users));
-
-        msg.style.color = '#7bff95';
-        msg.textContent = 'Conta criada com sucesso!';
-
-        toggleMode();
+        help.setAttribute('hidden', '');
+        btn.setAttribute('aria-expanded', 'false');
     }
 }
 
-function logout() {
-    localStorage.removeItem('loggedUser');
-    location.reload();
-}
-
-window.addEventListener('load', () => {
-
-    const logged = localStorage.getItem('loggedUser');
-
-    if (logged) {
-        document.getElementById('auth-screen').style.display = 'none';
-    }
-});
+renderTable();
