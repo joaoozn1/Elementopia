@@ -1,17 +1,306 @@
 <!doctype html>
 <html lang="pt-BR">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#7337d5"><meta name="description" content="Uma tabela periódica com o seu jeito. Personalize as cores, simplifique seus estudos e leve o Elementopia com você."><title>Elementopia — química com o seu jeito</title><link rel="icon" href="assets/icon-aba.png"><link rel="stylesheet" href="styles.css"><script defer src="app.js"></script></head>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#6631DB">
+<meta name="description" content="Uma tabela periódica com o seu jeito. Personalize as cores, simplifique seus estudos e leve o Elementopia com você.">
+<title>Elementopia — química com o seu jeito</title>
+<link rel="icon" href="assets/icon-aba.png">
+<link rel="stylesheet" href="styles.css">
+<script defer src="app.js">
+</script>
+</head>
 <body>
-<header class="header"><a class="brand" href="#inicio" aria-label="Elementopia, início"><img src="assets/elementopia-logo-colorida.png" alt="Elementopia"></a><nav aria-label="Navegação principal"><a href="#possibilidades">Por que Elementopia?</a><a href="#como-funciona">Como funciona</a><a href="#sobre">O projeto</a></nav><a class="button small" href="#personalizar">Criar minha tabela <span aria-hidden="true">↗</span></a><button class="menu" aria-label="Abrir menu" aria-expanded="false">☰</button></header>
+<a class="skip-link" href="#inicio">Pular para o conteúdo</a>
+<header class="header">
+<a class="brand" href="#inicio" aria-label="Elementopia, início">
+<img src="assets/elementopia-logo-colorida.png" alt="Elementopia">
+</a>
+<nav id="main-navigation" aria-label="Navegação principal">
+<a href="#possibilidades">Por que Elementopia?</a>
+<a href="#como-funciona">Como funciona</a>
+<a href="#sobre">O projeto</a>
+</nav>
+<a class="button small" href="#personalizar">Criar tabela <span aria-hidden="true"><svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></span>
+</a>
+<button class="menu" aria-label="Abrir menu" aria-controls="main-navigation" aria-expanded="false">
+<span class="menu-line" aria-hidden="true">
+</span>
+<span class="menu-line" aria-hidden="true">
+</span>
+</button>
+</header>
 <main>
-<section id="inicio" class="hero section"><div class="hero-copy"><span class="eyebrow"><span class="dot"></span> UM NOVO ELEMENTO NOS SEUS ESTUDOS</span><h1>A química é a mesma.<br>A tabela é <span class="highlight">do seu jeito.<svg viewBox="0 0 330 18" aria-hidden="true"><path d="M3 11 Q155 -2 325 10 M45 16 Q170 6 288 14"/></svg></span></h1><p>Menos informação sobrando. Mais espaço para aprender.<br class="desktop"> Dê cor à sua tabela periódica e descubra uma nova<br class="desktop"> maneira de se conectar com a química.</p><div class="hero-actions"><a class="button" href="#personalizar">Vamos criar sua tabela <span>↗</span></a><a class="text-link" href="#como-funciona"><span class="play">▸</span> Veja como funciona</a></div><div class="hero-note"><span class="check">✓</span> Gratuito <i></i> Sem cadastro <i></i> Feito para aprender</div></div>
-<div class="hero-art" aria-label="Ilustração de elementos químicos com cores personalizadas"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><span class="spark s1">✳︎</span><span class="spark s2">✧</span><span class="tiny-formula">um pouco de cor,<br>muitas possibilidades.</span><div class="element-card carbon"><span class="atomic">6 <small>12,011</small></span><strong>C</strong><span>Carbono</span><i>o início de tudo</i></div><div class="element-card oxygen"><span class="atomic">8 <small>15,999</small></span><strong>O</strong><span>Oxigênio</span><i>respire novas ideias</i></div><div class="element-card sodium"><span class="atomic">11 <small>22,990</small></span><strong>Na</strong><span>Sódio</span></div><div class="art-label"><span>✦</span> Ciência + criatividade</div><svg class="scribble" viewBox="0 0 100 90" aria-hidden="true"><path d="M10 10 Q90 0 70 50 Q55 80 25 60 Q10 40 40 38 Q72 35 80 78 M65 68 L81 79 L88 60"/></svg></div>
+<section id="inicio" class="hero section" tabindex="-1">
+<div class="hero-copy">
+<span class="eyebrow">
+<span class="dot">
+</span> UM NOVO ELEMENTO NOS SEUS ESTUDOS</span>
+<h1>A química é a mesma.<br>A tabela é <span class="highlight">do seu jeito.<svg viewBox="0 0 330 18" aria-hidden="true">
+<path d="M3 11 Q155 -2 325 10 M45 16 Q170 6 288 14"/>
+</svg>
+</span>
+</h1>
+<p>Menos informação sobrando. Mais espaço para aprender.<br class="desktop"> Dê cor à sua tabela periódica e descubra uma nova<br class="desktop"> maneira de se conectar com a química.</p>
+<div class="hero-actions">
+<a class="button" href="#personalizar">Vamos criar sua tabela <span><svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></span>
+</a>
+<a class="text-link" href="#como-funciona">
+<span class="play">▸</span> Veja como funciona</a>
+</div>
+<div class="hero-note">
+<span class="check">✓</span> Gratuito <i>
+</i> Sem cadastro <i>
+</i> Feito para aprender</div>
+</div>
+<div class="hero-art" aria-label="Ilustração de elementos químicos com cores personalizadas">
+<div class="orbit orbit-one">
+</div>
+<div class="orbit orbit-two">
+</div>
+<span class="spark s1"><svg class="decoration-icon" viewBox="-24 -24 48 48" aria-hidden="true"><path d="M0-18V18M-18 0H18M-13-13L13 13M-13 13L13-13"/></svg></span>
+<span class="spark s2">✧</span>
+<span class="tiny-formula">um pouco de cor,<br>muitas possibilidades.</span>
+<div class="element-card carbon">
+<span class="atomic">6 <small>12,011</small>
+</span>
+<strong>C</strong>
+<span>Carbono</span>
+<i>o início de tudo</i>
+</div>
+<div class="element-card oxygen">
+<span class="atomic">8 <small>15,999</small>
+</span>
+<strong>O</strong>
+<span>Oxigênio</span>
+<i>respire novas ideias</i>
+</div>
+<div class="element-card sodium">
+<span class="atomic">11 <small>22,990</small>
+</span>
+<strong>Na</strong>
+<span>Sódio</span>
+</div>
+<div class="art-label">
+<span>✦</span> Ciência + criatividade</div>
+<svg class="scribble" viewBox="0 0 100 90" aria-hidden="true">
+<path d="M10 10 Q90 0 70 50 Q55 80 25 60 Q10 40 40 38 Q72 35 80 78 M65 68 L81 79 L88 60"/>
+</svg>
+</div>
 </section>
-<div class="ticker" aria-hidden="true"><span>118 elementos. Infinitas possibilidades.</span><b>✳︎</b><span>Sua cor. Seu ritmo. Sua descoberta.</span><b>✳︎</b><span>Um novo olhar para a química.</span><b>✳︎</b></div>
-<section class="section possibilities" id="possibilidades"><div class="section-heading"><div><span class="eyebrow">APRENDER PODE SER MAIS LEVE</span><h2>Uma tabela. <span>Muitas possibilidades.</span></h2></div><p>Apenas o essencial, com a liberdade<br>de deixar tudo com a sua cara.</p></div><div class="feature-grid"><article class="feature"><span class="feature-icon lavender">◐</span><h3>Cores que fazem sentido</h3><p>Destaque metais e ametais com as cores que ajudam você a visualizar e aprender.</p><span class="feature-tag">Um toque seu</span></article><article class="feature"><span class="feature-icon yellow">⌘</span><h3>Foco no que importa</h3><p>Símbolo, nome e número atômico. Uma organização simples para a química ficar mais clara.</p><span class="feature-tag">Menos é mais</span></article><article class="feature"><span class="feature-icon pink">↧</span><h3>Do seu jeito, em todo lugar</h3><p>No celular, no computador ou na folha impressa. Salve sua criação e leve seus estudos com você.</p><span class="feature-tag">Dentro e fora da tela</span></article></div></section>
-<section class="custom-section" id="personalizar"><div class="section custom-inner"><div class="custom-intro"><span class="eyebrow">SEU PRIMEIRO EXPERIMENTO</span><h2>Que tal dar um pouco<br>de <span>cor à química?</span></h2><p>Escolha uma paleta ou invente a sua.<br>A transformação começa com um clique.</p></div><div class="editor"><div class="editor-toolbar"><div><span class="live-dot"></span><strong>Sua tabela, suas cores</strong><span class="preview-label">PRÉVIA INTERATIVA</span></div><button class="reset" id="reset" aria-label="Restaurar cores padrão">↺ <span>Restaurar</span></button></div><div class="editor-body"><aside class="controls"><h3>Solte a criatividade</h3><p>Uma combinação para cada ideia.</p><div class="palette-options" role="group" aria-label="Paletas de cores"><button class="palette active" data-colors="#e5d8fa,#fff0a8,#dceee8" aria-label="Paleta Elementopia" aria-pressed="true"><i style="background:#b18be8"></i><i style="background:#ffe378"></i></button><button class="palette" data-colors="#cde7ed,#f8d3c2,#e2d9f0" aria-label="Paleta céu e pêssego" aria-pressed="false"><i style="background:#83bbc7"></i><i style="background:#f3b493"></i></button><button class="palette" data-colors="#d5e8c8,#f4dfc1,#d0e5e8" aria-label="Paleta natureza" aria-pressed="false"><i style="background:#a7c994"></i><i style="background:#e8c48f"></i></button></div><div class="color-row"><label for="metal">Metais</label><input type="color" id="metal" value="#e5d8fa" aria-label="Cor dos metais"></div><div class="color-row"><label for="nonmetal">Ametais</label><input type="color" id="nonmetal" value="#fff0a8" aria-label="Cor dos ametais"></div><div class="color-row"><label for="other">Outros grupos</label><input type="color" id="other" value="#dceee8" aria-label="Cor dos demais grupos"></div><p class="color-help">Os demais grupos incluem semimetais e gases nobres.</p><label class="toggle-label"><input type="checkbox" id="names" checked> Mostrar nomes</label><label class="format-label" for="format">Leve sua criação</label><select id="format"><option value="png">Imagem PNG</option><option value="jpg">Imagem JPG</option><option value="svg">Imagem SVG</option><option value="pdf">PDF / impressão</option></select><button class="button download" id="download">Baixar tabela <span>↓</span></button><p id="export-status" role="status" class="export-status"></p></aside><div class="table-panel"><div class="table-heading"><span>TABELA PERIÓDICA<br><strong>dos seus elementos favoritos.</strong></span><span class="table-mark">El<span>✦</span></span></div><div class="table-scroll" tabindex="0" aria-label="Tabela periódica; deslize horizontalmente em telas pequenas"><div id="periodic-table" class="periodic-table"></div></div><div class="table-footer"><div><span class="legend metal"></span> Metais <span class="legend nonmetal"></span> Ametais <span class="legend other"></span> Outros grupos</div><span>Feita por você. Com Elementopia.</span></div><p class="element-detail" id="element-detail" aria-live="polite">Selecione um elemento e conheça o essencial.</p></div></div></div><p class="experiment-note">✧ Não existe uma única forma de aprender. Encontre a sua.</p></div></section>
-<section id="como-funciona" class="section steps-section"><div class="center-heading"><span class="eyebrow">DA IDEIA AO PAPEL</span><h2>Simples como <span>1, 2, 3.</span></h2><p>Mais tempo descobrindo. Menos tempo configurando.</p></div><div class="steps"><article><span class="step-number">01</span><h3>Escolha suas cores</h3><p>Comece com uma paleta pronta ou combine suas cores favoritas.</p></article><article><span class="step-number">02</span><h3>Deixe com a sua cara</h3><p>Veja as mudanças na hora e escolha se quer exibir os nomes.</p></article><article><span class="step-number">03</span><h3>Salve e leve com você</h3><p>Exporte em PNG, JPG, SVG ou imprima em PDF. Pronto para estudar!</p></article></div></section>
-<section class="section about" id="sobre"><div class="about-art" aria-hidden="true"><span class="about-star">✳︎</span><div class="element-card education"><span class="atomic">∞ <small>possibilidades</small></span><strong>Ed</strong><span>Educação</span><i>transforma tudo.</i></div><span class="about-doodle">feito para<br>descobrir.</span></div><div class="about-copy"><span class="eyebrow">CIÊNCIA COM PROPÓSITO</span><h2>Uma ideia que nasce<br>na sala de aula.<br><span>E vai além dela.</span></h2><p>O Elementopia é um projeto desenvolvido por um aluno e uma professora do Instituto Federal do Paraná, com uma ideia em comum: tornar o estudo da química mais simples, acessível e criativo.</p><p>Porque quando a gente muda a forma de olhar, também muda a forma de aprender.</p><div class="institution"><img src="assets/if-logo-fundo-transparente.png" alt="Instituto Federal do Paraná"><span>Uma iniciativa de quem acredita<br><strong>no poder da educação pública.</strong></span></div></div></section>
-<section class="section final-cta"><span class="cta-spark" aria-hidden="true">✳︎</span><span class="eyebrow">A PRÓXIMA DESCOBERTA É SUA</span><h2>Vamos criar uma boa <span>reação?</span></h2><p>Sua próxima tabela favorita está a algumas cores de distância.</p><a class="button" href="#personalizar">Criar minha tabela <span>↗</span></a><span class="cta-atom" aria-hidden="true">⚛︎</span></section>
-</main><footer class="footer"><a class="brand" href="#inicio"><img src="assets/elementopia-logo-colorida.png" alt="Elementopia"></a><p>Química, criatividade e um mundo de possibilidades.</p><a href="#sobre">Feito com ciência e propósito <span>✦</span></a><div class="footer-bottom"><span>© <span id="year"></span> Elementopia</span><span>Um projeto do Instituto Federal do Paraná</span><a href="#inicio">De volta ao início ↑</a></div></footer>
-</body></html>
+<div class="ticker" aria-hidden="true">
+<span>118 elementos. Infinitas possibilidades.</span>
+<b><svg class="decoration-icon" viewBox="-24 -24 48 48" aria-hidden="true"><path d="M0-18V18M-18 0H18M-13-13L13 13M-13 13L13-13"/></svg></b>
+<span>Sua cor. Seu ritmo. Sua descoberta.</span>
+<b><svg class="decoration-icon" viewBox="-24 -24 48 48" aria-hidden="true"><path d="M0-18V18M-18 0H18M-13-13L13 13M-13 13L13-13"/></svg></b>
+<span>Um novo olhar para a química.</span>
+<b><svg class="decoration-icon" viewBox="-24 -24 48 48" aria-hidden="true"><path d="M0-18V18M-18 0H18M-13-13L13 13M-13 13L13-13"/></svg></b>
+</div>
+<section class="section possibilities" id="possibilidades">
+<div class="section-heading">
+<div>
+<span class="eyebrow">APRENDER PODE SER MAIS LEVE</span>
+<h2>Uma tabela. <span>Muitas possibilidades.</span>
+</h2>
+</div>
+<p>Apenas o essencial, com a liberdade<br>de deixar tudo com a sua cara.</p>
+</div>
+<div class="feature-grid">
+<article class="feature">
+<span class="feature-icon lavender">◐</span>
+<h3>Cores que fazem sentido</h3>
+<p>Destaque metais e ametais com as cores que ajudam você a visualizar e aprender.</p>
+<span class="feature-tag">Um toque seu</span>
+</article>
+<article class="feature">
+<span class="feature-icon yellow">⌘</span>
+<h3>Foco no que importa</h3>
+<p>Símbolo, nome e número atômico. Uma organização simples para a química ficar mais clara.</p>
+<span class="feature-tag">Menos é mais</span>
+</article>
+<article class="feature">
+<span class="feature-icon pink">↧</span>
+<h3>Do seu jeito, em todo lugar</h3>
+<p>No celular, no computador ou na folha impressa. Salve sua criação e leve seus estudos com você.</p>
+<span class="feature-tag">Dentro e fora da tela</span>
+</article>
+</div>
+</section>
+<section class="custom-section" id="personalizar">
+<div class="section custom-inner">
+<div class="custom-intro">
+<span class="eyebrow">SEU PRIMEIRO EXPERIMENTO</span>
+<h2>Que tal dar um pouco<br>de <span>cor à química?</span>
+</h2>
+<p>Escolha uma paleta ou invente a sua.<br>A transformação começa com um clique.</p>
+</div>
+<div class="editor">
+<div class="editor-toolbar">
+<div>
+<span class="live-dot">
+</span>
+<strong>Sua tabela, suas cores</strong>
+<span class="preview-label">PRÉVIA INTERATIVA</span>
+</div>
+<button class="reset" id="reset" aria-label="Restaurar cores padrão">↺ <span>Restaurar</span>
+</button>
+</div>
+<div class="editor-body">
+<aside class="controls">
+<h3>Solte a criatividade</h3>
+<p>Uma combinação para cada ideia.</p>
+<div class="palette-options" role="group" aria-label="Paletas de cores">
+<button class="palette active" data-colors="#e5d8fa,#fff0a8,#dceee8" aria-label="Paleta Elementopia" aria-pressed="true">
+<i style="background:#b18be8">
+</i>
+<i style="background:#ffe378">
+</i>
+</button>
+<button class="palette" data-colors="#cde7ed,#f8d3c2,#e2d9f0" aria-label="Paleta céu e pêssego" aria-pressed="false">
+<i style="background:#83bbc7">
+</i>
+<i style="background:#f3b493">
+</i>
+</button>
+<button class="palette" data-colors="#d5e8c8,#f4dfc1,#d0e5e8" aria-label="Paleta natureza" aria-pressed="false">
+<i style="background:#a7c994">
+</i>
+<i style="background:#e8c48f">
+</i>
+</button>
+</div>
+<div class="color-row">
+<label for="metal">Metais</label>
+<input type="color" id="metal" value="#e5d8fa" aria-label="Cor dos metais">
+</div>
+<div class="color-row">
+<label for="nonmetal">Ametais</label>
+<input type="color" id="nonmetal" value="#fff0a8" aria-label="Cor dos ametais">
+</div>
+<div class="color-row">
+<label for="other">Outros grupos</label>
+<input type="color" id="other" value="#dceee8" aria-label="Cor dos demais grupos">
+</div>
+<p class="color-help">Os demais grupos incluem semimetais e gases nobres.</p>
+<label class="toggle-label">
+<input type="checkbox" id="names" checked> Mostrar nomes</label>
+<label class="format-label" for="format">Leve sua criação</label>
+<select id="format">
+<option value="png">Imagem PNG</option>
+<option value="jpg">Imagem JPG</option>
+<option value="svg">Imagem SVG</option>
+<option value="pdf">PDF / impressão</option>
+</select>
+<button class="button download" id="download">Baixar tabela <span>↓</span>
+</button>
+<p id="export-status" role="status" class="export-status">
+</p>
+</aside>
+<div class="table-panel">
+<div class="table-heading">
+<span>TABELA PERIÓDICA<br>
+<strong>dos seus elementos favoritos.</strong>
+</span>
+<span class="table-mark">El<span>✦</span>
+</span>
+</div>
+<p class="table-hint" id="table-hint">Deslize a tabela para os lados para explorar os 118 elementos. ↔</p>
+<div class="table-scroll" aria-describedby="table-hint" tabindex="0" aria-label="Tabela periódica; deslize horizontalmente em telas pequenas">
+<div id="periodic-table" class="periodic-table">
+</div>
+</div>
+<div class="table-footer">
+<div>
+<span class="legend metal">
+</span> Metais <span class="legend nonmetal">
+</span> Ametais <span class="legend other">
+</span> Outros grupos</div>
+<span>Feita por você. Com Elementopia.</span>
+</div>
+<p class="element-detail" id="element-detail" aria-live="polite">Selecione um elemento e conheça o essencial.</p>
+</div>
+</div>
+</div>
+<p class="experiment-note">✧ Não existe uma única forma de aprender. Encontre a sua.</p>
+</div>
+</section>
+<section id="como-funciona" class="section steps-section">
+<div class="center-heading">
+<span class="eyebrow">DA IDEIA AO PAPEL</span>
+<h2>Simples como <span>1, 2, 3.</span>
+</h2>
+<p>Mais tempo descobrindo. Menos tempo configurando.</p>
+</div>
+<div class="steps">
+<article>
+<span class="step-number">01</span>
+<h3>Escolha suas cores</h3>
+<p>Comece com uma paleta pronta ou combine suas cores favoritas.</p>
+</article>
+<article>
+<span class="step-number">02</span>
+<h3>Deixe com a sua cara</h3>
+<p>Veja as mudanças na hora e escolha se quer exibir os nomes.</p>
+</article>
+<article>
+<span class="step-number">03</span>
+<h3>Salve e leve com você</h3>
+<p>Exporte em PNG, JPG, SVG ou imprima em PDF. Pronto para estudar!</p>
+</article>
+</div>
+</section>
+<section class="section about" id="sobre">
+<div class="about-art" aria-hidden="true">
+<span class="about-star"><svg class="decoration-icon" viewBox="-24 -24 48 48" aria-hidden="true"><path d="M0-18V18M-18 0H18M-13-13L13 13M-13 13L13-13"/></svg></span>
+<div class="element-card education">
+<span class="atomic">∞ <small>possibilidades</small>
+</span>
+<strong>Ed</strong>
+<span>Educação</span>
+<i>transforma tudo.</i>
+</div>
+<span class="about-doodle">feito para<br>descobrir.</span>
+</div>
+<div class="about-copy">
+<span class="eyebrow">CIÊNCIA COM PROPÓSITO</span>
+<h2>Uma ideia que nasce<br>na sala de aula.<br>
+<span>E vai além dela.</span>
+</h2>
+<p>O Elementopia é um projeto desenvolvido por um aluno e uma professora do Instituto Federal do Paraná, com uma ideia em comum: tornar o estudo da química mais simples, acessível e criativo.</p>
+<p>Porque quando a gente muda a forma de olhar, também muda a forma de aprender.</p>
+<div class="institution">
+<img src="assets/if-logo-fundo-transparente.png" alt="Instituto Federal do Paraná">
+<span>Uma iniciativa de quem acredita<br>
+<strong>no poder da educação pública.</strong>
+</span>
+</div>
+</div>
+</section>
+<section class="section final-cta">
+<span class="cta-spark" aria-hidden="true"><svg class="decoration-icon" viewBox="-24 -24 48 48" aria-hidden="true"><path d="M0-18V18M-18 0H18M-13-13L13 13M-13 13L13-13"/></svg></span>
+<span class="eyebrow">A PRÓXIMA DESCOBERTA É SUA</span>
+<h2>Vamos criar uma boa <span>reação?</span>
+</h2>
+<p>Sua próxima tabela favorita está a algumas cores de distância.</p>
+<a class="button" href="#personalizar">Criar minha tabela <span><svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></span>
+</a>
+<span class="cta-atom" aria-hidden="true">⚛︎</span>
+</section>
+</main>
+<footer class="footer">
+<a class="brand" href="#inicio">
+<img src="assets/elementopia-logo-colorida.png" alt="Elementopia">
+</a>
+<p>Química, criatividade e um mundo de possibilidades.</p>
+<a href="#sobre">Feito com ciência e propósito <span>✦</span>
+</a>
+<div class="footer-bottom">
+<span>© <span id="year">
+</span> Elementopia</span>
+<span>Um projeto do Instituto Federal do Paraná</span>
+<a href="#inicio">De volta ao início ↑</a>
+</div>
+</footer>
+</body>
+</html>

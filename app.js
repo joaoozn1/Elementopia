@@ -29,19 +29,58 @@ for(const e of positions){
 }
 for(const [row,label] of [[6,'57–71'],[7,'89–103']]){const el=document.createElement('span');el.className='series-label';el.style.gridRow=row;el.style.gridColumn=3;el.textContent=label;table.append(el);}
 const colorIds=['metal','nonmetal','other'];
-function updateColors(){for(const id of colorIds)document.documentElement.style.setProperty('--'+id,document.getElementById(id).value);}
+// Choose the higher-contrast foreground for every custom background.
+function contrastingInk(hex) {
+  const rgb = hex.match(/[0-9a-f]{2}/gi).map(channel => parseInt(channel, 16) / 255);
+  const linear = rgb.map(value => value <= .04045 ? value / 12.92 : ((value + .055) / 1.055) ** 2.4);
+  const luminance = linear[0] * .2126 + linear[1] * .7152 + linear[2] * .0722;
+  return (luminance + .05) / .05 >= 1.05 / (luminance + .05) ? '#000000' : '#ffffff';
+}
+function updateColors() {
+  for (const id of colorIds) {
+    const color = document.getElementById(id).value;
+    document.documentElement.style.setProperty('--' + id, color);
+    document.documentElement.style.setProperty('--' + id + '-ink', contrastingInk(color));
+  }
+}
 function selectPalette(button){button.dataset.colors.split(',').forEach((color,i)=>document.getElementById(colorIds[i]).value=color);document.querySelectorAll('.palette').forEach(el=>{const active=el===button;el.classList.toggle('active',active);el.setAttribute('aria-pressed',String(active));});updateColors();}
 document.querySelectorAll('.palette').forEach(button=>button.addEventListener('click',()=>selectPalette(button)));
 colorIds.forEach(id=>document.getElementById(id).addEventListener('input',()=>{updateColors();document.querySelectorAll('.palette').forEach(el=>{el.classList.remove('active');el.setAttribute('aria-pressed','false');});}));
 const namesToggle=document.querySelector('#names');namesToggle.addEventListener('change',()=>table.classList.toggle('hide-names',!namesToggle.checked));
 document.querySelector('#reset').addEventListener('click',()=>{selectPalette(document.querySelector('.palette'));namesToggle.checked=true;table.classList.remove('hide-names');document.querySelector('#element-detail').textContent='Selecione um elemento e conheça o essencial.';document.querySelector('#export-status').textContent='';});
-const menu=document.querySelector('.menu');menu.addEventListener('click',()=>{const open=document.querySelector('.header nav').classList.toggle('open');menu.setAttribute('aria-expanded',String(open));menu.setAttribute('aria-label',open?'Fechar menu':'Abrir menu');});document.querySelectorAll('.header nav a').forEach(a=>a.addEventListener('click',()=>{document.querySelector('.header nav').classList.remove('open');menu.setAttribute('aria-expanded','false');menu.setAttribute('aria-label','Abrir menu');}));
+// Keep mobile navigation state, focus and desktop transitions in sync.
+const menu = document.querySelector('.menu');
+const navigation = document.querySelector('#main-navigation');
+function setMenuOpen(open) {
+  navigation.classList.toggle('open', open);
+  menu.setAttribute('aria-expanded', String(open));
+  menu.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+}
+menu.addEventListener('click', () => setMenuOpen(menu.getAttribute('aria-expanded') !== 'true'));
+navigation.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+  setMenuOpen(false);
+  if (matchMedia('(max-width: 900px)').matches) {
+    const target = document.querySelector(link.hash);
+    target.setAttribute('tabindex', '-1');
+    target.focus({ preventScroll: true });
+  }
+}));
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && menu.getAttribute('aria-expanded') === 'true') {
+    setMenuOpen(false);
+    menu.focus();
+  }
+});
+document.addEventListener('click', event => {
+  if (!event.target.closest('.header')) setMenuOpen(false);
+});
+matchMedia('(max-width: 900px)').addEventListener('change', () => setMenuOpen(false));
 document.querySelector('#year').textContent=new Date().getFullYear();
 function escapeXml(text){return text.replace(/[<>&"']/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&apos;'}[c]));}
 function createSvg(){
  const colors=Object.fromEntries(colorIds.map(id=>[id,document.getElementById(id).value]));
  let svg='<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="1000" viewBox="0 0 1560 1000"><rect width="1560" height="1000" fill="white"/><g font-family="Arial, sans-serif" fill="#352844"><text x="45" y="62" font-size="30" font-weight="bold">Elementopia</text><text x="45" y="95" font-size="15">Tabela periódica · Química com o seu jeito</text>';
- for(const e of positions){const x=45+(e.col-1)*82,y=125+(e.row-1)*76;svg+=`<g transform="translate(${x} ${y})"><rect width="77" height="71" rx="5" fill="${colors[e.group]}"/><text x="7" y="15" font-size="11">${e.n}</text><text x="38.5" y="43" text-anchor="middle" font-size="28" font-weight="bold">${e.symbol}</text>${namesToggle.checked?`<text x="38.5" y="61" text-anchor="middle" font-size="8">${escapeXml(e.name)}</text>`:''}</g>`;}
+ for(const e of positions){const x=45+(e.col-1)*82,y=125+(e.row-1)*76;svg+=`<g transform="translate(${x} ${y})" fill="${contrastingInk(colors[e.group])}"><rect width="77" height="71" rx="5" fill="${colors[e.group]}"/><text x="7" y="15" font-size="11">${e.n}</text><text x="38.5" y="43" text-anchor="middle" font-size="28" font-weight="bold">${e.symbol}</text>${namesToggle.checked?`<text x="38.5" y="61" text-anchor="middle" font-size="8">${escapeXml(e.name)}</text>`:''}</g>`;}
  svg+='<text x="222" y="540" font-size="11">57–71</text><text x="222" y="616" font-size="11">89–103</text>';
  colorIds.forEach((id,i)=>{const x=45+i*170;svg+=`<rect x="${x}" y="925" width="14" height="14" rx="3" fill="${colors[id]}"/><text x="${x+23}" y="937" font-size="12">${['Metais','Ametais','Outros grupos'][i]}</text>`;});return svg+'<text x="1515" y="968" text-anchor="end" font-size="12" fill="#80718d">Feita por você. Com Elementopia.</text></g></svg>';
 }
