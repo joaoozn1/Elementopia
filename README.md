@@ -1,4 +1,4 @@
-# Elementopia · Beta v1.0.6
+# Elementopia · Beta v1.1.0
 
 Site em português com landing page e uma página dedicada à customização de tabelas periódicas. Feito com HTML, CSS e JavaScript, sem dependências externas. A versão está registrada em `VERSION`.
 
@@ -29,8 +29,12 @@ Abra a porta 8000 no seu navegador. `index.html` apresenta o projeto; os botões
 - Número atômico, massa e nomes ampliados na tabela, no destaque e nas exportações.
 - Logo colorida original incorporada no cabeçalho de todos os formatos exportados.
 - Customizador com quatro cards: elemento em destaque, cores, massa atômica e exportação.
+- Seletor de cor com amostra visual, campo HEX (3 ou 6 dígitos) e paletas Original, Suave e Oceano. Valores inválidos não alteram a tabela.
 - Cores independentes para fundo e texto de metais e ametais; semimetais, gases nobres e outros elementos usam a segunda combinação. Um aviso aparece quando o contraste escolhido fica abaixo de 4,5:1.
-- Prévia com os 118 elementos, numeração de grupos e períodos, seleção de elementos e opção de exibir nomes e massas.
+- Prévia com os 118 elementos, numeração de grupos e períodos, seleção de elementos e opção de exibir nomes e massas. As legendas do destaque usam setas ancoradas aos campos reais.
+- Tutorial opcional em cinco passos, aberto pelo botão **? Tutorial**, ao lado de **Restaurar**.
+- Séries inferiores alinhadas à coluna 18, com Lu e Lr abaixo de Og. Setas conectam os intervalos 57–71 e 89–103 às respectivas linhas, também nas exportações. Clique nos intervalos para navegar até a série.
+- Rodapé com o mesmo layout e conteúdo da landing page, incluindo a logo do IFPR.
 - Massas em modo decimal (1, 2 ou 3 casas) ou arredondado. A precisão escolhida também aparece no destaque e nas exportações.
 - Nome de arquivo personalizável e downloads PNG/JPEG em 1560 × 1000, 3120 × 2000 ou 4680 × 3000 pixels. SVG vetorial e PDF não dependem do seletor de qualidade.
 - PDF por download direto em A4 paisagem, com imagem de alta resolução (3120 × 2000 px), sem abrir a impressão do navegador e sem cabeçalhos com data, hora, endereço ou nome de arquivo.
@@ -50,8 +54,10 @@ As escolhas de cores, nomes e massas valem também para PNG, JPEG, SVG e PDF. N�
 
 A beta foi validada em Chromium, tanto na landing quanto no customizador, nas larguras de 320, 390, 768, 1024, 1280 e 1544 px, sem transbordamento horizontal da página, com os cards em uma, duas ou quatro colunas. Foram conferidos os 118 registros, a correspondência dos símbolos, os três níveis de precisão, o arredondamento, os 34 valores entre colchetes, a atualização do elemento em destaque, as quatro cores, o aviso de contraste, a visibilidade dos nomes e massas, a restauração dos padrões, o nome do arquivo, PNG/JPEG em alta qualidade, SVG e o download direto do PDF.
 
-Também foram verificados: ausência da prévia e dos scripts de tabela na landing, os três botões que abrem o customizador, acesso direto à nova página, retorno à landing, identificação Beta v1.0.6, funcionamento do menu móvel e ausência de erros JavaScript nas duas páginas.
+Também foram verificados: ausência da prévia e dos scripts de tabela na landing, os três botões que abrem o customizador, acesso direto à nova página, retorno à landing, identificação Beta v1.1.0, funcionamento do menu móvel e ausência de erros JavaScript nas duas páginas.
 
-Na beta v1.0.6 também foram validados: abertura e fechamento do histórico por botão, Esc e clique fora; foco contido no modal e devolvido ao botão da versão; preferência de movimento reduzido; fontes ampliadas sem sobreposição do número e da massa; correspondência exata dos bytes da logo incorporada ao SVG e presença visual da logo no PNG exportado.
+Na beta v1.1.0 também foram validados: abertura e fechamento do histórico por botão, Esc e clique fora; foco contido no modal e devolvido ao botão da versão; preferência de movimento reduzido; fontes ampliadas sem sobreposição do número e da massa; correspondência exata dos bytes da logo incorporada ao SVG e presença visual da logo no PNG exportado.
 
-Na beta v1.0.6, os 18 números de grupo foram conferidos acima dos elementos que iniciam cada coluna, tanto no DOM quanto no SVG. O PDF foi aberto e renderizado com PyMuPDF: uma página A4 paisagem, sem reparo estrutural, sem título ou datas nos metadados e sem a frase abaixo da logo. O arquivo preserva o nome escolhido apenas para o download, sem imprimi-lo na página.
+Na beta v1.1.0, os 18 números de grupo foram conferidos acima dos elementos que iniciam cada coluna, tanto no DOM quanto no SVG. O PDF foi aberto e renderizado com PyMuPDF: uma página A4 paisagem, sem reparo estrutural, sem título ou datas nos metadados e sem a frase abaixo da logo. O arquivo preserva o nome escolhido apenas para o download, sem imprimi-lo na página.
+
+Na beta v1.1.0 foram validados os cinco passos do tutorial, avanço/retorno e conclusão, restauração do foco, códigos HEX válidos/ inválidos e abreviados, sincronização de paletas, alinhamento das quatro legendas do destaque em seis larguras de tela, ocultação das legendas ao ocultar dados, alinhamento Lu/Lr/Og, presença das duas setas, navegação pelos intervalos e igualdade do texto dos rodapés. As exportações preservam o novo alinhamento e as setas das séries.

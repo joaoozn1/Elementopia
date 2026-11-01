@@ -12,10 +12,10 @@ for(let n=1;n<=118;n++){
  else if(n<=36){row=4;col=n-18;}
  else if(n<=54){row=5;col=n-36;}
  else if(n<=56){row=6;col=n-54;}
- else if(n<=71){row=9;col=n-54;}
+ else if(n<=71){row=9;col=n-53;}
  else if(n<=86){row=6;col=n-68;}
  else if(n<=88){row=7;col=n-86;}
- else if(n<=103){row=10;col=n-86;}
+ else if(n<=103){row=10;col=n-85;}
  else {row=7;col=n-100;}
  positions.push({n,symbol:symbols[n-1],name:names[n-1],row,col,group:nonmetals.has(n)?'nonmetal':others.has(n)?'other':'metal'});
 }
@@ -59,7 +59,7 @@ function updateSpotlight() {
   spotlight.className = 'spotlight-element ' + selectedElement.group;
   spotlight.classList.toggle('hide-names', !namesToggle.checked);
   spotlight.setAttribute('aria-label', elementDescription(selectedElement));
-  document.querySelector('.spotlight-mass-label').hidden = !showMass.checked;
+  requestAnimationFrame(drawSpotlightAnnotations);
   document.querySelector('#element-detail').textContent = elementDescription(selectedElement);
 }
 function refreshTable() {
@@ -96,9 +96,87 @@ groupStarts.forEach((element, index) => {
 for (let period = 1; period <= 7; period++) addTableLabel(period, period + 1, 1);
 addTableLabel('6*', 10, 1);
 addTableLabel('7*', 11, 1);
-addTableLabel('57–71', 7, 4, 'series-label');
-addTableLabel('89–103', 8, 4, 'series-label');
+const seriesLinks = [
+  { start: 57, row: 6, label: '57–71', name: 'lantanídeos' },
+  { start: 89, row: 7, label: '89–103', name: 'actinídeos' }
+];
+seriesLinks.forEach(series => {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'series-label';
+  button.dataset.series = series.start;
+  button.textContent = series.label;
+  button.style.gridRow = series.row + 1;
+  button.style.gridColumn = 4;
+  button.setAttribute('aria-label', `Ver ${series.name}, elementos ${series.label}`);
+  button.addEventListener('click', () => {
+    const target = table.querySelectorAll('.cell')[series.start - 1];
+    selectedElement = positions[series.start - 1];
+    refreshTable();
+    target.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest', inline: 'nearest' });
+    target.focus({ preventScroll: true });
+  });
+  table.append(button);
+});
 addTableLabel('Lantanídeos e actinídeos', 9, '2 / 20', 'series-heading');
+
+// Route through the empty space beside group 3, never through element cells.
+function seriesConnectionPath(source, target, index) {
+  if (index === 0) {
+    const corridor = (source.right + target.left) / 2;
+    return `M ${source.right} ${(source.top + source.bottom) / 2} H ${corridor} V ${target.top - 14} H ${(target.left + target.right) / 2} V ${target.top - 4}`;
+  }
+  return `M ${(source.left + source.right) / 2} ${source.bottom} V ${(target.top + target.bottom) / 2} H ${target.left - 4}`;
+}
+const seriesOverlay = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+seriesOverlay.classList.add('series-connections');
+seriesOverlay.setAttribute('aria-hidden', 'true');
+table.append(seriesOverlay);
+function drawSeriesConnections() {
+  const bounds = table.getBoundingClientRect();
+  const localRect = element => {
+    const rect = element.getBoundingClientRect();
+    return { left: rect.left - bounds.left, right: rect.right - bounds.left, top: rect.top - bounds.top, bottom: rect.bottom - bounds.top };
+  };
+  seriesOverlay.setAttribute('viewBox', `0 0 ${bounds.width} ${bounds.height}`);
+  seriesOverlay.innerHTML = '<defs><marker id="series-arrow-screen" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L6 3L0 6" fill="#9163ce"/></marker></defs>' + seriesLinks.map((series, index) => {
+    const source = localRect(table.querySelector(`[data-series="${series.start}"]`));
+    const target = localRect(table.querySelectorAll('.cell')[series.start - 1]);
+    return `<path data-series-arrow="${series.start}" d="${seriesConnectionPath(source, target, index)}" fill="none" stroke="#9163ce" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#series-arrow-screen)"/>`;
+  }).join('');
+}
+function drawSpotlightAnnotations() {
+  const diagram = document.querySelector('.spotlight-diagram');
+  const card = document.querySelector('#spotlight-element');
+  const bounds = diagram.getBoundingClientRect();
+  const cardBounds = card.getBoundingClientRect();
+  const svg = diagram.querySelector('svg');
+  const paths = [];
+  diagram.querySelectorAll('[data-field]').forEach(label => {
+    const field = label.dataset.field;
+    const target = card.querySelector(field === 'symbol' ? 'b' : '.' + field);
+    label.hidden = (field === 'mass' && !showMass.checked) || (field === 'name' && !namesToggle.checked);
+    if (label.hidden) return;
+    const rect = target.getBoundingClientRect();
+    const y = (rect.top + rect.bottom) / 2 - bounds.top;
+    const left = label.dataset.side === 'left';
+    label.style.top = y + 'px';
+    label.style.maxWidth = Math.max(35, (left ? cardBounds.left - bounds.left : bounds.right - cardBounds.right) - 12) + 'px';
+    label.style.left = left ? 'auto' : cardBounds.right - bounds.left + 12 + 'px';
+    label.style.right = left ? bounds.right - cardBounds.left + 12 + 'px' : 'auto';
+    const labelBounds = label.getBoundingClientRect();
+    const start = left ? labelBounds.right - bounds.left + 3 : labelBounds.left - bounds.left - 3;
+    const end = left ? rect.left - bounds.left - 3 : rect.right - bounds.left + 3;
+    paths.push(`<path data-annotation="${field}" d="M ${start} ${y} H ${end}" fill="none" stroke="#a981ff" stroke-width="1.3" marker-end="url(#spotlight-arrow)"/>`);
+  });
+  svg.setAttribute('viewBox', `0 0 ${bounds.width} ${bounds.height}`);
+  svg.innerHTML = '<defs><marker id="spotlight-arrow" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L6 3L0 6" fill="#a981ff"/></marker></defs>' + paths.join('');
+}
+const layoutObserver = new ResizeObserver(() => {
+  requestAnimationFrame(() => { drawSeriesConnections(); drawSpotlightAnnotations(); });
+});
+layoutObserver.observe(table);
+layoutObserver.observe(document.querySelector('.spotlight-diagram'));
 for (const control of [decimalPlaces, showMass, namesToggle, ...document.querySelectorAll('[name="mass-mode"]')]) {
   control.addEventListener('change', refreshTable);
 }
@@ -114,14 +192,54 @@ function contrastRatio(background, foreground) {
 }
 function updateColors() {
   for (const id of colorIds) {
-    document.documentElement.style.setProperty('--' + id, document.getElementById(id).value);
+    const value = document.getElementById(id).value;
+    document.documentElement.style.setProperty('--' + id, value);
+    const hex = document.querySelector(`[data-color-for="${id}"]`);
+    if (hex && document.activeElement !== hex) hex.value = value.toUpperCase();
+    if (hex && normalizedHex(hex.value) === value) hex.removeAttribute('aria-invalid');
   }
+  document.querySelectorAll('[data-palette]').forEach(button => {
+    button.setAttribute('aria-pressed', String(button.dataset.palette.split(',').every((color, index) => color === document.getElementById(colorIds[index]).value)));
+  });
+  document.querySelector('#hex-error').hidden = !document.querySelector('.hex-input[aria-invalid="true"]');
   const warnings = ['metal', 'nonmetal'].filter(group =>
     contrastRatio(document.getElementById(group).value, document.getElementById(group + '-ink').value) < 4.5);
   document.querySelector('#contrast-status').textContent = warnings.length
     ? 'Contraste baixo: ajuste o fundo ou o texto para facilitar a leitura.' : '';
 }
 colorIds.forEach(id => document.getElementById(id).addEventListener('input', updateColors));
+function normalizedHex(value) {
+  let hex = value.trim().replace(/^#/, '');
+  if (/^[0-9a-f]{3}$/i.test(hex)) hex = hex.split('').map(character => character + character).join('');
+  return /^[0-9a-f]{6}$/i.test(hex) ? '#' + hex.toLowerCase() : null;
+}
+document.querySelectorAll('.hex-input').forEach(input => {
+  input.addEventListener('input', () => {
+    const color = normalizedHex(input.value);
+    input.removeAttribute('aria-invalid');
+    document.querySelector('#hex-error').hidden = !document.querySelector('.hex-input[aria-invalid="true"]');
+    if (color) {
+      document.getElementById(input.dataset.colorFor).value = color;
+      updateColors();
+    }
+  });
+  input.addEventListener('blur', () => {
+    const color = normalizedHex(input.value);
+    if (color) {
+      input.value = color.toUpperCase();
+      input.removeAttribute('aria-invalid');
+    } else {
+      input.setAttribute('aria-invalid', 'true');
+    }
+    document.querySelector('#hex-error').hidden = !document.querySelector('.hex-input[aria-invalid="true"]');
+  });
+});
+document.querySelectorAll('[data-palette]').forEach(button => button.addEventListener('click', () => {
+  button.dataset.palette.split(',').forEach((color, index) => {
+    document.getElementById(colorIds[index]).value = color;
+  });
+  updateColors();
+}));
 
 function selectedFormat() {
   return document.querySelector('[name="export-format"]:checked').value;
@@ -134,6 +252,7 @@ function updateQuality() {
 document.querySelectorAll('[name="export-format"]').forEach(input => input.addEventListener('change', updateQuality));
 document.querySelector('#reset').addEventListener('click', () => {
   colorIds.forEach((id, index) => document.getElementById(id).value = defaultColors[index]);
+  document.querySelectorAll('.hex-input').forEach(input => input.removeAttribute('aria-invalid'));
   document.querySelector('[name="mass-mode"][value="decimal"]').checked = true;
   document.querySelector('[name="export-format"][value="pdf"]').checked = true;
   decimalPlaces.value = '1';
@@ -198,7 +317,15 @@ function createSvg(logoDataUrl) {
     const colors = elementColors(element);
     svg += `<g transform="translate(${x} ${y})" fill="${colors.foreground}"><rect width="77" height="71" rx="5" fill="${colors.background}"/><text x="6" y="15" font-size="13">${element.n}</text><text x="71" y="15" text-anchor="end" font-size="12">${escapeXml(formatMass(element))}</text><text x="38.5" y="46" text-anchor="middle" font-size="29" font-weight="bold">${element.symbol}</text>${namesToggle.checked ? `<text x="38.5" y="64" text-anchor="middle" font-size="11">${escapeXml(element.name)}</text>` : ''}</g>`;
   }
-  svg += '<text x="222" y="540" font-size="11">57–71</text><text x="222" y="616" font-size="11">89–103</text>';
+  svg += '<defs><marker id="series-arrow-export" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L6 3L0 6" fill="#9163ce"/></marker></defs>';
+  seriesLinks.forEach((series, index) => {
+    const source = { left: 209, right: 286, top: 125 + (series.row - 1) * 76, bottom: 196 + (series.row - 1) * 76 };
+    const element = positions[series.start - 1];
+    const left = 45 + (element.col - 1) * 82;
+    const top = 125 + (element.row - 1) * 76;
+    const target = { left, right: left + 77, top, bottom: top + 71 };
+    svg += `<rect x="209" y="${source.top}" width="77" height="71" rx="5" fill="#faf6ff" stroke="#d0bcfc" stroke-dasharray="3 2"/><text x="222" y="${160 + (series.row - 1) * 76}" font-size="11">${series.label}</text><path data-series-arrow="${series.start}" d="${seriesConnectionPath(source, target, index)}" fill="none" stroke="#9163ce" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#series-arrow-export)"/>`;
+  });
   for (let period = 1; period <= 7; period++) {
     svg += `<text x="20" y="${165 + (period - 1) * 76}" font-size="11">${period}</text>`;
   }
@@ -303,46 +430,76 @@ document.querySelectorAll('.studio-navigation a').forEach(link => link.addEventL
   document.querySelectorAll('.studio-navigation a').forEach(item => item.removeAttribute('aria-current'));
   link.setAttribute('aria-current', 'location');
 }));
-const updateDialog = document.querySelector('#update-log');
-const updateTrigger = document.querySelector('#open-updates');
-let updateCloseTimer;
-function closeUpdateLog() {
-  if (!updateDialog.open || updateDialog.classList.contains('is-closing')) return;
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    updateDialog.close();
-    return;
+function connectDialog(dialog, trigger, closeButton, onOpen = () => {}) {
+  let closeTimer;
+  function close() {
+    if (!dialog.open || dialog.classList.contains('is-closing')) return;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      dialog.close();
+    } else {
+      dialog.classList.add('is-closing');
+      closeTimer = setTimeout(() => dialog.close(), 160);
+    }
   }
-  updateDialog.classList.add('is-closing');
-  updateCloseTimer = setTimeout(() => updateDialog.close(), 160);
+  trigger.addEventListener('click', () => {
+    if (dialog.open) return;
+    onOpen();
+    dialog.classList.remove('is-closing');
+    dialog.showModal();
+  });
+  closeButton.addEventListener('click', close);
+  dialog.addEventListener('cancel', event => { event.preventDefault(); close(); });
+  dialog.addEventListener('keydown', event => {
+    if (event.key !== 'Tab') return;
+    const controls = [...dialog.querySelectorAll('button, a[href], input, select, textarea, [tabindex]')]
+      .filter(element => !element.disabled && element.tabIndex >= 0 && element.getClientRects().length);
+    const first = controls[0];
+    const last = controls[controls.length - 1];
+    if (first && event.shiftKey && document.activeElement === first) {
+      event.preventDefault(); last.focus();
+    } else if (last && !event.shiftKey && document.activeElement === last) {
+      event.preventDefault(); first.focus();
+    }
+  });
+  dialog.addEventListener('click', event => {
+    const bounds = dialog.getBoundingClientRect();
+    if (event.target === dialog && (event.clientX < bounds.left || event.clientX > bounds.right ||
+        event.clientY < bounds.top || event.clientY > bounds.bottom)) close();
+  });
+  dialog.addEventListener('close', () => {
+    clearTimeout(closeTimer);
+    dialog.classList.remove('is-closing');
+    trigger.focus({ preventScroll: true });
+  });
+  return close;
 }
-updateTrigger.addEventListener('click', () => {
-  if (updateDialog.open) return;
-  updateDialog.classList.remove('is-closing');
-  updateDialog.showModal();
+connectDialog(document.querySelector('#update-log'), document.querySelector('#open-updates'), document.querySelector('#close-updates'));
+const tutorialSteps = [
+  ['Conheça seu elemento', 'Clique em qualquer elemento da tabela. No card em destaque, as setas mostram exatamente o número atômico, o símbolo, o nome e a massa. Você pode ocultar os nomes e as massas quando preferir.'],
+  ['Dê cor às suas ideias', 'Escolha uma paleta pronta ou altere fundo e texto de cada grupo. Clique na amostra para abrir o seletor ou digite um código HEX, como #6631DB. O aviso de contraste ajuda a manter sua tabela legível.'],
+  ['Escolha como ver as massas', 'Use Decimal para escolher uma, duas ou três casas, ou Arredondada para números inteiros. Os números entre colchetes identificam isótopos e mantêm esse formato. A escolha também vale para o arquivo baixado.'],
+  ['Siga as setas das séries', 'Os intervalos 57–71 e 89–103 levam às duas linhas inferiores: lantanídeos e actinídeos. Siga as setas ou clique no intervalo para ir até a série. Lutécio e Laurêncio terminam alinhados à coluna 18.'],
+  ['Sua tabela pronta para levar', 'Escolha PDF, PNG, JPEG ou SVG, dê um nome ao arquivo e clique em Baixar tabela. PNG e JPEG oferecem três qualidades. O PDF é baixado diretamente, sem data, hora ou cabeçalhos do navegador.']
+];
+let tutorialStep = 0;
+const previousStep = document.querySelector('#tutorial-prev');
+const nextStep = document.querySelector('#tutorial-next');
+function renderTutorial() {
+  const previousHadFocus = document.activeElement === previousStep;
+  document.querySelector('#tutorial-title').textContent = tutorialSteps[tutorialStep][0];
+  document.querySelector('#tutorial-description').textContent = tutorialSteps[tutorialStep][1];
+  document.querySelector('#tutorial-counter').textContent = `Passo ${tutorialStep + 1} de ${tutorialSteps.length}`;
+  document.querySelectorAll('.tutorial-progress span').forEach((dot, index) => dot.classList.toggle('active', index <= tutorialStep));
+  previousStep.disabled = tutorialStep === 0;
+  nextStep.textContent = tutorialStep === tutorialSteps.length - 1 ? 'Concluir ✓' : 'Próximo →';
+  if (previousStep.disabled && previousHadFocus) nextStep.focus();
+}
+const closeTutorial = connectDialog(document.querySelector('#tutorial-dialog'), document.querySelector('#open-tutorial'), document.querySelector('#close-tutorial'), () => {
+  tutorialStep = 0;
+  renderTutorial();
 });
-document.querySelector('#close-updates').addEventListener('click', closeUpdateLog);
-updateDialog.addEventListener('cancel', event => { event.preventDefault(); closeUpdateLog(); });
-updateDialog.addEventListener('keydown', event => {
-  if (event.key !== 'Tab') return;
-  const controls = [...updateDialog.querySelectorAll('button, a[href], input, select, textarea, [tabindex]')]
-    .filter(element => !element.disabled && element.tabIndex >= 0 && element.getClientRects().length);
-  const first = controls[0];
-  const last = controls[controls.length - 1];
-  if (first && event.shiftKey && document.activeElement === first) {
-    event.preventDefault();
-    last.focus();
-  } else if (last && !event.shiftKey && document.activeElement === last) {
-    event.preventDefault();
-    first.focus();
-  }
-});
-updateDialog.addEventListener('click', event => {
-  const bounds = updateDialog.getBoundingClientRect();
-  if (event.target === updateDialog && (event.clientX < bounds.left || event.clientX > bounds.right ||
-      event.clientY < bounds.top || event.clientY > bounds.bottom)) closeUpdateLog();
-});
-updateDialog.addEventListener('close', () => {
-  clearTimeout(updateCloseTimer);
-  updateDialog.classList.remove('is-closing');
-  updateTrigger.focus({ preventScroll: true });
+previousStep.addEventListener('click', () => { tutorialStep = Math.max(0, tutorialStep - 1); renderTutorial(); });
+nextStep.addEventListener('click', () => {
+  if (tutorialStep === tutorialSteps.length - 1) closeTutorial();
+  else { tutorialStep++; renderTutorial(); }
 });

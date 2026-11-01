@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#6631DB">
-  <meta name="application-version" content="1.0.6-beta">
+  <meta name="application-version" content="1.1.0-beta">
   <meta name="description" content="Crie sua tabela periódica no Elementopia. Personalize cores e massas atômicas e exporte em PDF, PNG, JPEG ou SVG.">
-  <title>Customizar tabela — Elementopia · Beta v1.0.6</title>
+  <title>Customizar tabela — Elementopia · Beta v1.1.0</title>
   <link rel="icon" href="assets/icon-aba.png">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="customizar.css">
@@ -19,7 +19,7 @@
   <header class="studio-header">
     <div class="studio-brand">
       <a href="index.html" aria-label="Elementopia, início"><img src="assets/elementopia-logo-colorida.png" alt="Elementopia" width="180" height="54"></a>
-      <button type="button" class="version-badge" id="open-updates" aria-haspopup="dialog" aria-controls="update-log">Beta v1.0.6 <span aria-hidden="true">✦</span></button>
+      <button type="button" class="version-badge" id="open-updates" aria-haspopup="dialog" aria-controls="update-log">Beta v1.1.0 <span aria-hidden="true">✦</span></button>
     </div>
     <nav class="studio-navigation" aria-label="Navegação do customizador"><a href="#personalizar" aria-current="page">Personalizar</a><a href="#periodic-table">Tabela periódica</a></nav>
     <a class="back-link" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 5-7 7 7 7M5 12h14"/></svg><span>Voltar ao início</span></a>
@@ -29,7 +29,10 @@
     <h2 id="update-log-title">O que há de novo?</h2>
     <p id="update-log-description">Acompanhe as novidades e melhorias do Elementopia.</p>
     <div class="release-list">
-      <article class="release latest-release"><div class="release-heading"><h3>Beta v1.0.6</h3><span>VERSÃO ATUAL</span></div>
+      <article class="release latest-release"><div class="release-heading"><h3>Beta v1.1.0</h3><span>VERSÃO ATUAL</span></div>
+        <ul><li>Indicações do elemento em destaque conectadas aos campos corretos.</li><li>Novos controles de cor com códigos HEX e paletas prontas.</li><li>Tutorial guiado para conhecer o customizador.</li><li>Séries inferiores alinhadas à coluna 18, com setas de ligação.</li><li>Rodapé com a mesma identidade da landing page.</li></ul>
+      </article>
+      <article class="release"><div class="release-heading"><h3>Beta v1.0.6</h3></div>
         <ul><li>Números dos grupos posicionados acima do primeiro elemento de cada coluna.</li><li>Exportações sem a frase abaixo da logo.</li><li>PDF baixado diretamente, sem data, hora ou nome de arquivo impressos na página.</li></ul>
       </article>
       <article class="release"><div class="release-heading"><h3>Beta v1.0.5</h3></div>
@@ -41,30 +44,50 @@
     </div>
     <p class="update-dialog-note">Pequenas melhorias. Novas possibilidades para aprender.</p>
   </dialog>
+  <dialog class="update-dialog tutorial-dialog" id="tutorial-dialog" aria-labelledby="tutorial-title" aria-describedby="tutorial-description">
+    <div class="update-dialog-heading"><span class="eyebrow">VAMOS DESCOBRIR JUNTOS</span><button class="close-updates" id="close-tutorial" type="button" aria-label="Fechar tutorial" autofocus>×</button></div>
+    <p class="tutorial-counter" id="tutorial-counter">Passo 1 de 5</p>
+    <div class="tutorial-progress" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="tutorial-content" aria-live="polite" aria-atomic="true"><h2 id="tutorial-title">Conheça seu elemento</h2><p id="tutorial-description"></p></div>
+    <div class="tutorial-navigation"><button type="button" class="reset" id="tutorial-prev">← Anterior</button><button type="button" class="button" id="tutorial-next">Próximo →</button></div>
+  </dialog>
 <main class="custom-section" id="personalizar" tabindex="-1">
   <div class="section custom-inner">
     <div class="custom-heading">
       <div><span class="eyebrow">SEU ESPAÇO DE CRIAÇÃO</span><h1>Monte a tabela do seu jeito</h1></div>
-      <button class="reset" id="reset" aria-label="Restaurar configurações padrão">↺ Restaurar</button>
+      <div class="custom-actions"><button class="tutorial-trigger" id="open-tutorial" type="button" aria-haspopup="dialog" aria-controls="tutorial-dialog"><span aria-hidden="true">?</span> Tutorial</button><button class="reset" id="reset" aria-label="Restaurar configurações padrão">↺ Restaurar</button></div>
     </div>
     <div class="customizer-cards">
       <section class="custom-card spotlight" aria-labelledby="spotlight-heading">
         <h3 id="spotlight-heading">Elemento em destaque</h3>
         <div class="spotlight-diagram">
-          <div class="spotlight-labels"><span>← Nº atômico</span><span>← Símbolo</span><span>← Nome</span></div>
           <div id="spotlight-element" class="spotlight-element" aria-live="polite"></div>
-          <span class="spotlight-mass-label">Massa atômica →</span>
+          <span class="spotlight-annotation" data-field="number" data-side="left">Nº atômico</span>
+          <span class="spotlight-annotation" data-field="symbol" data-side="left">Símbolo</span>
+          <span class="spotlight-annotation" data-field="name" data-side="left">Nome</span>
+          <span class="spotlight-annotation spotlight-mass-label" data-field="mass" data-side="right">Massa atômica</span>
+          <svg class="spotlight-connectors" aria-hidden="true"></svg>
         </div>
         <p class="spotlight-help">Selecione um elemento na tabela para explorar.</p>
       </section>
       <section class="custom-card" aria-labelledby="colors-heading">
         <h3 id="colors-heading">Cores</h3>
-        <div class="color-controls">
-          <label class="color-option"><input type="color" id="nonmetal" value="#947100"><span>Fundo · Ametais</span></label>
-          <label class="color-option"><input type="color" id="metal" value="#6024a3"><span>Fundo · Metais</span></label>
-          <label class="color-option"><input type="color" id="nonmetal-ink" value="#ffffff"><span>Texto · Ametais</span></label>
-          <label class="color-option"><input type="color" id="metal-ink" value="#ffffff"><span>Texto · Metais</span></label>
+        <div class="palette-choices" role="group" aria-label="Paletas de cores prontas">
+          <button type="button" class="palette-choice" data-palette="#947100,#6024a3,#ffffff,#ffffff" aria-label="Paleta original" aria-pressed="true"><i style="background:#947100"></i><i style="background:#6024a3"></i><span>Original</span></button>
+          <button type="button" class="palette-choice" data-palette="#f2dc86,#d8c5fa,#493900,#34117e" aria-label="Paleta suave" aria-pressed="false"><i style="background:#f2dc86"></i><i style="background:#d8c5fa"></i><span>Suave</span></button>
+          <button type="button" class="palette-choice" data-palette="#d1eeeb,#cddaf6,#174b45,#213f76" aria-label="Paleta oceano" aria-pressed="false"><i style="background:#d1eeeb"></i><i style="background:#cddaf6"></i><span>Oceano</span></button>
         </div>
+        <div class="color-controls">
+          <fieldset class="color-family"><legend>Ametais</legend>
+            <div class="color-field"><label for="nonmetal">Fundo</label><div class="color-entry"><input type="color" id="nonmetal" value="#947100" aria-label="Cor de fundo dos ametais"><input type="text" class="hex-input" data-color-for="nonmetal" value="#947100" maxlength="7" spellcheck="false" autocomplete="off" aria-label="Código HEX de fundo dos ametais" aria-describedby="hex-error"></div></div>
+            <div class="color-field"><label for="nonmetal-ink">Texto</label><div class="color-entry"><input type="color" id="nonmetal-ink" value="#ffffff" aria-label="Cor de texto dos ametais"><input type="text" class="hex-input" data-color-for="nonmetal-ink" value="#FFFFFF" maxlength="7" spellcheck="false" autocomplete="off" aria-label="Código HEX de texto dos ametais" aria-describedby="hex-error"></div></div>
+          </fieldset>
+          <fieldset class="color-family"><legend>Metais</legend>
+            <div class="color-field"><label for="metal">Fundo</label><div class="color-entry"><input type="color" id="metal" value="#6024a3" aria-label="Cor de fundo dos metais"><input type="text" class="hex-input" data-color-for="metal" value="#6024A3" maxlength="7" spellcheck="false" autocomplete="off" aria-label="Código HEX de fundo dos metais" aria-describedby="hex-error"></div></div>
+            <div class="color-field"><label for="metal-ink">Texto</label><div class="color-entry"><input type="color" id="metal-ink" value="#ffffff" aria-label="Cor de texto dos metais"><input type="text" class="hex-input" data-color-for="metal-ink" value="#FFFFFF" maxlength="7" spellcheck="false" autocomplete="off" aria-label="Código HEX de texto dos metais" aria-describedby="hex-error"></div></div>
+          </fieldset>
+        </div>
+        <p class="hex-error" id="hex-error" role="status" hidden>Use um código HEX válido, como #6631DB (3 ou 6 dígitos).</p>
         <p class="card-help">Semimetais e gases nobres usam as cores dos ametais nesta visualização.</p>
         <p class="contrast-status" id="contrast-status" role="status"></p>
       </section>
@@ -107,10 +130,22 @@
     </div>
   </div>
 </main>
-  <footer class="studio-footer">
-    <span>Elementopia · Beta v1.0.6</span>
-    <div class="studio-institution"><img src="assets/if-logo-fundo-transparente.png" alt="Instituto Federal do Paraná" width="50" height="52"><span>Uma iniciativa do<br><strong>Instituto Federal do Paraná</strong></span></div>
-    <a href="index.html#sobre">Conheça o projeto ↗</a>
-  </footer>
+<footer class="footer">
+<a class="brand" href="index.html#inicio">
+<img src="assets/elementopia-logo-colorida.png" alt="Elementopia">
+</a>
+<p>Química, criatividade e um mundo de possibilidades.</p>
+<a href="index.html#sobre">Feito com ciência e propósito <span>✦</span>
+</a>
+<div class="footer-bottom">
+<span>Beta v1.1.0 · © <span id="year">
+</span> Elementopia</span>
+<div class="footer-institution">
+<img src="assets/if-logo-fundo-transparente.png" alt="Instituto Federal do Paraná" width="62" height="64">
+<span>Um projeto do<br><strong>Instituto Federal do Paraná</strong></span>
+</div>
+<a href="index.html#inicio">De volta ao início ↑</a>
+</div>
+</footer>
 </body>
 </html>

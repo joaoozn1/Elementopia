@@ -1,5 +1,14 @@
 # Histórico de versões
 
+## 1.1.0-beta
+
+- Corrige as indicações do elemento em destaque com setas posicionadas a partir dos campos reais, acompanhando tamanho da tela, elemento selecionado e visibilidade de nomes e massas.
+- Melhora os seletores de cor com amostras maiores, edição HEX validada, suporte a códigos de 3 ou 6 dígitos e três paletas prontas.
+- Adiciona tutorial opcional em cinco passos, com navegação por teclado e respeito à preferência de movimento reduzido.
+- Move lantanídeos e actinídeos uma coluna para a direita, alinhando Lu e Lr à coluna 18 (Og).
+- Liga os intervalos 57–71 e 89–103 às séries inferiores com setas na tela e nos arquivos exportados; os intervalos permitem navegar até os elementos.
+- Iguala o rodapé do customizador ao da landing page, incluindo a logo do IFPR e os links de retorno ao início.
+
 ## 1.0.6-beta
 
 - Posiciona os números dos grupos acima do primeiro elemento de cada coluna, na tela e nos arquivos exportados.
