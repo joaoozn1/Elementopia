@@ -19,15 +19,41 @@ for(let n=1;n<=118;n++){
  else {row=7;col=n-100;}
  positions.push({n,symbol:symbols[n-1],name:names[n-1],row,col,group:nonmetals.has(n)?'nonmetal':others.has(n)?'other':'metal'});
 }
+const massFormat = document.querySelector('#mass-format');
+function formatMass(element, mode = massFormat.value) {
+  const source = atomicMasses[element.n - 1];
+  if (mode === 'hidden') return '';
+  if (mode === 'rounded') return source.rounded;
+  if (mode === 'source' || source.decimal.startsWith('[')) return source.decimal;
+  return Number(source.decimal.replace(',', '.')).toFixed(Number(mode)).replace('.', ',');
+}
+function elementDescription(element) {
+  const mass = formatMass(element);
+  return `${element.name}, ${element.symbol}, número atômico ${element.n}${mass ? ', massa atômica ' + mass : ''}`;
+}
+let selectedElement = null;
+function updateElementDetail() {
+  if (!selectedElement) return;
+  const e = selectedElement;
+  const mass = formatMass(e);
+  document.querySelector('#element-detail').textContent = `${e.symbol} · ${e.name} · Número atômico ${e.n}${mass ? ' · Massa atômica: ' + mass : ''} · ${e.group === 'metal' ? 'Metal' : e.group === 'nonmetal' ? 'Ametal' : 'Outros grupos'}`;
+}
 const table=document.querySelector('#periodic-table');
 for(const e of positions){
  const button=document.createElement('button');button.className='cell '+e.group;
  button.style.gridColumn=e.col;button.style.gridRow=e.row;
- button.setAttribute('aria-label',`${e.name}, ${e.symbol}, número atômico ${e.n}`);
- button.innerHTML=`<span class="number">${e.n}</span><b>${e.symbol}</b><span class="name">${e.name}</span>`;
- button.addEventListener('click',()=>{document.querySelector('#element-detail').textContent=`${e.symbol} · ${e.name} · Número atômico ${e.n} · ${e.group==='metal'?'Metal':e.group==='nonmetal'?'Ametal':'Outros grupos'}`;});table.append(button);
+ button.setAttribute('aria-label', elementDescription(e));
+ button.innerHTML=`<span class="number">${e.n}</span><b>${e.symbol}</b><span class="name">${e.name}</span><span class="mass">${formatMass(e)}</span>`;
+ button.addEventListener('click', () => { selectedElement = e; updateElementDetail(); });table.append(button);
 }
 for(const [row,label] of [[6,'57–71'],[7,'89–103']]){const el=document.createElement('span');el.className='series-label';el.style.gridRow=row;el.style.gridColumn=3;el.textContent=label;table.append(el);}
+massFormat.addEventListener('change', () => {
+  table.querySelectorAll('.cell').forEach((button, index) => {
+    button.querySelector('.mass').textContent = formatMass(positions[index]);
+    button.setAttribute('aria-label', elementDescription(positions[index]));
+  });
+  updateElementDetail();
+});
 const colorIds=['metal','nonmetal','other'];
 // Choose the higher-contrast foreground for every custom background.
 function contrastingInk(hex) {
@@ -47,7 +73,7 @@ function selectPalette(button){button.dataset.colors.split(',').forEach((color,i
 document.querySelectorAll('.palette').forEach(button=>button.addEventListener('click',()=>selectPalette(button)));
 colorIds.forEach(id=>document.getElementById(id).addEventListener('input',()=>{updateColors();document.querySelectorAll('.palette').forEach(el=>{el.classList.remove('active');el.setAttribute('aria-pressed','false');});}));
 const namesToggle=document.querySelector('#names');namesToggle.addEventListener('change',()=>table.classList.toggle('hide-names',!namesToggle.checked));
-document.querySelector('#reset').addEventListener('click',()=>{selectPalette(document.querySelector('.palette'));namesToggle.checked=true;table.classList.remove('hide-names');document.querySelector('#element-detail').textContent='Selecione um elemento e conheça o essencial.';document.querySelector('#export-status').textContent='';});
+document.querySelector('#reset').addEventListener('click',()=>{selectPalette(document.querySelector('.palette'));selectedElement=null;massFormat.value='source';massFormat.dispatchEvent(new Event('change'));namesToggle.checked=true;table.classList.remove('hide-names');document.querySelector('#element-detail').textContent='Selecione um elemento e conheça o essencial.';document.querySelector('#export-status').textContent='';});
 // Keep mobile navigation state, focus and desktop transitions in sync.
 const menu = document.querySelector('.menu');
 const navigation = document.querySelector('#main-navigation');
@@ -80,7 +106,7 @@ function escapeXml(text){return text.replace(/[<>&"']/g,c=>({'<':'&lt;','>':'&gt
 function createSvg(){
  const colors=Object.fromEntries(colorIds.map(id=>[id,document.getElementById(id).value]));
  let svg='<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="1000" viewBox="0 0 1560 1000"><rect width="1560" height="1000" fill="white"/><g font-family="Arial, sans-serif" fill="#352844"><text x="45" y="62" font-size="30" font-weight="bold">Elementopia</text><text x="45" y="95" font-size="15">Tabela periódica · Química com o seu jeito</text>';
- for(const e of positions){const x=45+(e.col-1)*82,y=125+(e.row-1)*76;svg+=`<g transform="translate(${x} ${y})" fill="${contrastingInk(colors[e.group])}"><rect width="77" height="71" rx="5" fill="${colors[e.group]}"/><text x="7" y="15" font-size="11">${e.n}</text><text x="38.5" y="43" text-anchor="middle" font-size="28" font-weight="bold">${e.symbol}</text>${namesToggle.checked?`<text x="38.5" y="61" text-anchor="middle" font-size="8">${escapeXml(e.name)}</text>`:''}</g>`;}
+ for(const e of positions){const x=45+(e.col-1)*82,y=125+(e.row-1)*76;svg+=`<g transform="translate(${x} ${y})" fill="${contrastingInk(colors[e.group])}"><rect width="77" height="71" rx="5" fill="${colors[e.group]}"/><text x="7" y="15" font-size="11">${e.n}</text><text x="38.5" y="37" text-anchor="middle" font-size="28" font-weight="bold">${e.symbol}</text>${namesToggle.checked?`<text x="38.5" y="51" text-anchor="middle" font-size="8">${escapeXml(e.name)}</text>`:''}${formatMass(e) ? `<text x="38.5" y="65" text-anchor="middle" font-size="10">${escapeXml(formatMass(e))}</text>` : ''}</g>`;}
  svg+='<text x="222" y="540" font-size="11">57–71</text><text x="222" y="616" font-size="11">89–103</text>';
  colorIds.forEach((id,i)=>{const x=45+i*170;svg+=`<rect x="${x}" y="925" width="14" height="14" rx="3" fill="${colors[id]}"/><text x="${x+23}" y="937" font-size="12">${['Metais','Ametais','Outros grupos'][i]}</text>`;});return svg+'<text x="1515" y="968" text-anchor="end" font-size="12" fill="#80718d">Feita por você. Com Elementopia.</text></g></svg>';
 }

@@ -8,6 +8,7 @@
 <title>Elementopia — química com o seu jeito</title>
 <link rel="icon" href="assets/icon-aba.png">
 <link rel="stylesheet" href="styles.css">
+<script defer src="atomic-masses.js"></script>
 <script defer src="app.js">
 </script>
 </head>
@@ -185,6 +186,18 @@
 <p class="color-help">Os demais grupos incluem semimetais e gases nobres.</p>
 <label class="toggle-label">
 <input type="checkbox" id="names" checked> Mostrar nomes</label>
+<div class="mass-control">
+<label class="format-label" for="mass-format">Massa atômica</label>
+<select id="mass-format" aria-describedby="mass-help">
+<option value="hidden">Não mostrar</option>
+<option value="rounded">Arredondada (PDF)</option>
+<option value="source" selected>Decimal (PDF)</option>
+<option value="1">1 casa decimal</option>
+<option value="2">2 casas decimais</option>
+<option value="3">3 casas decimais</option>
+</select>
+<p id="mass-help">Os PDFs trazem uma casa decimal. Duas ou três casas apenas completam com zeros; valores entre colchetes são mantidos.</p>
+</div>
 <label class="format-label" for="format">Leve sua criação</label>
 <select id="format">
 <option value="png">Imagem PNG</option>
@@ -298,7 +311,10 @@
 <div class="footer-bottom">
 <span>© <span id="year">
 </span> Elementopia</span>
-<span>Um projeto do Instituto Federal do Paraná</span>
+<div class="footer-institution">
+<img src="assets/if-logo-fundo-transparente.png" alt="Instituto Federal do Paraná" width="62" height="64">
+<span>Um projeto do<br><strong>Instituto Federal do Paraná</strong></span>
+</div>
 <a href="#inicio">De volta ao início ↑</a>
 </div>
 </footer>
