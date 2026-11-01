@@ -145,34 +145,6 @@ updateColors();
 refreshTable();
 updateQuality();
 
-// Keep mobile navigation state, focus and desktop transitions in sync.
-const menu = document.querySelector('.menu');
-const navigation = document.querySelector('#main-navigation');
-function setMenuOpen(open) {
-  navigation.classList.toggle('open', open);
-  menu.setAttribute('aria-expanded', String(open));
-  menu.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
-}
-menu.addEventListener('click', () => setMenuOpen(menu.getAttribute('aria-expanded') !== 'true'));
-navigation.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
-  setMenuOpen(false);
-  if (matchMedia('(max-width: 900px)').matches) {
-    const target = document.querySelector(link.hash);
-    target.setAttribute('tabindex', '-1');
-    target.focus({ preventScroll: true });
-  }
-}));
-document.addEventListener('keydown', event => {
-  if (event.key === 'Escape' && menu.getAttribute('aria-expanded') === 'true') {
-    setMenuOpen(false);
-    menu.focus();
-  }
-});
-document.addEventListener('click', event => {
-  if (!event.target.closest('.header')) setMenuOpen(false);
-});
-matchMedia('(max-width: 900px)').addEventListener('change', () => setMenuOpen(false));
-document.querySelector('#year').textContent=new Date().getFullYear();
 function escapeXml(text) {
   return text.replace(/[<>&"']/g, character => ({
     '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&apos;'

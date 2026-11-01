@@ -3,14 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="application-version" content="1.0.4-beta">
 <meta name="theme-color" content="#6631DB">
 <meta name="description" content="Uma tabela periódica com o seu jeito. Personalize as cores, simplifique seus estudos e leve o Elementopia com você.">
 <title>Elementopia — química com o seu jeito</title>
 <link rel="icon" href="assets/icon-aba.png">
 <link rel="stylesheet" href="styles.css">
-<script defer src="atomic-masses.js"></script>
-<script defer src="app.js">
-</script>
+<script defer src="site.js"></script>
 </head>
 <body>
 <a class="skip-link" href="#inicio">Pular para o conteúdo</a>
@@ -23,7 +22,7 @@
 <a href="#como-funciona">Como funciona</a>
 <a href="#sobre">O projeto</a>
 </nav>
-<a class="button small" href="#personalizar">Criar tabela <span aria-hidden="true"><svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></span>
+<a class="button small" href="customizar.html">Criar tabela <span aria-hidden="true"><svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></span>
 </a>
 <button class="menu" aria-label="Abrir menu" aria-controls="main-navigation" aria-expanded="false">
 <span class="menu-line" aria-hidden="true">
@@ -45,7 +44,7 @@
 </h1>
 <p>Menos informação sobrando. Mais espaço para aprender.<br class="desktop"> Dê cor à sua tabela periódica e descubra uma nova<br class="desktop"> maneira de se conectar com a química.</p>
 <div class="hero-actions">
-<a class="button" href="#personalizar">Vamos criar sua tabela <span><svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></span>
+<a class="button" href="customizar.html">Vamos criar sua tabela <span><svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></span>
 </a>
 <a class="text-link" href="#como-funciona">
 <span class="play">▸</span> Veja como funciona</a>
@@ -128,72 +127,6 @@
 </article>
 </div>
 </section>
-<section class="custom-section" id="personalizar">
-  <div class="section custom-inner">
-    <div class="custom-heading">
-      <div><span class="eyebrow">SEU PRIMEIRO EXPERIMENTO</span><h2>Monte a tabela do seu jeito</h2></div>
-      <button class="reset" id="reset" aria-label="Restaurar configurações padrão">↺ Restaurar</button>
-    </div>
-    <div class="customizer-cards">
-      <section class="custom-card spotlight" aria-labelledby="spotlight-heading">
-        <h3 id="spotlight-heading">Elemento em destaque</h3>
-        <div class="spotlight-diagram">
-          <div class="spotlight-labels"><span>← Nº atômico</span><span>← Símbolo</span><span>← Nome</span></div>
-          <div id="spotlight-element" class="spotlight-element" aria-live="polite"></div>
-          <span class="spotlight-mass-label">Massa atômica →</span>
-        </div>
-        <p class="spotlight-help">Selecione um elemento na tabela para explorar.</p>
-      </section>
-      <section class="custom-card" aria-labelledby="colors-heading">
-        <h3 id="colors-heading">Cores</h3>
-        <div class="color-controls">
-          <label class="color-option"><input type="color" id="nonmetal" value="#947100"><span>Fundo · Ametais</span></label>
-          <label class="color-option"><input type="color" id="metal" value="#6024a3"><span>Fundo · Metais</span></label>
-          <label class="color-option"><input type="color" id="nonmetal-ink" value="#ffffff"><span>Texto · Ametais</span></label>
-          <label class="color-option"><input type="color" id="metal-ink" value="#ffffff"><span>Texto · Metais</span></label>
-        </div>
-        <p class="card-help">Semimetais e gases nobres usam as cores dos ametais nesta visualização.</p>
-        <p class="contrast-status" id="contrast-status" role="status"></p>
-      </section>
-      <section class="custom-card" aria-labelledby="mass-heading">
-        <h3 id="mass-heading">Massa atômica</h3>
-        <fieldset class="mass-options"><legend class="sr-only">Formato da massa atômica</legend>
-          <label><input type="radio" name="mass-mode" value="decimal" checked> Decimal</label>
-          <label><input type="radio" name="mass-mode" value="rounded"> Arredondada</label>
-        </fieldset>
-        <label class="field-label" for="decimal-places">Casas decimais</label>
-        <select id="decimal-places"><option value="1">1</option><option value="2">2</option><option value="3">3</option></select>
-        <label class="toggle-label"><input type="checkbox" id="show-mass" checked> Mostrar massa atômica</label>
-        <p class="card-help" id="mass-help">Valores decimais da referência enviada. Colchetes identificam números de massa de isótopos.</p>
-      </section>
-      <section class="custom-card export-card" aria-labelledby="export-heading">
-        <h3 id="export-heading">Exportar</h3>
-        <fieldset class="export-formats"><legend class="sr-only">Formato do arquivo</legend>
-          <label><input type="radio" name="export-format" value="pdf" checked><span>PDF</span></label>
-          <label><input type="radio" name="export-format" value="png"><span>PNG</span></label>
-          <label><input type="radio" name="export-format" value="jpg"><span>JPEG</span></label>
-          <label><input type="radio" name="export-format" value="svg"><span>SVG</span></label>
-        </fieldset>
-        <label class="field-label" for="filename">Nome do arquivo</label>
-        <input type="text" id="filename" value="tabela-periodica" maxlength="100" autocomplete="off">
-        <label class="field-label" for="quality">Qualidade</label>
-        <select id="quality"><option value="1">Padrão</option><option value="2">Alta (2×)</option><option value="3">Máxima (3×)</option></select>
-        <button class="button download" id="download">↓ Baixar tabela</button>
-        <p id="export-status" role="status"></p>
-      </section>
-    </div>
-    <div class="table-panel">
-      <div class="table-tools"><p id="table-hint">Explore os 118 elementos. No celular, deslize para os lados. ↔</p>
-        <label class="toggle-label"><input type="checkbox" id="names" checked> Mostrar nomes</label>
-      </div>
-      <div class="table-scroll" aria-describedby="table-hint" tabindex="0" aria-label="Tabela periódica">
-        <div id="periodic-table" class="periodic-table"></div>
-      </div>
-      <div class="table-footer"><div><span class="legend metal"></span> Metais <span class="legend nonmetal"></span> Ametais e demais grupos</div><span>Feita por você. Com Elementopia.</span></div>
-      <p class="element-detail" id="element-detail" aria-live="polite"></p>
-    </div>
-  </div>
-</section>
 <section id="como-funciona" class="section steps-section">
 <div class="center-heading">
 <span class="eyebrow">DA IDEIA AO PAPEL</span>
@@ -252,7 +185,7 @@
 <h2>Vamos criar uma boa <span>reação?</span>
 </h2>
 <p>Sua próxima tabela favorita está a algumas cores de distância.</p>
-<a class="button" href="#personalizar">Criar minha tabela <span><svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></span>
+<a class="button" href="customizar.html">Criar minha tabela <span><svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></span>
 </a>
 <span class="cta-atom" aria-hidden="true">⚛︎</span>
 </section>
@@ -265,7 +198,7 @@
 <a href="#sobre">Feito com ciência e propósito <span>✦</span>
 </a>
 <div class="footer-bottom">
-<span>© <span id="year">
+<span>Beta v1.0.4 · © <span id="year">
 </span> Elementopia</span>
 <div class="footer-institution">
 <img src="assets/if-logo-fundo-transparente.png" alt="Instituto Federal do Paraná" width="62" height="64">

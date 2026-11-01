@@ -1,6 +1,6 @@
-# Elementopia
+# Elementopia · Beta v1.0.4
 
-Landing page em português para personalizar tabelas periódicas, feita com HTML, CSS e JavaScript, sem dependências externas.
+Site em português com landing page e uma página dedicada à customização de tabelas periódicas. Feito com HTML, CSS e JavaScript, sem dependências externas. A versão está registrada em `VERSION`.
 
 ## Executar localmente
 
@@ -10,7 +10,16 @@ Na pasta do projeto:
 python -m http.server 8000
 ```
 
-Abra a porta 8000 no seu navegador. Também é possível abrir `index.html` diretamente.
+Abra a porta 8000 no seu navegador. `index.html` apresenta o projeto; os botões **Criar tabela** abrem `customizar.html`. A página de customização também funciona por acesso direto e oferece retorno à landing. As duas páginas podem ser abertas diretamente do sistema de arquivos.
+
+## Organização
+
+- `index.html`: landing page, sem prévia interativa e sem carregar os dados ou scripts da tabela.
+- `customizar.html`: espaço de customização com os quatro cards e a tabela.
+- `site.js`: navegação compartilhada; funciona mesmo em páginas sem menu ou rodapé com ano.
+- `customizar.js` e `atomic-masses.js`: comportamento e dados carregados apenas no customizador.
+- `styles.css`: identidade compartilhada e layout da landing.
+- `customizar.css`: layout dedicado dos controles e tabela, sem cabeçalho flutuante sobre o espaço de trabalho.
 
 ## Recursos
 
@@ -34,6 +43,8 @@ As escolhas de cores, nomes e massas valem também para PNG, JPEG, SVG e PDF. N�
 
 ## Verificação
 
-`node --check app.js` e `node --check atomic-masses.js` verificam a sintaxe.
+`node --check site.js`, `node --check customizar.js` e `node --check atomic-masses.js` verificam a sintaxe.
 
-O customizador foi validado em Chromium nas larguras de 320, 390, 768, 1024, 1280 e 1544 px, sem transbordamento horizontal da página, com os cards em uma, duas ou quatro colunas. Foram conferidos os 118 registros, a correspondência dos símbolos, os três níveis de precisão, o arredondamento, os 34 valores entre colchetes, a atualização do elemento em destaque, as quatro cores, o aviso de contraste, a visibilidade dos nomes e massas, a restauração dos padrões, o nome do arquivo, PNG/JPEG em alta qualidade, SVG e o fluxo de impressão PDF.
+A beta foi validada em Chromium, tanto na landing quanto no customizador, nas larguras de 320, 390, 768, 1024, 1280 e 1544 px, sem transbordamento horizontal da página, com os cards em uma, duas ou quatro colunas. Foram conferidos os 118 registros, a correspondência dos símbolos, os três níveis de precisão, o arredondamento, os 34 valores entre colchetes, a atualização do elemento em destaque, as quatro cores, o aviso de contraste, a visibilidade dos nomes e massas, a restauração dos padrões, o nome do arquivo, PNG/JPEG em alta qualidade, SVG e o fluxo de impressão PDF.
+
+Também foram verificados: ausência da prévia e dos scripts de tabela na landing, os três botões que abrem o customizador, acesso direto à nova página, retorno à landing, identificação Beta v1.0.4, funcionamento do menu móvel e ausência de erros JavaScript nas duas páginas.
