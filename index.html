@@ -129,114 +129,70 @@
 </div>
 </section>
 <section class="custom-section" id="personalizar">
-<div class="section custom-inner">
-<div class="custom-intro">
-<span class="eyebrow">SEU PRIMEIRO EXPERIMENTO</span>
-<h2>Que tal dar um pouco<br>de <span>cor à química?</span>
-</h2>
-<p>Escolha uma paleta ou invente a sua.<br>A transformação começa com um clique.</p>
-</div>
-<div class="editor">
-<div class="editor-toolbar">
-<div>
-<span class="live-dot">
-</span>
-<strong>Sua tabela, suas cores</strong>
-<span class="preview-label">PRÉVIA INTERATIVA</span>
-</div>
-<button class="reset" id="reset" aria-label="Restaurar cores padrão">↺ <span>Restaurar</span>
-</button>
-</div>
-<div class="editor-body">
-<aside class="controls">
-<h3>Solte a criatividade</h3>
-<p>Uma combinação para cada ideia.</p>
-<div class="palette-options" role="group" aria-label="Paletas de cores">
-<button class="palette active" data-colors="#e5d8fa,#fff0a8,#dceee8" aria-label="Paleta Elementopia" aria-pressed="true">
-<i style="background:#b18be8">
-</i>
-<i style="background:#ffe378">
-</i>
-</button>
-<button class="palette" data-colors="#cde7ed,#f8d3c2,#e2d9f0" aria-label="Paleta céu e pêssego" aria-pressed="false">
-<i style="background:#83bbc7">
-</i>
-<i style="background:#f3b493">
-</i>
-</button>
-<button class="palette" data-colors="#d5e8c8,#f4dfc1,#d0e5e8" aria-label="Paleta natureza" aria-pressed="false">
-<i style="background:#a7c994">
-</i>
-<i style="background:#e8c48f">
-</i>
-</button>
-</div>
-<div class="color-row">
-<label for="metal">Metais</label>
-<input type="color" id="metal" value="#e5d8fa" aria-label="Cor dos metais">
-</div>
-<div class="color-row">
-<label for="nonmetal">Ametais</label>
-<input type="color" id="nonmetal" value="#fff0a8" aria-label="Cor dos ametais">
-</div>
-<div class="color-row">
-<label for="other">Outros grupos</label>
-<input type="color" id="other" value="#dceee8" aria-label="Cor dos demais grupos">
-</div>
-<p class="color-help">Os demais grupos incluem semimetais e gases nobres.</p>
-<label class="toggle-label">
-<input type="checkbox" id="names" checked> Mostrar nomes</label>
-<div class="mass-control">
-<label class="format-label" for="mass-format">Massa atômica</label>
-<select id="mass-format" aria-describedby="mass-help">
-<option value="hidden">Não mostrar</option>
-<option value="rounded">Arredondada (PDF)</option>
-<option value="source" selected>Decimal (PDF)</option>
-<option value="1">1 casa decimal</option>
-<option value="2">2 casas decimais</option>
-<option value="3">3 casas decimais</option>
-</select>
-<p id="mass-help">Os PDFs trazem uma casa decimal. Duas ou três casas apenas completam com zeros; valores entre colchetes são mantidos.</p>
-</div>
-<label class="format-label" for="format">Leve sua criação</label>
-<select id="format">
-<option value="png">Imagem PNG</option>
-<option value="jpg">Imagem JPG</option>
-<option value="svg">Imagem SVG</option>
-<option value="pdf">PDF / impressão</option>
-</select>
-<button class="button download" id="download">Baixar tabela <span>↓</span>
-</button>
-<p id="export-status" role="status" class="export-status">
-</p>
-</aside>
-<div class="table-panel">
-<div class="table-heading">
-<span>TABELA PERIÓDICA<br>
-<strong>dos seus elementos favoritos.</strong>
-</span>
-<span class="table-mark">El<span>✦</span>
-</span>
-</div>
-<p class="table-hint" id="table-hint">Deslize a tabela para os lados para explorar os 118 elementos. ↔</p>
-<div class="table-scroll" aria-describedby="table-hint" tabindex="0" aria-label="Tabela periódica; deslize horizontalmente em telas pequenas">
-<div id="periodic-table" class="periodic-table">
-</div>
-</div>
-<div class="table-footer">
-<div>
-<span class="legend metal">
-</span> Metais <span class="legend nonmetal">
-</span> Ametais <span class="legend other">
-</span> Outros grupos</div>
-<span>Feita por você. Com Elementopia.</span>
-</div>
-<p class="element-detail" id="element-detail" aria-live="polite">Selecione um elemento e conheça o essencial.</p>
-</div>
-</div>
-</div>
-<p class="experiment-note">✧ Não existe uma única forma de aprender. Encontre a sua.</p>
-</div>
+  <div class="section custom-inner">
+    <div class="custom-heading">
+      <div><span class="eyebrow">SEU PRIMEIRO EXPERIMENTO</span><h2>Monte a tabela do seu jeito</h2></div>
+      <button class="reset" id="reset" aria-label="Restaurar configurações padrão">↺ Restaurar</button>
+    </div>
+    <div class="customizer-cards">
+      <section class="custom-card spotlight" aria-labelledby="spotlight-heading">
+        <h3 id="spotlight-heading">Elemento em destaque</h3>
+        <div class="spotlight-diagram">
+          <div class="spotlight-labels"><span>← Nº atômico</span><span>← Símbolo</span><span>← Nome</span></div>
+          <div id="spotlight-element" class="spotlight-element" aria-live="polite"></div>
+          <span class="spotlight-mass-label">Massa atômica →</span>
+        </div>
+        <p class="spotlight-help">Selecione um elemento na tabela para explorar.</p>
+      </section>
+      <section class="custom-card" aria-labelledby="colors-heading">
+        <h3 id="colors-heading">Cores</h3>
+        <div class="color-controls">
+          <label class="color-option"><input type="color" id="nonmetal" value="#947100"><span>Fundo · Ametais</span></label>
+          <label class="color-option"><input type="color" id="metal" value="#6024a3"><span>Fundo · Metais</span></label>
+          <label class="color-option"><input type="color" id="nonmetal-ink" value="#ffffff"><span>Texto · Ametais</span></label>
+          <label class="color-option"><input type="color" id="metal-ink" value="#ffffff"><span>Texto · Metais</span></label>
+        </div>
+        <p class="card-help">Semimetais e gases nobres usam as cores dos ametais nesta visualização.</p>
+        <p class="contrast-status" id="contrast-status" role="status"></p>
+      </section>
+      <section class="custom-card" aria-labelledby="mass-heading">
+        <h3 id="mass-heading">Massa atômica</h3>
+        <fieldset class="mass-options"><legend class="sr-only">Formato da massa atômica</legend>
+          <label><input type="radio" name="mass-mode" value="decimal" checked> Decimal</label>
+          <label><input type="radio" name="mass-mode" value="rounded"> Arredondada</label>
+        </fieldset>
+        <label class="field-label" for="decimal-places">Casas decimais</label>
+        <select id="decimal-places"><option value="1">1</option><option value="2">2</option><option value="3">3</option></select>
+        <label class="toggle-label"><input type="checkbox" id="show-mass" checked> Mostrar massa atômica</label>
+        <p class="card-help" id="mass-help">Valores decimais da referência enviada. Colchetes identificam números de massa de isótopos.</p>
+      </section>
+      <section class="custom-card export-card" aria-labelledby="export-heading">
+        <h3 id="export-heading">Exportar</h3>
+        <fieldset class="export-formats"><legend class="sr-only">Formato do arquivo</legend>
+          <label><input type="radio" name="export-format" value="pdf" checked><span>PDF</span></label>
+          <label><input type="radio" name="export-format" value="png"><span>PNG</span></label>
+          <label><input type="radio" name="export-format" value="jpg"><span>JPEG</span></label>
+          <label><input type="radio" name="export-format" value="svg"><span>SVG</span></label>
+        </fieldset>
+        <label class="field-label" for="filename">Nome do arquivo</label>
+        <input type="text" id="filename" value="tabela-periodica" maxlength="100" autocomplete="off">
+        <label class="field-label" for="quality">Qualidade</label>
+        <select id="quality"><option value="1">Padrão</option><option value="2">Alta (2×)</option><option value="3">Máxima (3×)</option></select>
+        <button class="button download" id="download">↓ Baixar tabela</button>
+        <p id="export-status" role="status"></p>
+      </section>
+    </div>
+    <div class="table-panel">
+      <div class="table-tools"><p id="table-hint">Explore os 118 elementos. No celular, deslize para os lados. ↔</p>
+        <label class="toggle-label"><input type="checkbox" id="names" checked> Mostrar nomes</label>
+      </div>
+      <div class="table-scroll" aria-describedby="table-hint" tabindex="0" aria-label="Tabela periódica">
+        <div id="periodic-table" class="periodic-table"></div>
+      </div>
+      <div class="table-footer"><div><span class="legend metal"></span> Metais <span class="legend nonmetal"></span> Ametais e demais grupos</div><span>Feita por você. Com Elementopia.</span></div>
+      <p class="element-detail" id="element-detail" aria-live="polite"></p>
+    </div>
+  </div>
 </section>
 <section id="como-funciona" class="section steps-section">
 <div class="center-heading">
@@ -249,7 +205,7 @@
 <article>
 <span class="step-number">01</span>
 <h3>Escolha suas cores</h3>
-<p>Comece com uma paleta pronta ou combine suas cores favoritas.</p>
+<p>Combine as cores de fundo e de texto com as suas preferências.</p>
 </article>
 <article>
 <span class="step-number">02</span>

@@ -19,61 +19,132 @@ for(let n=1;n<=118;n++){
  else {row=7;col=n-100;}
  positions.push({n,symbol:symbols[n-1],name:names[n-1],row,col,group:nonmetals.has(n)?'nonmetal':others.has(n)?'other':'metal'});
 }
-const massFormat = document.querySelector('#mass-format');
-function formatMass(element, mode = massFormat.value) {
+// Shared state: the same values drive the table, spotlight and downloads.
+const table = document.querySelector('#periodic-table');
+const decimalPlaces = document.querySelector('#decimal-places');
+const showMass = document.querySelector('#show-mass');
+const namesToggle = document.querySelector('#names');
+const colorIds = ['nonmetal', 'metal', 'nonmetal-ink', 'metal-ink'];
+const defaultColors = ['#947100', '#6024a3', '#ffffff', '#ffffff'];
+let selectedElement = positions[11];
+
+function massMode() {
+  return document.querySelector('input[name="mass-mode"]:checked').value;
+}
+function formatMass(element) {
+  if (!showMass.checked) return '';
   const source = atomicMasses[element.n - 1];
-  if (mode === 'hidden') return '';
-  if (mode === 'rounded') return source.rounded;
-  if (mode === 'source' || source.decimal.startsWith('[')) return source.decimal;
-  return Number(source.decimal.replace(',', '.')).toFixed(Number(mode)).replace('.', ',');
+  // Isotopes have a mass number, not a decimal standard atomic weight.
+  if (source.isotope) return '[' + Number(source.decimal.replace(',', '.')) + ']';
+  // Round integer thousandths to avoid binary floating-point ties (24.305 → 24.31).
+  if (massMode() === 'rounded') return String(Math.round(Number(source.decimal.replace(',', '.'))));
+  const places = Number(decimalPlaces.value);
+  const thousandths = Number(source.decimal.replace(',', ''));
+  const rounded = Math.round(thousandths / 10 ** (3 - places));
+  return (rounded / 10 ** places).toFixed(places).replace('.', ',');
 }
 function elementDescription(element) {
   const mass = formatMass(element);
   return `${element.name}, ${element.symbol}, número atômico ${element.n}${mass ? ', massa atômica ' + mass : ''}`;
 }
-let selectedElement = null;
-function updateElementDetail() {
-  if (!selectedElement) return;
-  const e = selectedElement;
-  const mass = formatMass(e);
-  document.querySelector('#element-detail').textContent = `${e.symbol} · ${e.name} · Número atômico ${e.n}${mass ? ' · Massa atômica: ' + mass : ''} · ${e.group === 'metal' ? 'Metal' : e.group === 'nonmetal' ? 'Ametal' : 'Outros grupos'}`;
+function cellContent(element) {
+  return `<span class="number">${element.n}</span><span class="mass">${formatMass(element)}</span><b>${element.symbol}</b><span class="name">${element.name}</span>`;
 }
-const table=document.querySelector('#periodic-table');
-for(const e of positions){
- const button=document.createElement('button');button.className='cell '+e.group;
- button.style.gridColumn=e.col;button.style.gridRow=e.row;
- button.setAttribute('aria-label', elementDescription(e));
- button.innerHTML=`<span class="number">${e.n}</span><b>${e.symbol}</b><span class="name">${e.name}</span><span class="mass">${formatMass(e)}</span>`;
- button.addEventListener('click', () => { selectedElement = e; updateElementDetail(); });table.append(button);
+function updateSpotlight() {
+  const spotlight = document.querySelector('#spotlight-element');
+  spotlight.innerHTML = cellContent(selectedElement);
+  spotlight.className = 'spotlight-element ' + selectedElement.group;
+  spotlight.classList.toggle('hide-names', !namesToggle.checked);
+  spotlight.setAttribute('aria-label', elementDescription(selectedElement));
+  document.querySelector('.spotlight-mass-label').hidden = !showMass.checked;
+  document.querySelector('#element-detail').textContent = elementDescription(selectedElement);
 }
-for(const [row,label] of [[6,'57–71'],[7,'89–103']]){const el=document.createElement('span');el.className='series-label';el.style.gridRow=row;el.style.gridColumn=3;el.textContent=label;table.append(el);}
-massFormat.addEventListener('change', () => {
+function refreshTable() {
   table.querySelectorAll('.cell').forEach((button, index) => {
-    button.querySelector('.mass').textContent = formatMass(positions[index]);
-    button.setAttribute('aria-label', elementDescription(positions[index]));
+    const element = positions[index];
+    button.innerHTML = cellContent(element);
+    button.setAttribute('aria-label', elementDescription(element));
+    button.setAttribute('aria-pressed', String(element === selectedElement));
   });
-  updateElementDetail();
-});
-const colorIds=['metal','nonmetal','other'];
-// Choose the higher-contrast foreground for every custom background.
-function contrastingInk(hex) {
+  table.classList.toggle('hide-names', !namesToggle.checked);
+  decimalPlaces.disabled = massMode() === 'rounded' || !showMass.checked;
+  updateSpotlight();
+}
+for (const element of positions) {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'cell ' + element.group;
+  button.style.gridColumn = element.col + 1;
+  button.style.gridRow = element.row + 1;
+  button.addEventListener('click', () => { selectedElement = element; refreshTable(); });
+  table.append(button);
+}
+function addTableLabel(text, row, column, className = 'table-axis') {
+  const label = document.createElement('span');
+  label.className = className;
+  label.textContent = text;
+  label.style.gridRow = row;
+  label.style.gridColumn = column;
+  table.append(label);
+}
+for (let group = 1; group <= 18; group++) addTableLabel(group, 1, group + 1);
+for (let period = 1; period <= 7; period++) addTableLabel(period, period + 1, 1);
+addTableLabel('6*', 10, 1);
+addTableLabel('7*', 11, 1);
+addTableLabel('57–71', 7, 4, 'series-label');
+addTableLabel('89–103', 8, 4, 'series-label');
+addTableLabel('Lantanídeos e actinídeos', 9, '2 / 20', 'series-heading');
+for (const control of [decimalPlaces, showMass, namesToggle, ...document.querySelectorAll('[name="mass-mode"]')]) {
+  control.addEventListener('change', refreshTable);
+}
+
+function luminance(hex) {
   const rgb = hex.match(/[0-9a-f]{2}/gi).map(channel => parseInt(channel, 16) / 255);
   const linear = rgb.map(value => value <= .04045 ? value / 12.92 : ((value + .055) / 1.055) ** 2.4);
-  const luminance = linear[0] * .2126 + linear[1] * .7152 + linear[2] * .0722;
-  return (luminance + .05) / .05 >= 1.05 / (luminance + .05) ? '#000000' : '#ffffff';
+  return linear[0] * .2126 + linear[1] * .7152 + linear[2] * .0722;
+}
+function contrastRatio(background, foreground) {
+  const values = [luminance(background), luminance(foreground)].sort((a, b) => b - a);
+  return (values[0] + .05) / (values[1] + .05);
 }
 function updateColors() {
   for (const id of colorIds) {
-    const color = document.getElementById(id).value;
-    document.documentElement.style.setProperty('--' + id, color);
-    document.documentElement.style.setProperty('--' + id + '-ink', contrastingInk(color));
+    document.documentElement.style.setProperty('--' + id, document.getElementById(id).value);
   }
+  const warnings = ['metal', 'nonmetal'].filter(group =>
+    contrastRatio(document.getElementById(group).value, document.getElementById(group + '-ink').value) < 4.5);
+  document.querySelector('#contrast-status').textContent = warnings.length
+    ? 'Contraste baixo: ajuste o fundo ou o texto para facilitar a leitura.' : '';
 }
-function selectPalette(button){button.dataset.colors.split(',').forEach((color,i)=>document.getElementById(colorIds[i]).value=color);document.querySelectorAll('.palette').forEach(el=>{const active=el===button;el.classList.toggle('active',active);el.setAttribute('aria-pressed',String(active));});updateColors();}
-document.querySelectorAll('.palette').forEach(button=>button.addEventListener('click',()=>selectPalette(button)));
-colorIds.forEach(id=>document.getElementById(id).addEventListener('input',()=>{updateColors();document.querySelectorAll('.palette').forEach(el=>{el.classList.remove('active');el.setAttribute('aria-pressed','false');});}));
-const namesToggle=document.querySelector('#names');namesToggle.addEventListener('change',()=>table.classList.toggle('hide-names',!namesToggle.checked));
-document.querySelector('#reset').addEventListener('click',()=>{selectPalette(document.querySelector('.palette'));selectedElement=null;massFormat.value='source';massFormat.dispatchEvent(new Event('change'));namesToggle.checked=true;table.classList.remove('hide-names');document.querySelector('#element-detail').textContent='Selecione um elemento e conheça o essencial.';document.querySelector('#export-status').textContent='';});
+colorIds.forEach(id => document.getElementById(id).addEventListener('input', updateColors));
+
+function selectedFormat() {
+  return document.querySelector('[name="export-format"]:checked').value;
+}
+function updateQuality() {
+  const raster = ['png', 'jpg'].includes(selectedFormat());
+  document.querySelector('#quality').disabled = !raster;
+  document.querySelector('#export-status').textContent = '';
+}
+document.querySelectorAll('[name="export-format"]').forEach(input => input.addEventListener('change', updateQuality));
+document.querySelector('#reset').addEventListener('click', () => {
+  colorIds.forEach((id, index) => document.getElementById(id).value = defaultColors[index]);
+  document.querySelector('[name="mass-mode"][value="decimal"]').checked = true;
+  document.querySelector('[name="export-format"][value="pdf"]').checked = true;
+  decimalPlaces.value = '1';
+  showMass.checked = true;
+  namesToggle.checked = true;
+  selectedElement = positions[11];
+  document.querySelector('#filename').value = 'tabela-periodica';
+  document.querySelector('#quality').value = '1';
+  updateColors();
+  refreshTable();
+  updateQuality();
+});
+updateColors();
+refreshTable();
+updateQuality();
+
 // Keep mobile navigation state, focus and desktop transitions in sync.
 const menu = document.querySelector('.menu');
 const navigation = document.querySelector('#main-navigation');
@@ -102,28 +173,101 @@ document.addEventListener('click', event => {
 });
 matchMedia('(max-width: 900px)').addEventListener('change', () => setMenuOpen(false));
 document.querySelector('#year').textContent=new Date().getFullYear();
-function escapeXml(text){return text.replace(/[<>&"']/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&apos;'}[c]));}
-function createSvg(){
- const colors=Object.fromEntries(colorIds.map(id=>[id,document.getElementById(id).value]));
- let svg='<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="1000" viewBox="0 0 1560 1000"><rect width="1560" height="1000" fill="white"/><g font-family="Arial, sans-serif" fill="#352844"><text x="45" y="62" font-size="30" font-weight="bold">Elementopia</text><text x="45" y="95" font-size="15">Tabela periódica · Química com o seu jeito</text>';
- for(const e of positions){const x=45+(e.col-1)*82,y=125+(e.row-1)*76;svg+=`<g transform="translate(${x} ${y})" fill="${contrastingInk(colors[e.group])}"><rect width="77" height="71" rx="5" fill="${colors[e.group]}"/><text x="7" y="15" font-size="11">${e.n}</text><text x="38.5" y="37" text-anchor="middle" font-size="28" font-weight="bold">${e.symbol}</text>${namesToggle.checked?`<text x="38.5" y="51" text-anchor="middle" font-size="8">${escapeXml(e.name)}</text>`:''}${formatMass(e) ? `<text x="38.5" y="65" text-anchor="middle" font-size="10">${escapeXml(formatMass(e))}</text>` : ''}</g>`;}
- svg+='<text x="222" y="540" font-size="11">57–71</text><text x="222" y="616" font-size="11">89–103</text>';
- colorIds.forEach((id,i)=>{const x=45+i*170;svg+=`<rect x="${x}" y="925" width="14" height="14" rx="3" fill="${colors[id]}"/><text x="${x+23}" y="937" font-size="12">${['Metais','Ametais','Outros grupos'][i]}</text>`;});return svg+'<text x="1515" y="968" text-anchor="end" font-size="12" fill="#80718d">Feita por você. Com Elementopia.</text></g></svg>';
+function escapeXml(text) {
+  return text.replace(/[<>&"']/g, character => ({
+    '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&apos;'
+  }[character]));
 }
-function saveBlob(blob,extension){const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='minha-tabela-elementopia.'+extension;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);}
-document.querySelector('#download').addEventListener('click',async()=>{
- const status=document.querySelector('#export-status'),button=document.querySelector('#download'),format=document.querySelector('#format').value;
- button.disabled=true;status.textContent='Preparando sua tabela…';
- try{
-  const svg=createSvg();
-  if(format==='svg'){saveBlob(new Blob([svg],{type:'image/svg+xml;charset=utf-8'}),'svg');status.textContent='Tabela SVG preparada!';}
-  else{
-   const url=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml;charset=utf-8'}));const img=new Image();
-   try{await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=reject;img.src=url;});
-    if(format==='pdf'){
-     document.querySelector('.print-table')?.remove();const printArea=document.createElement('div');printArea.className='print-table';printArea.style.display='none';printArea.append(img);document.body.append(printArea);window.print();status.textContent='Escolha “Salvar como PDF” na janela de impressão.';
-    }else{const canvas=document.createElement('canvas');canvas.width=3120;canvas.height=2000;const context=canvas.getContext('2d');context.fillStyle='#fff';context.fillRect(0,0,canvas.width,canvas.height);context.drawImage(img,0,0,3120,2000);const blob=await new Promise(resolve=>canvas.toBlob(resolve,format==='jpg'?'image/jpeg':'image/png',.95));if(!blob)throw new Error('Exportação indisponível');saveBlob(blob,format);status.textContent='Sua tabela está pronta!';}
-   }finally{URL.revokeObjectURL(url);}
+function fileName() {
+  // Keep the selected name local and strip characters invalid in file systems.
+  return document.querySelector('#filename').value.trim()
+    .replace(/[<>:"/\\|?*\x00-\x1f]/g, '-').replace(/\.+$/, '').slice(0, 100) || 'tabela-periodica';
+}
+function elementColors(element) {
+  const group = element.group === 'metal' ? 'metal' : 'nonmetal';
+  return {
+    background: document.getElementById(group).value,
+    foreground: document.getElementById(group + '-ink').value
+  };
+}
+function createSvg() {
+  let svg = '<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="1000" viewBox="0 0 1560 1000"><rect width="1560" height="1000" fill="white"/><g font-family="Arial, sans-serif" fill="#352844">';
+  svg += '<text x="45" y="55" font-size="28" font-weight="bold">Elementopia</text><text x="45" y="84" font-size="14">Tabela periódica · Química com o seu jeito</text>';
+  for (let group = 1; group <= 18; group++) {
+    svg += `<text x="${83.5 + (group - 1) * 82}" y="112" text-anchor="middle" font-size="11">${group}</text>`;
   }
- }catch(error){status.textContent='Não foi possível exportar. Tente o formato SVG.';}finally{button.disabled=false;}
+  for (const element of positions) {
+    const x = 45 + (element.col - 1) * 82;
+    const y = 125 + (element.row - 1) * 76;
+    const colors = elementColors(element);
+    svg += `<g transform="translate(${x} ${y})" fill="${colors.foreground}"><rect width="77" height="71" rx="5" fill="${colors.background}"/><text x="6" y="13" font-size="10">${element.n}</text><text x="71" y="13" text-anchor="end" font-size="9">${escapeXml(formatMass(element))}</text><text x="38.5" y="46" text-anchor="middle" font-size="29" font-weight="bold">${element.symbol}</text>${namesToggle.checked ? `<text x="38.5" y="64" text-anchor="middle" font-size="8">${escapeXml(element.name)}</text>` : ''}</g>`;
+  }
+  svg += '<text x="222" y="540" font-size="11">57–71</text><text x="222" y="616" font-size="11">89–103</text>';
+  for (let period = 1; period <= 7; period++) {
+    svg += `<text x="20" y="${165 + (period - 1) * 76}" font-size="11">${period}</text>`;
+  }
+  svg += '<text x="20" y="773" font-size="11">6*</text><text x="20" y="849" font-size="11">7*</text><text x="45" y="719" font-size="11">Lantanídeos e actinídeos</text>';
+  ['metal', 'nonmetal'].forEach((group, index) => {
+    const x = 45 + index * 170;
+    svg += `<rect x="${x}" y="925" width="14" height="14" rx="3" fill="${document.getElementById(group).value}"/><text x="${x + 23}" y="937" font-size="12">${index === 0 ? 'Metais' : 'Ametais e demais grupos'}</text>`;
+  });
+  return svg + '<text x="1515" y="968" text-anchor="end" font-size="12">Feita por você. Com Elementopia.</text></g></svg>';
+}
+function saveBlob(blob, extension) {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = fileName() + '.' + extension;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 10000);
+}
+const originalTitle = document.title;
+window.addEventListener('afterprint', () => { document.title = originalTitle; });
+document.querySelector('#download').addEventListener('click', async () => {
+  const status = document.querySelector('#export-status');
+  const button = document.querySelector('#download');
+  const format = selectedFormat();
+  const scale = Number(document.querySelector('#quality').value);
+  button.disabled = true;
+  status.textContent = 'Préparando sua tabela…';
+  try {
+    const svg = createSvg();
+    if (format === 'svg') {
+      saveBlob(new Blob([svg], { type: 'image/svg+xml;charset=utf-8' }), 'svg');
+      status.textContent = 'Tabela SVG preparada!';
+    } else {
+      const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml;charset=utf-8' }));
+      const image = new Image();
+      try {
+        await new Promise((resolve, reject) => { image.onload = resolve; image.onerror = reject; image.src = url; });
+        if (format === 'pdf') {
+          document.querySelector('.print-table')?.remove();
+          const printArea = document.createElement('div');
+          printArea.className = 'print-table';
+          printArea.style.display = 'none';
+          printArea.append(image);
+          document.body.append(printArea);
+          document.title = fileName();
+          try { window.print(); } finally { document.title = originalTitle; }
+          status.textContent = 'Escolha “Salvar como PDF” na janela de impressão.';
+        } else {
+          const canvas = document.createElement('canvas');
+          canvas.width = 1560 * scale;
+          canvas.height = 1000 * scale;
+          const context = canvas.getContext('2d');
+          context.fillStyle = '#fff';
+          context.fillRect(0, 0, canvas.width, canvas.height);
+          context.drawImage(image, 0, 0, canvas.width, canvas.height);
+          const blob = await new Promise(resolve => canvas.toBlob(resolve, format === 'jpg' ? 'image/jpeg' : 'image/png', .95));
+          if (!blob) throw new Error('Exportação indisponível');
+          saveBlob(blob, format);
+          status.textContent = 'Sua tabela está pronta!';
+        }
+      } finally { URL.revokeObjectURL(url); }
+    }
+  } catch (error) {
+    status.textContent = 'Não foi possível exportar. Tente o formato SVG.';
+  } finally { button.disabled = false; }
 });
