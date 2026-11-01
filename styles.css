@@ -300,9 +300,3 @@ p { color: var(--muted); }
 @media (forced-colors: active) {
   .button, .feature, .custom-card, .header, .cell { border: 1px solid ButtonText; }
 }
-@media print {
-  body > * { display: none !important; }
-  body > .print-table { display: block !important; width: 100%; }
-  .print-table img { width: 100%; }
-  @page { size: A4 landscape; margin: 10mm; }
-}

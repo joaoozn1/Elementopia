@@ -1,5 +1,12 @@
 # Histórico de versões
 
+## 1.0.6-beta
+
+- Posiciona os números dos grupos acima do primeiro elemento de cada coluna, na tela e nos arquivos exportados.
+- Remove a frase “Tabela periódica · Química com o seu jeito” abaixo da logo nas exportações.
+- Substitui a impressão do navegador por um download direto do PDF em A4 paisagem, sem cabeçalhos com data, hora, endereço ou nome de arquivo.
+- Gera o PDF com uma imagem de alta resolução e mantém o nome escolhido apenas no arquivo baixado.
+
 ## 1.0.5-beta
 
 - Aumenta o tamanho do número atômico, massa e nome dos elementos na tabela, destaque e arquivos exportados.

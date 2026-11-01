@@ -1,4 +1,4 @@
-# Elementopia · Beta v1.0.5
+# Elementopia · Beta v1.0.6
 
 Site em português com landing page e uma página dedicada à customização de tabelas periódicas. Feito com HTML, CSS e JavaScript, sem dependências externas. A versão está registrada em `VERSION`.
 
@@ -33,7 +33,7 @@ Abra a porta 8000 no seu navegador. `index.html` apresenta o projeto; os botões
 - Prévia com os 118 elementos, numeração de grupos e períodos, seleção de elementos e opção de exibir nomes e massas.
 - Massas em modo decimal (1, 2 ou 3 casas) ou arredondado. A precisão escolhida também aparece no destaque e nas exportações.
 - Nome de arquivo personalizável e downloads PNG/JPEG em 1560 × 1000, 3120 × 2000 ou 4680 × 3000 pixels. SVG vetorial e PDF não dependem do seletor de qualidade.
-- PDF pelo diálogo de impressão do navegador: escolha **Salvar como PDF**, orientação paisagem.
+- PDF por download direto em A4 paisagem, com imagem de alta resolução (3120 × 2000 px), sem abrir a impressão do navegador e sem cabeçalhos com data, hora, endereço ou nome de arquivo.
 - Logos originais em `assets/`; nenhuma fonte ou biblioteca externa.
 
 ### Dados de massa atômica
@@ -48,8 +48,10 @@ As escolhas de cores, nomes e massas valem também para PNG, JPEG, SVG e PDF. N�
 
 `node --check site.js`, `node --check customizar.js` e `node --check atomic-masses.js` verificam a sintaxe.
 
-A beta foi validada em Chromium, tanto na landing quanto no customizador, nas larguras de 320, 390, 768, 1024, 1280 e 1544 px, sem transbordamento horizontal da página, com os cards em uma, duas ou quatro colunas. Foram conferidos os 118 registros, a correspondência dos símbolos, os três níveis de precisão, o arredondamento, os 34 valores entre colchetes, a atualização do elemento em destaque, as quatro cores, o aviso de contraste, a visibilidade dos nomes e massas, a restauração dos padrões, o nome do arquivo, PNG/JPEG em alta qualidade, SVG e o fluxo de impressão PDF.
+A beta foi validada em Chromium, tanto na landing quanto no customizador, nas larguras de 320, 390, 768, 1024, 1280 e 1544 px, sem transbordamento horizontal da página, com os cards em uma, duas ou quatro colunas. Foram conferidos os 118 registros, a correspondência dos símbolos, os três níveis de precisão, o arredondamento, os 34 valores entre colchetes, a atualização do elemento em destaque, as quatro cores, o aviso de contraste, a visibilidade dos nomes e massas, a restauração dos padrões, o nome do arquivo, PNG/JPEG em alta qualidade, SVG e o download direto do PDF.
 
-Também foram verificados: ausência da prévia e dos scripts de tabela na landing, os três botões que abrem o customizador, acesso direto à nova página, retorno à landing, identificação Beta v1.0.5, funcionamento do menu móvel e ausência de erros JavaScript nas duas páginas.
+Também foram verificados: ausência da prévia e dos scripts de tabela na landing, os três botões que abrem o customizador, acesso direto à nova página, retorno à landing, identificação Beta v1.0.6, funcionamento do menu móvel e ausência de erros JavaScript nas duas páginas.
 
-Na beta v1.0.5 também foram validados: abertura e fechamento do histórico por botão, Esc e clique fora; foco contido no modal e devolvido ao botão da versão; preferência de movimento reduzido; fontes ampliadas sem sobreposição do número e da massa; correspondência exata dos bytes da logo incorporada ao SVG e presença visual da logo no PNG exportado.
+Na beta v1.0.6 também foram validados: abertura e fechamento do histórico por botão, Esc e clique fora; foco contido no modal e devolvido ao botão da versão; preferência de movimento reduzido; fontes ampliadas sem sobreposição do número e da massa; correspondência exata dos bytes da logo incorporada ao SVG e presença visual da logo no PNG exportado.
+
+Na beta v1.0.6, os 18 números de grupo foram conferidos acima dos elementos que iniciam cada coluna, tanto no DOM quanto no SVG. O PDF foi aberto e renderizado com PyMuPDF: uma página A4 paisagem, sem reparo estrutural, sem título ou datas nos metadados e sem a frase abaixo da logo. O arquivo preserva o nome escolhido apenas para o download, sem imprimi-lo na página.

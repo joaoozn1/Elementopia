@@ -19,6 +19,9 @@ for(let n=1;n<=118;n++){
  else {row=7;col=n-100;}
  positions.push({n,symbol:symbols[n-1],name:names[n-1],row,col,group:nonmetals.has(n)?'nonmetal':others.has(n)?'other':'metal'});
 }
+// Find the first main-table element in each group, shared by screen and export layouts.
+const groupStarts = Array.from({ length: 18 }, (_, index) =>
+  positions.find(element => element.col === index + 1 && element.row <= 7));
 // Shared state: the same values drive the table, spotlight and downloads.
 const table = document.querySelector('#periodic-table');
 const decimalPlaces = document.querySelector('#decimal-places');
@@ -87,7 +90,9 @@ function addTableLabel(text, row, column, className = 'table-axis') {
   label.style.gridColumn = column;
   table.append(label);
 }
-for (let group = 1; group <= 18; group++) addTableLabel(group, 1, group + 1);
+groupStarts.forEach((element, index) => {
+  addTableLabel(index + 1, element.row + 1, element.col + 1, 'table-axis group-axis');
+});
 for (let period = 1; period <= 7; period++) addTableLabel(period, period + 1, 1);
 addTableLabel('6*', 10, 1);
 addTableLabel('7*', 11, 1);
@@ -183,10 +188,10 @@ function loadExportLogo() {
 }
 function createSvg(logoDataUrl) {
   let svg = '<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="1000" viewBox="0 0 1560 1000"><rect width="1560" height="1000" fill="white"/><g font-family="Arial, sans-serif" fill="#352844">';
-  svg += `<image x="45" y="15" width="220" height="66" preserveAspectRatio="xMinYMid meet" href="${logoDataUrl}"/><text x="45" y="98" font-size="14">Tabela periódica · Química com o seu jeito</text>`;
-  for (let group = 1; group <= 18; group++) {
-    svg += `<text x="${83.5 + (group - 1) * 82}" y="112" text-anchor="middle" font-size="11">${group}</text>`;
-  }
+  svg += `<image x="45" y="15" width="220" height="66" preserveAspectRatio="xMinYMid meet" href="${logoDataUrl}"/>`;
+  groupStarts.forEach((element, index) => {
+    svg += `<text x="${83.5 + (element.col - 1) * 82}" y="${116 + (element.row - 1) * 76}" text-anchor="middle" font-size="11">${index + 1}</text>`;
+  });
   for (const element of positions) {
     const x = 45 + (element.col - 1) * 82;
     const y = 125 + (element.row - 1) * 76;
@@ -214,8 +219,42 @@ function saveBlob(blob, extension) {
   link.remove();
   setTimeout(() => URL.revokeObjectURL(url), 10000);
 }
-const originalTitle = document.title;
-window.addEventListener('afterprint', () => { document.title = originalTitle; });
+// Generate a one-page PDF directly: browser print headers never enter the document.
+function createPdfBlob(jpegBytes, imageWidth, imageHeight) {
+  const encoder = new TextEncoder();
+  const chunks = [];
+  const offsets = [0];
+  let length = 0;
+  function append(value) {
+    const bytes = typeof value === 'string' ? encoder.encode(value) : value;
+    chunks.push(bytes);
+    length += bytes.length;
+  }
+  function object(number, content) {
+    offsets[number] = length;
+    append(`${number} 0 obj\n${content}\nendobj\n`);
+  }
+  append('%PDF-1.4\n');
+  object(1, '<< /Type /Catalog /Pages 2 0 R >>');
+  object(2, '<< /Type /Pages /Kids [3 0 R] /Count 1 >>');
+  object(3, '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 841.89 595.28] /Resources << /XObject << /Table 4 0 R >> >> /Contents 5 0 R >>');
+  offsets[4] = length;
+  append(`4 0 obj\n<< /Type /XObject /Subtype /Image /Width ${imageWidth} /Height ${imageHeight} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpegBytes.length} >>\nstream\n`);
+  append(jpegBytes);
+  append('\nendstream\nendobj\n');
+  const width = 805.89;
+  const height = width * imageHeight / imageWidth;
+  const y = (595.28 - height) / 2;
+  const content = `q\n${width} 0 0 ${height.toFixed(3)} 18 ${y.toFixed(3)} cm\n/Table Do\nQ\n`;
+  object(5, `<< /Length ${encoder.encode(content).length} >>\nstream\n${content}endstream`);
+  const xrefOffset = length;
+  append('xref\n0 6\n0000000000 65535 f \n');
+  for (let number = 1; number <= 5; number++) {
+    append(String(offsets[number]).padStart(10, '0') + ' 00000 n \n');
+  }
+  append(`trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF\n`);
+  return new Blob(chunks, { type: 'application/pdf' });
+}
 document.querySelector('#download').addEventListener('click', async () => {
   const status = document.querySelector('#export-status');
   const button = document.querySelector('#download');
@@ -234,29 +273,24 @@ document.querySelector('#download').addEventListener('click', async () => {
       const image = new Image();
       try {
         await new Promise((resolve, reject) => { image.onload = resolve; image.onerror = reject; image.src = url; });
+        const canvas = document.createElement('canvas');
+        const renderScale = format === 'pdf' ? 2 : scale;
+        canvas.width = 1560 * renderScale;
+        canvas.height = 1000 * renderScale;
+        const context = canvas.getContext('2d');
+        context.fillStyle = '#fff';
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+        const mime = format === 'png' ? 'image/png' : 'image/jpeg';
+        const blob = await new Promise(resolve => canvas.toBlob(resolve, mime, .98));
+        if (!blob) throw new Error('Exportação indisponível');
         if (format === 'pdf') {
-          document.querySelector('.print-table')?.remove();
-          const printArea = document.createElement('div');
-          printArea.className = 'print-table';
-          printArea.style.display = 'none';
-          printArea.append(image);
-          document.body.append(printArea);
-          document.title = fileName();
-          try { window.print(); } finally { document.title = originalTitle; }
-          status.textContent = 'Escolha “Salvar como PDF” na janela de impressão.';
+          const jpegBytes = new Uint8Array(await blob.arrayBuffer());
+          saveBlob(createPdfBlob(jpegBytes, canvas.width, canvas.height), 'pdf');
         } else {
-          const canvas = document.createElement('canvas');
-          canvas.width = 1560 * scale;
-          canvas.height = 1000 * scale;
-          const context = canvas.getContext('2d');
-          context.fillStyle = '#fff';
-          context.fillRect(0, 0, canvas.width, canvas.height);
-          context.drawImage(image, 0, 0, canvas.width, canvas.height);
-          const blob = await new Promise(resolve => canvas.toBlob(resolve, format === 'jpg' ? 'image/jpeg' : 'image/png', .95));
-          if (!blob) throw new Error('Exportação indisponível');
           saveBlob(blob, format);
-          status.textContent = 'Sua tabela está pronta!';
         }
+        status.textContent = 'Sua tabela está pronta!';
       } finally { URL.revokeObjectURL(url); }
     }
   } catch (error) {
