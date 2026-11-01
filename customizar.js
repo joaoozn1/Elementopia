@@ -162,9 +162,28 @@ function elementColors(element) {
     foreground: document.getElementById(group + '-ink').value
   };
 }
-function createSvg() {
+// Embed the original logo so exported SVGs, raster images and PDFs are self-contained.
+let exportLogoPromise;
+function loadExportLogo() {
+  if (!exportLogoPromise) {
+    exportLogoPromise = fetch(new URL('assets/elementopia-logo-colorida.png', document.baseURI))
+      .then(response => {
+        if (!response.ok) throw new Error('Logo indisponível');
+        return response.arrayBuffer();
+      })
+      .then(bytes => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(new Blob([bytes], { type: 'image/png' }));
+      }))
+      .catch(error => { exportLogoPromise = null; throw error; });
+  }
+  return exportLogoPromise;
+}
+function createSvg(logoDataUrl) {
   let svg = '<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="1000" viewBox="0 0 1560 1000"><rect width="1560" height="1000" fill="white"/><g font-family="Arial, sans-serif" fill="#352844">';
-  svg += '<text x="45" y="55" font-size="28" font-weight="bold">Elementopia</text><text x="45" y="84" font-size="14">Tabela periódica · Química com o seu jeito</text>';
+  svg += `<image x="45" y="15" width="220" height="66" preserveAspectRatio="xMinYMid meet" href="${logoDataUrl}"/><text x="45" y="98" font-size="14">Tabela periódica · Química com o seu jeito</text>`;
   for (let group = 1; group <= 18; group++) {
     svg += `<text x="${83.5 + (group - 1) * 82}" y="112" text-anchor="middle" font-size="11">${group}</text>`;
   }
@@ -172,7 +191,7 @@ function createSvg() {
     const x = 45 + (element.col - 1) * 82;
     const y = 125 + (element.row - 1) * 76;
     const colors = elementColors(element);
-    svg += `<g transform="translate(${x} ${y})" fill="${colors.foreground}"><rect width="77" height="71" rx="5" fill="${colors.background}"/><text x="6" y="13" font-size="10">${element.n}</text><text x="71" y="13" text-anchor="end" font-size="9">${escapeXml(formatMass(element))}</text><text x="38.5" y="46" text-anchor="middle" font-size="29" font-weight="bold">${element.symbol}</text>${namesToggle.checked ? `<text x="38.5" y="64" text-anchor="middle" font-size="8">${escapeXml(element.name)}</text>` : ''}</g>`;
+    svg += `<g transform="translate(${x} ${y})" fill="${colors.foreground}"><rect width="77" height="71" rx="5" fill="${colors.background}"/><text x="6" y="15" font-size="13">${element.n}</text><text x="71" y="15" text-anchor="end" font-size="12">${escapeXml(formatMass(element))}</text><text x="38.5" y="46" text-anchor="middle" font-size="29" font-weight="bold">${element.symbol}</text>${namesToggle.checked ? `<text x="38.5" y="64" text-anchor="middle" font-size="11">${escapeXml(element.name)}</text>` : ''}</g>`;
   }
   svg += '<text x="222" y="540" font-size="11">57–71</text><text x="222" y="616" font-size="11">89–103</text>';
   for (let period = 1; period <= 7; period++) {
@@ -183,7 +202,7 @@ function createSvg() {
     const x = 45 + index * 170;
     svg += `<rect x="${x}" y="925" width="14" height="14" rx="3" fill="${document.getElementById(group).value}"/><text x="${x + 23}" y="937" font-size="12">${index === 0 ? 'Metais' : 'Ametais e demais grupos'}</text>`;
   });
-  return svg + '<text x="1515" y="968" text-anchor="end" font-size="12">Feita por você. Com Elementopia.</text></g></svg>';
+  return svg + '<text x="1515" y="968" text-anchor="end" font-size="12">Feita por você.</text></g></svg>';
 }
 function saveBlob(blob, extension) {
   const url = URL.createObjectURL(blob);
@@ -205,7 +224,8 @@ document.querySelector('#download').addEventListener('click', async () => {
   button.disabled = true;
   status.textContent = 'Préparando sua tabela…';
   try {
-    const svg = createSvg();
+    const logoDataUrl = await loadExportLogo();
+    const svg = createSvg(logoDataUrl);
     if (format === 'svg') {
       saveBlob(new Blob([svg], { type: 'image/svg+xml;charset=utf-8' }), 'svg');
       status.textContent = 'Tabela SVG preparada!';
@@ -240,6 +260,55 @@ document.querySelector('#download').addEventListener('click', async () => {
       } finally { URL.revokeObjectURL(url); }
     }
   } catch (error) {
-    status.textContent = 'Não foi possível exportar. Tente o formato SVG.';
+    status.textContent = 'Não foi possível preparar o arquivo. Tente novamente.';
   } finally { button.disabled = false; }
+});
+
+// The native dialog handles focus trapping; closing restores the version button.
+document.querySelectorAll('.studio-navigation a').forEach(link => link.addEventListener('click', () => {
+  document.querySelectorAll('.studio-navigation a').forEach(item => item.removeAttribute('aria-current'));
+  link.setAttribute('aria-current', 'location');
+}));
+const updateDialog = document.querySelector('#update-log');
+const updateTrigger = document.querySelector('#open-updates');
+let updateCloseTimer;
+function closeUpdateLog() {
+  if (!updateDialog.open || updateDialog.classList.contains('is-closing')) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    updateDialog.close();
+    return;
+  }
+  updateDialog.classList.add('is-closing');
+  updateCloseTimer = setTimeout(() => updateDialog.close(), 160);
+}
+updateTrigger.addEventListener('click', () => {
+  if (updateDialog.open) return;
+  updateDialog.classList.remove('is-closing');
+  updateDialog.showModal();
+});
+document.querySelector('#close-updates').addEventListener('click', closeUpdateLog);
+updateDialog.addEventListener('cancel', event => { event.preventDefault(); closeUpdateLog(); });
+updateDialog.addEventListener('keydown', event => {
+  if (event.key !== 'Tab') return;
+  const controls = [...updateDialog.querySelectorAll('button, a[href], input, select, textarea, [tabindex]')]
+    .filter(element => !element.disabled && element.tabIndex >= 0 && element.getClientRects().length);
+  const first = controls[0];
+  const last = controls[controls.length - 1];
+  if (first && event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (last && !event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
+});
+updateDialog.addEventListener('click', event => {
+  const bounds = updateDialog.getBoundingClientRect();
+  if (event.target === updateDialog && (event.clientX < bounds.left || event.clientX > bounds.right ||
+      event.clientY < bounds.top || event.clientY > bounds.bottom)) closeUpdateLog();
+});
+updateDialog.addEventListener('close', () => {
+  clearTimeout(updateCloseTimer);
+  updateDialog.classList.remove('is-closing');
+  updateTrigger.focus({ preventScroll: true });
 });

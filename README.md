@@ -1,4 +1,4 @@
-# Elementopia · Beta v1.0.4
+# Elementopia · Beta v1.0.5
 
 Site em português com landing page e uma página dedicada à customização de tabelas periódicas. Feito com HTML, CSS e JavaScript, sem dependências externas. A versão está registrada em `VERSION`.
 
@@ -10,7 +10,7 @@ Na pasta do projeto:
 python -m http.server 8000
 ```
 
-Abra a porta 8000 no seu navegador. `index.html` apresenta o projeto; os botões **Criar tabela** abrem `customizar.html`. A página de customização também funciona por acesso direto e oferece retorno à landing. As duas páginas podem ser abertas diretamente do sistema de arquivos.
+Abra a porta 8000 no seu navegador. `index.html` apresenta o projeto; os botões **Criar tabela** abrem `customizar.html`. A página de customização também funciona por acesso direto e oferece retorno à landing. As duas páginas podem ser abertas diretamente do sistema de arquivos para navegação; para exportar com a logo incorporada, use o servidor local acima, que permite carregar a imagem da marca.
 
 ## Organização
 
@@ -25,6 +25,9 @@ Abra a porta 8000 no seu navegador. `index.html` apresenta o projeto; os botões
 
 - Layout responsivo, navegação flutuante com menu móvel acessível e animações com respeito à preferência de movimento reduzido.
 - Design com vidro fosco, brilho sutil e paleta roxa definida em variáveis CSS; fundo branco e superfícies de fallback para navegadores sem desfoque.
+- Navegação do customizador com atalhos, botão de voltar ao início e botão de versão que abre um histórico de atualizações animado, acessível por teclado.
+- Número atômico, massa e nomes ampliados na tabela, no destaque e nas exportações.
+- Logo colorida original incorporada no cabeçalho de todos os formatos exportados.
 - Customizador com quatro cards: elemento em destaque, cores, massa atômica e exportação.
 - Cores independentes para fundo e texto de metais e ametais; semimetais, gases nobres e outros elementos usam a segunda combinação. Um aviso aparece quando o contraste escolhido fica abaixo de 4,5:1.
 - Prévia com os 118 elementos, numeração de grupos e períodos, seleção de elementos e opção de exibir nomes e massas.
@@ -47,4 +50,6 @@ As escolhas de cores, nomes e massas valem também para PNG, JPEG, SVG e PDF. N�
 
 A beta foi validada em Chromium, tanto na landing quanto no customizador, nas larguras de 320, 390, 768, 1024, 1280 e 1544 px, sem transbordamento horizontal da página, com os cards em uma, duas ou quatro colunas. Foram conferidos os 118 registros, a correspondência dos símbolos, os três níveis de precisão, o arredondamento, os 34 valores entre colchetes, a atualização do elemento em destaque, as quatro cores, o aviso de contraste, a visibilidade dos nomes e massas, a restauração dos padrões, o nome do arquivo, PNG/JPEG em alta qualidade, SVG e o fluxo de impressão PDF.
 
-Também foram verificados: ausência da prévia e dos scripts de tabela na landing, os três botões que abrem o customizador, acesso direto à nova página, retorno à landing, identificação Beta v1.0.4, funcionamento do menu móvel e ausência de erros JavaScript nas duas páginas.
+Também foram verificados: ausência da prévia e dos scripts de tabela na landing, os três botões que abrem o customizador, acesso direto à nova página, retorno à landing, identificação Beta v1.0.5, funcionamento do menu móvel e ausência de erros JavaScript nas duas páginas.
+
+Na beta v1.0.5 também foram validados: abertura e fechamento do histórico por botão, Esc e clique fora; foco contido no modal e devolvido ao botão da versão; preferência de movimento reduzido; fontes ampliadas sem sobreposição do número e da massa; correspondência exata dos bytes da logo incorporada ao SVG e presença visual da logo no PNG exportado.
