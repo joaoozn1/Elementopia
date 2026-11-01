@@ -1,4 +1,4 @@
-# Elementopia · Beta v1.1.0
+# Elementopia · Beta v1.1.1
 
 Site em português com landing page e uma página dedicada à customização de tabelas periódicas. Feito com HTML, CSS e JavaScript, sem dependências externas. A versão está registrada em `VERSION`.
 
@@ -54,10 +54,26 @@ As escolhas de cores, nomes e massas valem também para PNG, JPEG, SVG e PDF. N�
 
 A beta foi validada em Chromium, tanto na landing quanto no customizador, nas larguras de 320, 390, 768, 1024, 1280 e 1544 px, sem transbordamento horizontal da página, com os cards em uma, duas ou quatro colunas. Foram conferidos os 118 registros, a correspondência dos símbolos, os três níveis de precisão, o arredondamento, os 34 valores entre colchetes, a atualização do elemento em destaque, as quatro cores, o aviso de contraste, a visibilidade dos nomes e massas, a restauração dos padrões, o nome do arquivo, PNG/JPEG em alta qualidade, SVG e o download direto do PDF.
 
-Também foram verificados: ausência da prévia e dos scripts de tabela na landing, os três botões que abrem o customizador, acesso direto à nova página, retorno à landing, identificação Beta v1.1.0, funcionamento do menu móvel e ausência de erros JavaScript nas duas páginas.
+Também foram verificados: ausência da prévia e dos scripts de tabela na landing, os três botões que abrem o customizador, acesso direto à nova página, retorno à landing, identificação Beta v1.1.1, funcionamento do menu móvel e ausência de erros JavaScript nas duas páginas.
 
-Na beta v1.1.0 também foram validados: abertura e fechamento do histórico por botão, Esc e clique fora; foco contido no modal e devolvido ao botão da versão; preferência de movimento reduzido; fontes ampliadas sem sobreposição do número e da massa; correspondência exata dos bytes da logo incorporada ao SVG e presença visual da logo no PNG exportado.
+Na beta v1.0.5 também foram validados: abertura e fechamento do histórico por botão, Esc e clique fora; foco contido no modal e devolvido ao botão da versão; preferência de movimento reduzido; fontes ampliadas sem sobreposição do número e da massa; correspondência exata dos bytes da logo incorporada ao SVG e presença visual da logo no PNG exportado.
 
-Na beta v1.1.0, os 18 números de grupo foram conferidos acima dos elementos que iniciam cada coluna, tanto no DOM quanto no SVG. O PDF foi aberto e renderizado com PyMuPDF: uma página A4 paisagem, sem reparo estrutural, sem título ou datas nos metadados e sem a frase abaixo da logo. O arquivo preserva o nome escolhido apenas para o download, sem imprimi-lo na página.
+Na beta v1.0.6, os 18 números de grupo foram conferidos acima dos elementos que iniciam cada coluna, tanto no DOM quanto no SVG. O PDF foi aberto e renderizado com PyMuPDF: uma página A4 paisagem, sem reparo estrutural, sem título ou datas nos metadados e sem a frase abaixo da logo. O arquivo preserva o nome escolhido apenas para o download, sem imprimi-lo na página.
 
 Na beta v1.1.0 foram validados os cinco passos do tutorial, avanço/retorno e conclusão, restauração do foco, códigos HEX válidos/ inválidos e abreviados, sincronização de paletas, alinhamento das quatro legendas do destaque em seis larguras de tela, ocultação das legendas ao ocultar dados, alinhamento Lu/Lr/Og, presença das duas setas, navegação pelos intervalos e igualdade do texto dos rodapés. As exportações preservam o novo alinhamento e as setas das séries.
+
+## Landing e SEO — beta v1.1.1
+
+A landing foi ampliada a partir do PDF **Informações sobre o Elementopia**, fornecido pela equipe. Apresenta a origem no IFPR Campus Capanema, a idealização pela professora Eliane May de Lima e o desenvolvimento por João Henrique Grando Ferreira. As informações sobre públicos e a proposta de simplificação foram incorporadas sem prometer resultados clínicos ou pedagógicos específicos.
+
+- Conteúdo estático em HTML: propósito, recursos atuais, públicos, guia dos elementos e FAQ com sete respostas.
+- Um único H1, títulos e descrições específicos, navegação por seções e FAQ nativa com `details`/`summary`.
+- URLs canônicas: `https://joaoozn1.github.io/Elementopia/` e `https://joaoozn1.github.io/Elementopia/customizar.html`.
+- `sitemap.xml` lista as duas páginas. Não há datas de atualização artificiais.
+- Open Graph/Twitter usam a imagem `assets/elementopia-compartilhamento.png`, em 1200 × 630 px.
+- JSON-LD descreve WebSite, WebApplication e FAQPage; as respostas estruturadas são iguais às visíveis. Não há avaliações, notas ou números de uso inventados.
+- Imagens possuem dimensões reservadas e logos institucionais fora da primeira tela usam carregamento diferido.
+
+O conteúdo da landing, a FAQ por mouse/teclado, o menu móvel, a ausência de prévia interativa, os metadados, o sitemap, as imagens e a navegação para o customizador foram validados em Chromium nas larguras 320, 390, 768, 1024 e 1440 px. A verificação é local; não comprova indexação ou posição em buscadores.
+
+Se o endereço público mudar, atualize canônicas, Open Graph/Twitter, JSON-LD e sitemap. Em um site de projeto do GitHub Pages, um `robots.txt` dentro de `/Elementopia/` não controla o domínio: os robôs buscam esse arquivo na raiz `https://joaoozn1.github.io/robots.txt`. Por isso não foi criado um arquivo ineficaz no caminho do projeto. Após a publicação, o sitemap pode ser enviado ao Search Console pelo responsável pelo site.

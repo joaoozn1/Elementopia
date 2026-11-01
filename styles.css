@@ -300,3 +300,40 @@ p { color: var(--muted); }
 @media (forced-colors: active) {
   .button, .feature, .custom-card, .header, .cell { border: 1px solid ButtonText; }
 }
+
+/* Beta v1.1.1: readable educational content and native, accessible FAQs. */
+.audience-section { border-top: 1px solid #eee6fa; }
+.audience-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 30px; }
+.audience-grid article { padding: 10px 0 0 22px; border-left: 2px solid #d0bcfc; }
+.audience-number { color: #6631db; font-size: 13px; font-weight: 700; }
+.audience-grid h3 { font-size: 22px; margin: 15px 0; }
+.audience-grid p { font-size: 17px; line-height: 1.85; margin: 0; }
+.learning-section { background: #faf8ff; border-block: 1px solid #eee6fa; }
+.element-guide { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin: 0; }
+.element-guide > div { padding: 26px; border: 1px solid #e5d8fa; border-radius: 18px; background: #ffffffd9; }
+.element-guide dt { display: flex; align-items: center; gap: 14px; font-size: 19px; font-weight: 600; line-height: 1.5; }
+.element-guide dt span { min-width: 55px; padding: 9px 7px; color: #491ab1; background: #f0e8ff; border: 1px solid #d0bcfc; border-radius: 12px; text-align: center; font-size: 18px; }
+.element-guide dd { margin: 18px 0 0; color: #625575; font-size: 17px; line-height: 1.85; }
+.series-explainer { margin-top: 35px; max-width: 900px; }
+.series-explainer h3 { font-size: 24px; }
+.series-explainer p { line-height: 1.85; font-size: 17px; }
+.about-copy strong, .hero-copy strong { font-weight: 600; color: #49365f; }
+.faq-section { padding-top: 35px; }
+.faq-list { max-width: 900px; margin: 35px auto 0; }
+.faq-list details { border-bottom: 1px solid #e5d8fa; padding: 0; }
+.faq-list summary { cursor: pointer; padding: 23px 30px 23px 0; font-size: 18px; font-weight: 600; line-height: 1.6; color: #49365f; }
+.faq-list summary::marker { color: #7b45f0; }
+.faq-list summary:focus-visible { outline: 3px solid #491ab1; outline-offset: 4px; border-radius: 5px; }
+.faq-list details[open] summary { color: #491ab1; }
+.faq-list details p { margin: 0 0 24px; font-size: 17px; line-height: 1.85; }
+@media (max-width: 1100px) { .header nav a { padding-inline: 9px; font-size: 13px; } }
+@media (max-width: 900px) { .header nav a { font-size: 16px; } }
+@media (max-width: 700px) {
+  .audience-grid, .element-guide { grid-template-columns: 1fr; gap: 26px; }
+  .audience-grid h3 { font-size: 23px; }
+  .element-guide > div { padding: 24px; }
+  .element-guide dt { font-size: 18px; gap: 10px; }
+  .element-guide dt span { min-width: 49px; font-size: 16px; }
+  .faq-list summary { font-size: 17px; padding-right: 0; }
+  .faq-list details p { font-size: 17px; }
+}

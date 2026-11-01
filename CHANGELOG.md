@@ -1,5 +1,13 @@
 # Histórico de versões
 
+## 1.1.1-beta
+
+- Amplia a landing page com informações do documento “Informações sobre o Elementopia”: propósito, públicos, origem no IFPR Campus Capanema e créditos de Eliane May de Lima e João Henrique Grando Ferreira.
+- Acrescenta conteúdo para professores e estudantes, guia dos dados dos elementos e sete perguntas frequentes acessíveis sem JavaScript.
+- Melhora títulos, descrição, hierarquia de headings, dimensões de imagens e carregamento diferido das logos institucionais.
+- Adiciona metadados Open Graph/Twitter e imagem de compartilhamento em 1200 × 630 px.
+- Configura URLs canônicas para o GitHub Pages informado pela equipe, sitemap.xml e dados estruturados WebSite, WebApplication e FAQPage coerentes com o conteúdo visível.
+
 ## 1.1.0-beta
 
 - Corrige as indicações do elemento em destaque com setas posicionadas a partir dos campos reais, acompanhando tamanho da tela, elemento selecionado e visibilidade de nomes e massas.

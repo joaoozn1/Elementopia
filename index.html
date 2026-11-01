@@ -3,24 +3,158 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="application-version" content="1.1.0-beta">
+<meta name="application-version" content="1.1.1-beta">
 <meta name="theme-color" content="#6631DB">
-<meta name="description" content="Uma tabela periódica com o seu jeito. Personalize as cores, simplifique seus estudos e leve o Elementopia com você.">
-<title>Elementopia — química com o seu jeito</title>
+<meta name="description" content="Crie sua tabela periódica personalizada e gratuita. Escolha cores e massas atômicas e baixe em PDF ou imagem. Um projeto do IFPR Campus Capanema, sem cadastro.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Elementopia">
+<meta property="og:title" content="Elementopia — sua tabela periódica personalizada">
+<meta property="og:description" content="Uma ferramenta gratuita para estudar e ensinar Química. Personalize cores e informações dos 118 elementos e baixe sua tabela em PDF ou imagem, sem cadastro.">
+<meta property="og:image" content="https://joaoozn1.github.io/Elementopia/assets/elementopia-compartilhamento.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Elementopia: tabela periódica personalizada, gratuita e sem cadastro">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Elementopia — sua tabela periódica personalizada">
+<meta name="twitter:description" content="Escolha suas cores, ajuste as massas atômicas e baixe sua tabela em PDF ou imagem. Gratuito e sem cadastro.">
+<meta name="twitter:image" content="https://joaoozn1.github.io/Elementopia/assets/elementopia-compartilhamento.png">
+<meta name="twitter:image:alt" content="Elementopia: tabela periódica personalizada, gratuita e sem cadastro">
+<title>Elementopia | Tabela periódica personalizada e gratuita</title>
+<link rel="canonical" href="https://joaoozn1.github.io/Elementopia/">
+<link rel="sitemap" type="application/xml" href="sitemap.xml">
+<meta property="og:url" content="https://joaoozn1.github.io/Elementopia/">
 <link rel="icon" href="assets/icon-aba.png">
 <link rel="stylesheet" href="styles.css">
 <script defer src="site.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "name": "Elementopia",
+      "inLanguage": "pt-BR",
+      "description": "Plataforma gratuita para criar tabelas periódicas personalizadas para estudar e ensinar Química.",
+      "@id": "https://joaoozn1.github.io/Elementopia/#website",
+      "url": "https://joaoozn1.github.io/Elementopia/"
+    },
+    {
+      "@type": "WebApplication",
+      "name": "Elementopia",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "inLanguage": "pt-BR",
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "BRL"
+      },
+      "description": "Customizador de tabela periódica com 118 elementos, cores personalizáveis, massas decimais ou arredondadas e exportação em PDF, PNG, JPEG e SVG.",
+      "creator": [
+        {
+          "@type": "Person",
+          "name": "Eliane May de Lima",
+          "description": "Doutora em Química e professora do IFPR Campus Capanema."
+        },
+        {
+          "@type": "Person",
+          "name": "João Henrique Grando Ferreira",
+          "description": "Estudante do curso de Cooperativismo do IFPR Campus Capanema."
+        }
+      ],
+      "@id": "https://joaoozn1.github.io/Elementopia/customizar.html#application",
+      "url": "https://joaoozn1.github.io/Elementopia/customizar.html",
+      "image": "https://joaoozn1.github.io/Elementopia/assets/elementopia-compartilhamento.png",
+      "isPartOf": {
+        "@id": "https://joaoozn1.github.io/Elementopia/#website"
+      },
+      "softwareVersion": "1.1.1-beta"
+    },
+    {
+      "@type": "FAQPage",
+      "inLanguage": "pt-BR",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "O que é o Elementopia?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "O Elementopia é uma plataforma gratuita para criar uma tabela periódica personalizada. Professores e estudantes podem escolher cores, exibir ou ocultar nomes e massas atômicas e baixar a tabela com os 118 elementos químicos."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "O Elementopia é gratuito? Preciso criar uma conta?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sim, o uso é gratuito e não exige cadastro. Basta abrir o customizador, ajustar sua tabela e baixar o arquivo."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quais informações posso personalizar na tabela periódica?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Você pode alterar as cores de fundo e de texto de metais e ametais, escolher uma paleta pronta ou informar códigos HEX. Também pode exibir ou ocultar os nomes e as massas atômicas. Semimetais e gases nobres usam as cores dos ametais nessa visualização simplificada."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Como escolher entre massa decimal e arredondada?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No card Massa atômica do customizador, selecione Decimal e escolha uma, duas ou três casas decimais, ou selecione Arredondada para usar números inteiros. Os números de massa de isótopos são mantidos entre colchetes."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Como baixar a tabela periódica em PDF ou imagem?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No card Exportar, escolha PDF, PNG, JPEG ou SVG, informe um nome e clique em Baixar tabela. O PDF é baixado diretamente, sem cabeçalhos com data ou hora. PNG e JPEG têm opções de qualidade. Para imprimir, abra o arquivo baixado no aplicativo de sua preferência."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Posso usar o Elementopia no celular?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sim. A landing page e o customizador se adaptam a celulares, tablets e computadores. Em telas menores, deslize a tabela para os lados para explorar todas as colunas."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quem criou o Elementopia?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "O projeto nasceu no IFPR Campus Capanema. Foi idealizado pela professora Eliane May de Lima, doutora em Química, e desenvolvido pelo estudante João Henrique Grando Ferreira, do curso de Cooperativismo."
+          }
+        }
+      ],
+      "@id": "https://joaoozn1.github.io/Elementopia/#perguntas-frequentes",
+      "isPartOf": {
+        "@id": "https://joaoozn1.github.io/Elementopia/#website"
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 <a class="skip-link" href="#inicio">Pular para o conteúdo</a>
 <header class="header">
 <a class="brand" href="#inicio" aria-label="Elementopia, início">
-<img src="assets/elementopia-logo-colorida.png" alt="Elementopia">
+<img src="assets/elementopia-logo-colorida.png" alt="Elementopia" width="1111" height="332" decoding="async">
 </a>
 <nav id="main-navigation" aria-label="Navegação principal">
 <a href="#possibilidades">Por que Elementopia?</a>
 <a href="#como-funciona">Como funciona</a>
 <a href="#sobre">O projeto</a>
+<a href="#perguntas-frequentes">Dúvidas</a>
 </nav>
 <a class="button small" href="customizar.html">Criar tabela <span aria-hidden="true"><svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></span>
 </a>
@@ -36,13 +170,13 @@
 <div class="hero-copy">
 <span class="eyebrow">
 <span class="dot">
-</span> UM NOVO ELEMENTO NOS SEUS ESTUDOS</span>
-<h1>A química é a mesma.<br>A tabela é <span class="highlight">do seu jeito.<svg viewBox="0 0 330 18" aria-hidden="true">
+</span> QUÍMICA MAIS SIMPLES PARA APRENDER E ENSINAR</span>
+<h1>Sua tabela periódica.<br><span class="highlight">Do seu jeito.<svg viewBox="0 0 330 18" aria-hidden="true">
 <path d="M3 11 Q155 -2 325 10 M45 16 Q170 6 288 14"/>
 </svg>
 </span>
 </h1>
-<p>Menos informação sobrando. Mais espaço para aprender.<br class="desktop"> Dê cor à sua tabela periódica e descubra uma nova<br class="desktop"> maneira de se conectar com a química.</p>
+<p>Crie uma <strong>tabela periódica personalizada e gratuita</strong>, com as cores e informações que fazem sentido para você. Explore os 118 elementos químicos, ajuste as massas atômicas e baixe sua tabela em PDF ou imagem. Sem cadastro, sem excesso de informação.</p>
 <div class="hero-actions">
 <a class="button" href="customizar.html">Vamos criar sua tabela <span><svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></span>
 </a>
@@ -101,7 +235,7 @@
 <div class="section-heading">
 <div>
 <span class="eyebrow">APRENDER PODE SER MAIS LEVE</span>
-<h2>Uma tabela. <span>Muitas possibilidades.</span>
+<h2>Uma tabela periódica. <span>Muitas possibilidades.</span>
 </h2>
 </div>
 <p>Apenas o essencial, com a liberdade<br>de deixar tudo com a sua cara.</p>
@@ -110,27 +244,35 @@
 <article class="feature">
 <span class="feature-icon lavender">◐</span>
 <h3>Cores que fazem sentido</h3>
-<p>Destaque metais e ametais com as cores que ajudam você a visualizar e aprender.</p>
+<p>Personalize as cores de fundo e de texto de metais e ametais. Use paletas prontas ou códigos HEX para criar uma combinação legível e com a sua cara.</p>
 <span class="feature-tag">Um toque seu</span>
 </article>
 <article class="feature">
 <span class="feature-icon yellow">⌘</span>
 <h3>Foco no que importa</h3>
-<p>Símbolo, nome e número atômico. Uma organização simples para a química ficar mais clara.</p>
+<p>Número atômico, símbolo, nome e massa atômica. Escolha se quer exibir nomes e massas para manter o foco no que a atividade pede.</p>
 <span class="feature-tag">Menos é mais</span>
 </article>
 <article class="feature">
 <span class="feature-icon pink">↧</span>
 <h3>Do seu jeito, em todo lugar</h3>
-<p>No celular, no computador ou na folha impressa. Salve sua criação e leve seus estudos com você.</p>
+<p>Use no celular, tablet ou computador. Exporte sua tabela periódica em PDF, PNG, JPEG ou SVG para estudar na tela ou preparar uma impressão.</p>
 <span class="feature-tag">Dentro e fora da tela</span>
 </article>
 </div>
 </section>
+<section class="section audience-section" id="para-quem" aria-labelledby="audience-title">
+  <div class="section-heading"><div><span class="eyebrow">CADA PESSOA TEM SEU JEITO</span><h2 id="audience-title">Para estudar, ensinar<br>e <span>começar pelo essencial.</span></h2></div><p>Uma ferramenta de Química para professores<br>e estudantes, com liberdade para simplificar.</p></div>
+  <div class="audience-grid">
+    <article><span class="audience-number" aria-hidden="true">01</span><h3>Para estudantes</h3><p>Monte uma tabela com os dados necessários para a matéria que está estudando. Ela também serve a quem precisa aprender o básico de Química, mesmo sem planejar uma carreira na área.</p></article>
+    <article><span class="audience-number" aria-hidden="true">02</span><h3>Para professores</h3><p>Prepare uma tabela periódica para usar em explicações, exercícios e materiais de aula. Escolha as cores, ajuste a apresentação das massas e exporte uma versão para compartilhar ou imprimir.</p></article>
+    <article><span class="audience-number" aria-hidden="true">03</span><h3>Para quem prefere menos informação</h3><p>O projeto considera pessoas que se sentem sobrecarregadas por tabelas muito detalhadas, incluindo pessoas com TDAH. A proposta é permitir escolhas de apresentação, com menos dados e estímulos visuais de uma vez.</p></article>
+  </div>
+</section>
 <section id="como-funciona" class="section steps-section">
 <div class="center-heading">
 <span class="eyebrow">DA IDEIA AO PAPEL</span>
-<h2>Simples como <span>1, 2, 3.</span>
+<h2>Como criar sua <span>tabela periódica personalizada.</span>
 </h2>
 <p>Mais tempo descobrindo. Menos tempo configurando.</p>
 </div>
@@ -143,15 +285,25 @@
 <article>
 <span class="step-number">02</span>
 <h3>Deixe com a sua cara</h3>
-<p>Veja as mudanças na hora e escolha se quer exibir os nomes.</p>
+<p>Escolha quais dados aparecem. Veja as massas com uma, duas ou três casas decimais ou prefira a versão arredondada.</p>
 </article>
 <article>
 <span class="step-number">03</span>
 <h3>Salve e leve com você</h3>
-<p>Exporte em PNG, JPG, SVG ou imprima em PDF. Pronto para estudar!</p>
+<p>Escolha PDF, PNG, JPEG ou SVG e baixe o arquivo diretamente. Sua tabela fica pronta para estudar, compartilhar ou imprimir.</p>
 </article>
 </div>
 </section>
+<section class="learning-section" id="entenda-a-tabela" aria-labelledby="learning-title"><div class="section">
+  <div class="section-heading"><div><span class="eyebrow">UM GUIA PARA COMEÇAR</span><h2 id="learning-title">Como ler os dados<br>de um <span>elemento químico?</span></h2></div><p>A tabela periódica organiza os elementos<br>em ordem crescente de número atômico.</p></div>
+  <dl class="element-guide">
+    <div><dt><span aria-hidden="true">12</span>Número atômico</dt><dd>Indica a quantidade de prótons no núcleo de um átomo. O magnésio, por exemplo, tem número atômico 12.</dd></div>
+    <div><dt><span aria-hidden="true">Mg</span>Símbolo químico</dt><dd>É a representação abreviada de um elemento. Mg representa o magnésio, C representa o carbono e O representa o oxigênio.</dd></div>
+    <div><dt><span aria-hidden="true">Aa</span>Nome do elemento</dt><dd>Identifica cada um dos 118 elementos químicos. No Elementopia, os nomes aparecem em português e podem ser ocultados no customizador.</dd></div>
+    <div><dt><span aria-hidden="true">24,3</span>Massa atômica</dt><dd>É uma referência da massa dos átomos de um elemento. Você pode escolher a exibição decimal ou arredondada. Valores entre colchetes indicam números de massa de isótopos.</dd></div>
+  </dl>
+  <div class="series-explainer"><h3>E as duas linhas na parte de baixo?</h3><p>Elas mostram os lantanídeos, do número atômico 57 ao 71, e os actinídeos, do 89 ao 103. Na tabela do Elementopia, setas ligam os intervalos às linhas correspondentes para ajudar você a encontrá-los.</p><a class="text-link" href="customizar.html">Explorar os elementos no customizador <span aria-hidden="true">→</span></a></div>
+</div></section>
 <section class="section about" id="sobre">
 <div class="about-art" aria-hidden="true">
 <span class="about-star"><svg class="decoration-icon" viewBox="-24 -24 48 48" aria-hidden="true"><path d="M0-18V18M-18 0H18M-13-13L13 13M-13 13L13-13"/></svg></span>
@@ -166,19 +318,29 @@
 </div>
 <div class="about-copy">
 <span class="eyebrow">CIÊNCIA COM PROPÓSITO</span>
-<h2>Uma ideia que nasce<br>na sala de aula.<br>
-<span>E vai além dela.</span>
+<h2>Um projeto do<br>IFPR Campus Capanema.<br>
+<span>Educação que transforma.</span>
 </h2>
-<p>O Elementopia é um projeto desenvolvido por um aluno e uma professora do Instituto Federal do Paraná, com uma ideia em comum: tornar o estudo da química mais simples, acessível e criativo.</p>
-<p>Porque quando a gente muda a forma de olhar, também muda a forma de aprender.</p>
+<p>O Elementopia nasceu no <strong>Instituto Federal do Paraná (IFPR), Campus Capanema</strong>, com o propósito de tornar a tabela periódica mais simples de usar no estudo e no ensino de Química.</p>
+<p>O projeto foi idealizado por <strong>Eliane May de Lima</strong>, doutora em Química e professora da instituição, e desenvolvido por <strong>João Henrique Grando Ferreira</strong>, estudante do curso de Cooperativismo.</p>
+<p>A proposta passou por etapas de testes e aprimoramentos ao longo do desenvolvimento. A versão beta continua evoluindo para oferecer uma experiência prática, gratuita e sem cadastro.</p>
 <div class="institution">
-<img src="assets/if-logo-fundo-transparente.png" alt="Instituto Federal do Paraná">
+<img src="assets/if-logo-fundo-transparente.png" alt="Instituto Federal do Paraná" width="357" height="371" loading="lazy" decoding="async">
 <span>Uma iniciativa de quem acredita<br>
-<strong>no poder da educação pública.</strong>
+<strong>na educação pública do IFPR Campus Capanema.</strong>
 </span>
 </div>
 </div>
 </section>
+<section class="section faq-section" id="perguntas-frequentes" aria-labelledby="faq-title"><div class="center-heading"><span class="eyebrow">ANTES DA PRÓXIMA DESCOBERTA</span><h2 id="faq-title">Dúvidas sobre o <span>Elementopia?</span></h2><p>Respostas para começar a criar sua tabela.</p></div><div class="faq-list">
+<details><summary>O que é o Elementopia?</summary><p>O Elementopia é uma plataforma gratuita para criar uma tabela periódica personalizada. Professores e estudantes podem escolher cores, exibir ou ocultar nomes e massas atômicas e baixar a tabela com os 118 elementos químicos.</p></details>
+<details><summary>O Elementopia é gratuito? Preciso criar uma conta?</summary><p>Sim, o uso é gratuito e não exige cadastro. Basta abrir o customizador, ajustar sua tabela e baixar o arquivo.</p></details>
+<details><summary>Quais informações posso personalizar na tabela periódica?</summary><p>Você pode alterar as cores de fundo e de texto de metais e ametais, escolher uma paleta pronta ou informar códigos HEX. Também pode exibir ou ocultar os nomes e as massas atômicas. Semimetais e gases nobres usam as cores dos ametais nessa visualização simplificada.</p></details>
+<details><summary>Como escolher entre massa decimal e arredondada?</summary><p>No card Massa atômica do customizador, selecione Decimal e escolha uma, duas ou três casas decimais, ou selecione Arredondada para usar números inteiros. Os números de massa de isótopos são mantidos entre colchetes.</p></details>
+<details><summary>Como baixar a tabela periódica em PDF ou imagem?</summary><p>No card Exportar, escolha PDF, PNG, JPEG ou SVG, informe um nome e clique em Baixar tabela. O PDF é baixado diretamente, sem cabeçalhos com data ou hora. PNG e JPEG têm opções de qualidade. Para imprimir, abra o arquivo baixado no aplicativo de sua preferência.</p></details>
+<details><summary>Posso usar o Elementopia no celular?</summary><p>Sim. A landing page e o customizador se adaptam a celulares, tablets e computadores. Em telas menores, deslize a tabela para os lados para explorar todas as colunas.</p></details>
+<details><summary>Quem criou o Elementopia?</summary><p>O projeto nasceu no IFPR Campus Capanema. Foi idealizado pela professora Eliane May de Lima, doutora em Química, e desenvolvido pelo estudante João Henrique Grando Ferreira, do curso de Cooperativismo.</p></details>
+</div></section>
 <section class="section final-cta">
 <span class="cta-spark" aria-hidden="true"><svg class="decoration-icon" viewBox="-24 -24 48 48" aria-hidden="true"><path d="M0-18V18M-18 0H18M-13-13L13 13M-13 13L13-13"/></svg></span>
 <span class="eyebrow">A PRÓXIMA DESCOBERTA É SUA</span>
@@ -192,16 +354,16 @@
 </main>
 <footer class="footer">
 <a class="brand" href="#inicio">
-<img src="assets/elementopia-logo-colorida.png" alt="Elementopia">
+<img src="assets/elementopia-logo-colorida.png" alt="Elementopia" width="1111" height="332" decoding="async">
 </a>
 <p>Química, criatividade e um mundo de possibilidades.</p>
 <a href="#sobre">Feito com ciência e propósito <span>✦</span>
 </a>
 <div class="footer-bottom">
-<span>Beta v1.1.0 · © <span id="year">
+<span>Beta v1.1.1 · © <span id="year">
 </span> Elementopia</span>
 <div class="footer-institution">
-<img src="assets/if-logo-fundo-transparente.png" alt="Instituto Federal do Paraná" width="62" height="64">
+<img src="assets/if-logo-fundo-transparente.png" alt="Instituto Federal do Paraná" width="62" height="64" loading="lazy" decoding="async">
 <span>Um projeto do<br><strong>Instituto Federal do Paraná</strong></span>
 </div>
 <a href="#inicio">De volta ao início ↑</a>
